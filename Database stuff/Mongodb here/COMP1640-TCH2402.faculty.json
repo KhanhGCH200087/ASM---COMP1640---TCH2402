@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  },
+  "name": "Faculty1",
+  "description": "This is Faculty1"
+},
+{
+  "_id": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "name": "Faculty2",
+  "description": "this is Faculty 2"
+},
+{
+  "_id": {
+    "$oid": "65e2062605d9d3bda31f11f6"
+  },
+  "name": "Faculty3",
+  "description": "this is Faculty 3"
+}]
