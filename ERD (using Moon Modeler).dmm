@@ -1,0 +1,1470 @@
+{
+	"tables": {
+		"c4cdfd6f-3ba3-4b7a-b2cc-36c75aa1f5fc": {
+			"collation": "",
+			"desc": "",
+			"indexes": [
+				{
+					"name": "_id_",
+					"cols": [],
+					"id": "5c7d589a-37a6-4bd5-b8ff-43a833b48431",
+					"mongodb": {
+						"fields": "{\n  \"_id\": 1\n}",
+						"options": ""
+					}
+				}
+			],
+			"relations": [],
+			"visible": true,
+			"afterScript": "",
+			"cols": [
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "b62ae6cc-3883-464d-8db2-a1143d5988f6",
+					"list": false,
+					"name": "_id",
+					"nn": true,
+					"param": "",
+					"pk": true,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "a911644d-9792-4aaf-94df-db32c5e91271",
+					"list": false,
+					"name": "name",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "date",
+					"any": "",
+					"id": "49315ad1-a340-4ba2-b88e-ff48f56fd5e9",
+					"list": false,
+					"name": "dob",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "a6356294-565f-4cd7-a8e6-f290d2560880",
+					"list": false,
+					"name": "gender",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "aecb1ce4-ce95-49c5-b0b7-3fb0ab097bfe",
+					"list": false,
+					"name": "Address",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "65d51e75-c03d-400a-892c-9947b9a13eeb",
+					"list": false,
+					"name": "Email",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "d63f33bf-c3ee-4640-9d09-daed2530212b",
+					"list": false,
+					"name": "Password",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "26d3968e-c56a-4198-8fb2-94407170a913",
+					"list": false,
+					"name": "Image",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				}
+			],
+			"embeddable": false,
+			"id": "c4cdfd6f-3ba3-4b7a-b2cc-36c75aa1f5fc",
+			"lines": [],
+			"name": "admin",
+			"keys": [
+				{
+					"cols": [
+						{
+							"colid": "b62ae6cc-3883-464d-8db2-a1143d5988f6",
+							"id": "fa89bbb6-d336-4c4c-aee7-48f16949473d"
+						}
+					],
+					"id": "acb6bc02-13d4-4fbf-9651-291aa02e4939",
+					"isPk": true,
+					"name": "Primary key"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": "",
+			"size": "",
+			"max": "",
+			"customCode": "",
+			"validationAction": "na",
+			"validationLevel": "na",
+			"others": "",
+			"validation": "",
+			"capped": false
+		},
+		"fa16ba8a-9d14-4e83-887d-8586376b3ca5": {
+			"collation": "",
+			"desc": "",
+			"indexes": [
+				{
+					"name": "_id_",
+					"cols": [],
+					"id": "f1e128cb-c057-41b9-8342-f1e06bc71529",
+					"mongodb": {
+						"fields": "{\n  \"_id\": 1\n}",
+						"options": ""
+					}
+				}
+			],
+			"relations": [
+				"cbb4d8d7-fb64-4089-95a2-498c8768fff8",
+				"a2c77a41-11c0-44bf-9b36-a596b888ee14"
+			],
+			"visible": true,
+			"afterScript": "",
+			"cols": [
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "a0854318-6808-4f36-bb07-0ac5d3f26569",
+					"list": false,
+					"name": "_id",
+					"nn": true,
+					"param": "",
+					"pk": true,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "7c11b795-d8ab-4af3-87fa-c04a7ff58558",
+					"list": false,
+					"name": "requirement",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "date",
+					"any": "",
+					"id": "4bde4180-ebb3-4b28-a26e-46c219362a64",
+					"list": false,
+					"name": "deadline1",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "date",
+					"any": "",
+					"id": "d756bb43-bf42-41d2-8824-b1fbf1973b5a",
+					"list": false,
+					"name": "deadline2",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "any",
+					"any": "\"objectId\",\"string\"",
+					"id": "a284b11a-6b9e-4b45-8bf0-36ab45e21159",
+					"list": false,
+					"name": "faculty",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": "",
+					"fk": true
+				}
+			],
+			"embeddable": false,
+			"id": "fa16ba8a-9d14-4e83-887d-8586376b3ca5",
+			"lines": [],
+			"name": "assignment",
+			"keys": [
+				{
+					"cols": [
+						{
+							"colid": "a0854318-6808-4f36-bb07-0ac5d3f26569",
+							"id": "59107b3f-585c-45e7-b2bd-eaad676d969d"
+						}
+					],
+					"id": "b52b08e1-e9e2-40ba-ab0b-f51881e3c86e",
+					"isPk": true,
+					"name": "Primary key"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": "",
+			"size": "",
+			"max": "",
+			"customCode": "",
+			"validationAction": "na",
+			"validationLevel": "na",
+			"others": "",
+			"validation": "",
+			"capped": false
+		},
+		"eb36d57c-f00f-43b2-ab7a-cd2d1517fe84": {
+			"collation": "",
+			"desc": "",
+			"indexes": [
+				{
+					"name": "_id_",
+					"cols": [],
+					"id": "73834e61-3baa-47c6-aaf5-676c956389b6",
+					"mongodb": {
+						"fields": "{\n  \"_id\": 1\n}",
+						"options": ""
+					}
+				}
+			],
+			"relations": [
+				"a2c77a41-11c0-44bf-9b36-a596b888ee14",
+				"4ccd91f2-25ac-466c-acab-a966762743f7"
+			],
+			"visible": true,
+			"afterScript": "",
+			"cols": [
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "3da785ce-a300-4467-962e-31e468f4ca7d",
+					"list": false,
+					"name": "_id",
+					"nn": true,
+					"param": "",
+					"pk": true,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "2a59d7c8-bc68-454e-987a-92869c7aa453",
+					"list": false,
+					"name": "student",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": "",
+					"fk": true
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "8ef4c017-4896-44d0-bd61-e4999a95336e",
+					"list": false,
+					"name": "assignment",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": "",
+					"fk": true
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "36261873-1857-4b34-a637-6d758399300f",
+					"list": false,
+					"name": "submission",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				}
+			],
+			"embeddable": false,
+			"id": "eb36d57c-f00f-43b2-ab7a-cd2d1517fe84",
+			"lines": [],
+			"name": "submission",
+			"keys": [
+				{
+					"cols": [
+						{
+							"colid": "3da785ce-a300-4467-962e-31e468f4ca7d",
+							"id": "f0bf520e-9ee5-48e0-b915-fade8925e5bb"
+						}
+					],
+					"id": "e8c5a758-8979-4eaa-b94a-cdd2a089fbf0",
+					"isPk": true,
+					"name": "Primary key"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": "",
+			"size": "",
+			"max": "",
+			"customCode": "",
+			"validationAction": "na",
+			"validationLevel": "na",
+			"others": "",
+			"validation": "",
+			"capped": false
+		},
+		"15b8a50f-c7d6-4fe2-89f5-c58e28605015": {
+			"collation": "",
+			"desc": "",
+			"indexes": [
+				{
+					"name": "_id_",
+					"cols": [],
+					"id": "597665f6-e44b-405d-977d-2fb5ec456694",
+					"mongodb": {
+						"fields": "{\n  \"_id\": 1\n}",
+						"options": ""
+					}
+				}
+			],
+			"relations": [
+				"4ccd91f2-25ac-466c-acab-a966762743f7",
+				"78f632b2-83ed-4b8e-b43c-3f23a5667af6"
+			],
+			"visible": true,
+			"afterScript": "",
+			"cols": [
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "98709262-3d0f-48a9-a80a-26b4e84996e1",
+					"list": false,
+					"name": "_id",
+					"nn": true,
+					"param": "",
+					"pk": true,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "4709e8ec-5663-4eb6-a9c0-a189e80366ad",
+					"list": false,
+					"name": "name",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "date",
+					"any": "",
+					"id": "f2fe680b-276b-4c0b-ab9e-4e865a10404a",
+					"list": false,
+					"name": "dob",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "e7cbd6f8-0e5f-4f51-a36c-ab6880524f94",
+					"list": false,
+					"name": "gender",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "cd480926-ffce-4ce1-ba2a-d67e9455c1e7",
+					"list": false,
+					"name": "address",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "abac1d91-d92d-43e1-8154-da57496d8e52",
+					"list": false,
+					"name": "email",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "e4e5311c-c53d-4c22-a92f-aca5e6f19a7f",
+					"list": false,
+					"name": "password",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "51c131b2-860b-4561-a530-6329c0d4b1bc",
+					"list": false,
+					"name": "image",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "bc614c09-a784-4a5b-a10a-271a710cf457",
+					"list": false,
+					"name": "faculty",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": "",
+					"fk": true
+				}
+			],
+			"embeddable": false,
+			"id": "15b8a50f-c7d6-4fe2-89f5-c58e28605015",
+			"lines": [],
+			"name": "student",
+			"keys": [
+				{
+					"cols": [
+						{
+							"colid": "98709262-3d0f-48a9-a80a-26b4e84996e1",
+							"id": "34af7138-9527-4358-9cf4-9cc9c867e426"
+						}
+					],
+					"id": "59cb77e9-8b53-4083-9b12-8b68b34136da",
+					"isPk": true,
+					"name": "Primary key"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": "",
+			"size": "",
+			"max": "",
+			"customCode": "",
+			"validationAction": "na",
+			"validationLevel": "na",
+			"others": "",
+			"validation": "",
+			"capped": false
+		},
+		"5439c8dd-0be6-4254-8762-f49c895951a4": {
+			"collation": "",
+			"desc": "",
+			"indexes": [
+				{
+					"name": "_id_",
+					"cols": [],
+					"id": "7cd2563e-0723-414e-9718-3f2771ade02f",
+					"mongodb": {
+						"fields": "{\n  \"_id\": 1\n}",
+						"options": ""
+					}
+				}
+			],
+			"relations": [],
+			"visible": true,
+			"afterScript": "",
+			"cols": [
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "b0f1586a-5600-4c78-bc3c-b0cdfe16bef0",
+					"list": false,
+					"name": "_id",
+					"nn": true,
+					"param": "",
+					"pk": true,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "b5d33a13-417e-49a8-bd2e-8863ca3d559d",
+					"list": false,
+					"name": "name",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "date",
+					"any": "",
+					"id": "635f83d8-d21b-4d81-8e2d-8e38fd45bfff",
+					"list": false,
+					"name": "dob",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "b1ff178e-1d2c-423f-b7ca-1ebfe5fc7927",
+					"list": false,
+					"name": "gender",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "69113843-0bea-4c7c-bf10-8f882df92bfd",
+					"list": false,
+					"name": "address",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "0f0c4faf-8f49-4b9c-9c5d-37f21d62ad6b",
+					"list": false,
+					"name": "email",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "55421183-551b-42b3-a746-269ace47a46c",
+					"list": false,
+					"name": "password",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "9329f065-a390-4d04-bfa8-2c9db080ef76",
+					"list": false,
+					"name": "image",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				}
+			],
+			"embeddable": false,
+			"id": "5439c8dd-0be6-4254-8762-f49c895951a4",
+			"lines": [],
+			"name": "marketing manager",
+			"keys": [
+				{
+					"cols": [
+						{
+							"colid": "b0f1586a-5600-4c78-bc3c-b0cdfe16bef0",
+							"id": "c44747e0-39a4-41ac-8954-233430d2c793"
+						}
+					],
+					"id": "3601901f-c493-4117-a099-a27b7ebde515",
+					"isPk": true,
+					"name": "Primary key"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": "",
+			"size": "",
+			"max": "",
+			"customCode": "",
+			"validationAction": "na",
+			"validationLevel": "na",
+			"others": "",
+			"validation": "",
+			"capped": false
+		},
+		"cbe082fc-2154-4534-be01-5faa0738b8a1": {
+			"collation": "",
+			"desc": "",
+			"indexes": [
+				{
+					"name": "_id_",
+					"cols": [],
+					"id": "8dc90e30-39da-4457-b2df-ca22f767bf76",
+					"mongodb": {
+						"fields": "{\n  \"_id\": 1\n}",
+						"options": ""
+					}
+				}
+			],
+			"relations": [
+				"cbb4d8d7-fb64-4089-95a2-498c8768fff8",
+				"78f632b2-83ed-4b8e-b43c-3f23a5667af6",
+				"439b1689-fae0-4338-812e-3c3c026e735f"
+			],
+			"visible": true,
+			"afterScript": "",
+			"cols": [
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "c8f677b0-6058-4a4e-8707-d3b062597a62",
+					"list": false,
+					"name": "_id",
+					"nn": true,
+					"param": "",
+					"pk": true,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "ad886e3d-b23f-4fc3-88fb-3af29316eacf",
+					"list": false,
+					"name": "name",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "617fb7e0-d983-4039-a7cf-86f84ea52150",
+					"list": false,
+					"name": "description",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				}
+			],
+			"embeddable": false,
+			"id": "cbe082fc-2154-4534-be01-5faa0738b8a1",
+			"lines": [],
+			"name": "faculty",
+			"keys": [
+				{
+					"cols": [
+						{
+							"colid": "c8f677b0-6058-4a4e-8707-d3b062597a62",
+							"id": "be424fd8-633c-4192-bddd-ab3f40d25768"
+						}
+					],
+					"id": "0fb2ae40-4b00-450b-b02d-7ee4060093ac",
+					"isPk": true,
+					"name": "Primary key"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": "",
+			"size": "",
+			"max": "",
+			"customCode": "",
+			"validationAction": "na",
+			"validationLevel": "na",
+			"others": "",
+			"validation": "",
+			"capped": false
+		},
+		"6f328221-ffda-44ff-905a-eac39b7e5a00": {
+			"collation": "",
+			"desc": "",
+			"indexes": [
+				{
+					"name": "_id_",
+					"cols": [],
+					"id": "486d037c-c302-4ea8-8b60-3f8f4e978257",
+					"mongodb": {
+						"fields": "{\n  \"_id\": 1\n}",
+						"options": ""
+					}
+				}
+			],
+			"relations": [
+				"439b1689-fae0-4338-812e-3c3c026e735f"
+			],
+			"visible": true,
+			"afterScript": "",
+			"cols": [
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "9f0eb375-5b98-4d98-b8c4-5189e23d4266",
+					"list": false,
+					"name": "_id",
+					"nn": true,
+					"param": "",
+					"pk": true,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "f42e79a2-c5fc-407a-95d0-2d17c8a39d1f",
+					"list": false,
+					"name": "name",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "any",
+					"any": "\"date\",\"double\"",
+					"id": "06a9126c-8bde-4c40-9bfa-f980cb05dfef",
+					"list": false,
+					"name": "dob",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "73790e0f-640c-4f08-bb71-d22d404c9a0c",
+					"list": false,
+					"name": "gender",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "23b57e96-dfe2-42dc-a68a-5d9bddf27978",
+					"list": false,
+					"name": "address",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "32eed3e8-2ac9-4ce9-8c70-19ad0dc6b2b3",
+					"list": false,
+					"name": "email",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "a8171404-5c2a-4cb7-a0f2-119d2beb4f3b",
+					"list": false,
+					"name": "password",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "string",
+					"any": "",
+					"id": "77f2dd79-7faa-400b-8d15-a67a43db52ec",
+					"list": false,
+					"name": "image",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": ""
+				},
+				{
+					"comment": "",
+					"pattern": false,
+					"data": "",
+					"datatype": "objectId",
+					"any": "",
+					"id": "3481326c-ff2d-4e52-8a4b-c176194b453a",
+					"list": false,
+					"name": "faculty",
+					"nn": true,
+					"param": "",
+					"pk": false,
+					"collation": "",
+					"enum": "",
+					"estimatedSize": "",
+					"validation": "",
+					"fk": true
+				}
+			],
+			"embeddable": false,
+			"id": "6f328221-ffda-44ff-905a-eac39b7e5a00",
+			"lines": [],
+			"name": "marketing coordinator",
+			"keys": [
+				{
+					"cols": [
+						{
+							"colid": "9f0eb375-5b98-4d98-b8c4-5189e23d4266",
+							"id": "4c618f5a-7796-4922-8463-c14688aa22cc"
+						}
+					],
+					"id": "3f897c07-8600-4362-bdaa-ecbb43a9be60",
+					"isPk": true,
+					"name": "Primary key"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"estimatedSize": "",
+			"size": "",
+			"max": "",
+			"customCode": "",
+			"validationAction": "na",
+			"validationLevel": "na",
+			"others": "",
+			"validation": "",
+			"capped": false
+		}
+	},
+	"relations": {
+		"cbb4d8d7-fb64-4089-95a2-498c8768fff8": {
+			"c_mch": "false",
+			"c_mp": "false",
+			"desc": "",
+			"type": "identifying",
+			"visible": true,
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"child": "fa16ba8a-9d14-4e83-887d-8586376b3ca5",
+			"cols": [
+				{
+					"childcol": "a284b11a-6b9e-4b45-8bf0-36ab45e21159",
+					"id": "5584554c-0c9c-447f-a7b9-2d80e1ea30f3",
+					"parentcol": "c8f677b0-6058-4a4e-8707-d3b062597a62"
+				}
+			],
+			"id": "cbb4d8d7-fb64-4089-95a2-498c8768fff8",
+			"name": "faculty-assignment.faculty",
+			"parent": "cbe082fc-2154-4534-be01-5faa0738b8a1",
+			"parent_key": "0fb2ae40-4b00-450b-b02d-7ee4060093ac",
+			"ri_pd": "",
+			"ri_pu": "",
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"relationColor": "transparent"
+		},
+		"a2c77a41-11c0-44bf-9b36-a596b888ee14": {
+			"c_mch": "false",
+			"c_mp": "false",
+			"desc": "",
+			"type": "identifying",
+			"visible": true,
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"child": "eb36d57c-f00f-43b2-ab7a-cd2d1517fe84",
+			"cols": [
+				{
+					"childcol": "8ef4c017-4896-44d0-bd61-e4999a95336e",
+					"id": "3669cb32-1b0b-4144-986a-c14a0f3f3415",
+					"parentcol": "a0854318-6808-4f36-bb07-0ac5d3f26569"
+				}
+			],
+			"id": "a2c77a41-11c0-44bf-9b36-a596b888ee14",
+			"name": "assignment-submission.assignment",
+			"parent": "fa16ba8a-9d14-4e83-887d-8586376b3ca5",
+			"parent_key": "b52b08e1-e9e2-40ba-ab0b-f51881e3c86e",
+			"ri_pd": "",
+			"ri_pu": "",
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"relationColor": "transparent"
+		},
+		"4ccd91f2-25ac-466c-acab-a966762743f7": {
+			"c_mch": "false",
+			"c_mp": "false",
+			"desc": "",
+			"type": "identifying",
+			"visible": true,
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"child": "eb36d57c-f00f-43b2-ab7a-cd2d1517fe84",
+			"cols": [
+				{
+					"childcol": "2a59d7c8-bc68-454e-987a-92869c7aa453",
+					"id": "bc38871b-17eb-482f-886d-423653667e83",
+					"parentcol": "98709262-3d0f-48a9-a80a-26b4e84996e1"
+				}
+			],
+			"id": "4ccd91f2-25ac-466c-acab-a966762743f7",
+			"name": "student-submission.student",
+			"parent": "15b8a50f-c7d6-4fe2-89f5-c58e28605015",
+			"parent_key": "59cb77e9-8b53-4083-9b12-8b68b34136da",
+			"ri_pd": "",
+			"ri_pu": "",
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"relationColor": "transparent"
+		},
+		"78f632b2-83ed-4b8e-b43c-3f23a5667af6": {
+			"c_mch": "false",
+			"c_mp": "false",
+			"desc": "",
+			"type": "identifying",
+			"visible": true,
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"child": "15b8a50f-c7d6-4fe2-89f5-c58e28605015",
+			"cols": [
+				{
+					"childcol": "bc614c09-a784-4a5b-a10a-271a710cf457",
+					"id": "34b3fea6-1e1f-49b8-9e54-1c590fc9ad72",
+					"parentcol": "c8f677b0-6058-4a4e-8707-d3b062597a62"
+				}
+			],
+			"id": "78f632b2-83ed-4b8e-b43c-3f23a5667af6",
+			"name": "faculty-student.faculty",
+			"parent": "cbe082fc-2154-4534-be01-5faa0738b8a1",
+			"parent_key": "0fb2ae40-4b00-450b-b02d-7ee4060093ac",
+			"ri_pd": "",
+			"ri_pu": "",
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"relationColor": "transparent"
+		},
+		"439b1689-fae0-4338-812e-3c3c026e735f": {
+			"c_mch": "false",
+			"c_mp": "false",
+			"desc": "",
+			"type": "identifying",
+			"visible": true,
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"child": "6f328221-ffda-44ff-905a-eac39b7e5a00",
+			"cols": [
+				{
+					"childcol": "3481326c-ff2d-4e52-8a4b-c176194b453a",
+					"id": "f9ab6177-97f3-4268-bb4f-13f7bf5fb427",
+					"parentcol": "c8f677b0-6058-4a4e-8707-d3b062597a62"
+				}
+			],
+			"id": "439b1689-fae0-4338-812e-3c3c026e735f",
+			"name": "faculty-marketing coordinator.faculty",
+			"parent": "cbe082fc-2154-4534-be01-5faa0738b8a1",
+			"parent_key": "0fb2ae40-4b00-450b-b02d-7ee4060093ac",
+			"ri_pd": "",
+			"ri_pu": "",
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"relationColor": "transparent"
+		}
+	},
+	"notes": {},
+	"lines": {},
+	"model": {
+		"activeDiagram": "9f67d1a1-c402-467e-98b1-3b73f1f5db21",
+		"desc": "",
+		"name": "COMP1640-TCH2402 (Team Work)",
+		"id": "50b9c7d8-e64d-4308-8c0a-603e36dd3d0d",
+		"path": "",
+		"type": "MONGODB",
+		"version": 1,
+		"parentTableInFkCols": true,
+		"caseConvention": "under",
+		"replaceSpace": "_",
+		"color": "transparent",
+		"sideSelections": true,
+		"isDirty": true,
+		"storedin": {
+			"major": 7,
+			"minor": 5,
+			"extra": 3
+		},
+		"laststoredin": {
+			"major": 7,
+			"minor": 5,
+			"extra": 3
+		},
+		"def_collation": "",
+		"def_coltopk": true,
+		"def_others": "",
+		"lastSaved": "",
+		"writeFileParam": false,
+		"authorName": "",
+		"companyDetails": "",
+		"companyUrl": "",
+		"def_validationAction": "na",
+		"def_validationLevel": "na",
+		"connectionId": "09889688-1337-4974-9090-506dddd498dc"
+	},
+	"otherObjects": {},
+	"diagrams": {
+		"9f67d1a1-c402-467e-98b1-3b73f1f5db21": {
+			"id": "9f67d1a1-c402-467e-98b1-3b73f1f5db21",
+			"lineColor": "transparent",
+			"description": "",
+			"diagramItems": {
+				"c4cdfd6f-3ba3-4b7a-b2cc-36c75aa1f5fc": {
+					"x": 515,
+					"y": 98,
+					"gHeight": 171,
+					"gWidth": 201,
+					"background": "#03a9f4",
+					"color": "#ffffff",
+					"referencedItemId": "c4cdfd6f-3ba3-4b7a-b2cc-36c75aa1f5fc",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				},
+				"fa16ba8a-9d14-4e83-887d-8586376b3ca5": {
+					"x": 584,
+					"y": 393,
+					"gHeight": 117,
+					"gWidth": 217,
+					"background": "#03a9f4",
+					"color": "#ffffff",
+					"referencedItemId": "fa16ba8a-9d14-4e83-887d-8586376b3ca5",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				},
+				"eb36d57c-f00f-43b2-ab7a-cd2d1517fe84": {
+					"x": 585,
+					"y": 561,
+					"gHeight": 99,
+					"gWidth": 223,
+					"background": "#03a9f4",
+					"color": "#ffffff",
+					"referencedItemId": "eb36d57c-f00f-43b2-ab7a-cd2d1517fe84",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				},
+				"15b8a50f-c7d6-4fe2-89f5-c58e28605015": {
+					"x": 131,
+					"y": 513,
+					"gHeight": 189,
+					"gWidth": 201,
+					"background": "#03a9f4",
+					"color": "#ffffff",
+					"referencedItemId": "15b8a50f-c7d6-4fe2-89f5-c58e28605015",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				},
+				"5439c8dd-0be6-4254-8762-f49c895951a4": {
+					"x": 822,
+					"y": 99,
+					"gHeight": 171,
+					"gWidth": 201,
+					"background": "#03a9f4",
+					"color": "#ffffff",
+					"referencedItemId": "5439c8dd-0be6-4254-8762-f49c895951a4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				},
+				"cbe082fc-2154-4534-be01-5faa0738b8a1": {
+					"x": 135,
+					"y": 385,
+					"gHeight": 81,
+					"gWidth": 209,
+					"background": "#03a9f4",
+					"color": "#ffffff",
+					"referencedItemId": "cbe082fc-2154-4534-be01-5faa0738b8a1",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				},
+				"6f328221-ffda-44ff-905a-eac39b7e5a00": {
+					"x": 124,
+					"y": 104,
+					"gHeight": 189,
+					"gWidth": 202,
+					"background": "#03a9f4",
+					"color": "#ffffff",
+					"referencedItemId": "6f328221-ffda-44ff-905a-eac39b7e5a00",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				}
+			},
+			"isOpen": true,
+			"main": true,
+			"name": "Main Diagram",
+			"keysgraphics": true,
+			"linegraphics": "detailed",
+			"zoom": 1,
+			"background": "transparent",
+			"scroll": {
+				"x": 0,
+				"y": 0
+			},
+			"type": "erd",
+			"showEstimatedSize": false,
+			"showSchemaContainer": false,
+			"showEmbeddedInParents": true,
+			"showCardinalityCaptions": false,
+			"showRelationshipNames": false,
+			"showLineCaptions": true,
+			"showColumns": true,
+			"showColumnDataTypes": true,
+			"showSampleData": false,
+			"showTableIndexes": false,
+			"showTableDescriptions": false,
+			"showRelations": true,
+			"showHorizontal": false,
+			"showDescriptions": true,
+			"showIndicators": false,
+			"showProgress": false,
+			"showIndicatorCaptions": false,
+			"backgroundImage": "na",
+			"descriptionsColor": "transparent",
+			"boxSize": "0",
+			"boxSpacing": "2",
+			"boxAlign": "center",
+			"lineWidth": "2",
+			"embeddedSpacing": "2",
+			"showLabels": true,
+			"showMainIcon": true
+		}
+	},
+	"diagramsOrder": [],
+	"order": [],
+	"collapsedTreeItems": [],
+	"reverseStats": {}
+}
