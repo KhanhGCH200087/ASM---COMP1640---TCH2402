@@ -1,0 +1,56 @@
+[{
+  "_id": {
+    "$oid": "65e2030605d9d3bda31f11b9"
+  },
+  "name": "Markething Coordinator F1",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Female",
+  "address": "HaNoi",
+  "image": "base 64",
+  "faculty": {
+    "$oid": "65e2036905d9d3bda31f11c0"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da5"
+  },
+  "email": "MCF1@gmail.com",
+  "password": "MCF1"
+},
+{
+  "_id": {
+    "$oid": "65e206e205d9d3bda31f11fa"
+  },
+  "name": "Marketing Coordinator F2",
+  "dob": 2002,
+  "gender": "Male",
+  "address": "HaNoi",
+  "image": "base 64",
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da5"
+  },
+  "email": "MCF2@gmail.com",
+  "password": "MCF2"
+},
+{
+  "_id": {
+    "$oid": "65e206e205d9d3bda31f11fb"
+  },
+  "name": "Marketing Coordinator F3",
+  "dob": 2002,
+  "gender": "Male",
+  "address": "HaNoi",
+  "image": "base 64",
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f6"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da5"
+  },
+  "email": "MCF3@gmail.com",
+  "password": "MCF3"
+}]

@@ -1,0 +1,39 @@
+[{
+  "_id": {
+    "$oid": "65e6243cb8171b6e90f92dee"
+  },
+  "email": "guestF1@gmail.com",
+  "password": "guestF1",
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da7"
+  },
+  "faculty": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  }
+},
+{
+  "_id": {
+    "$oid": "65e6243cb8171b6e90f92def"
+  },
+  "email": "guestF2@gmail.com",
+  "password": "guestF2",
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da7"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  }
+},
+{
+  "_id": {
+    "$oid": "65e6243cb8171b6e90f92df0"
+  },
+  "email": "guestF3@gmail.com",
+  "password": "guestF3",
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da7"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f6"
+  }
+}]

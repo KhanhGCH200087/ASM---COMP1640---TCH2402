@@ -1,0 +1,140 @@
+[{
+  "_id": {
+    "$oid": "65e2085905d9d3bda31f1213"
+  },
+  "name": "Student A F1",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Female",
+  "address": "Hanoi",
+  "image": "base64",
+  "faculty": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da6"
+  },
+  "email": "STAF1@gmail.com",
+  "password": "STAF1"
+},
+{
+  "_id": {
+    "$oid": "65e2085905d9d3bda31f1214"
+  },
+  "name": "Student B F1",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Female",
+  "address": "Hanoi",
+  "image": "base64",
+  "faculty": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da6"
+  },
+  "email": "STBF1@gmail.com",
+  "password": "STBF1"
+},
+{
+  "_id": {
+    "$oid": "65e2085905d9d3bda31f1215"
+  },
+  "name": "Student C F1",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Female",
+  "address": "Hanoi",
+  "image": "base64",
+  "faculty": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da6"
+  },
+  "email": "STCF1@gmail.com",
+  "password": "STCF1"
+},
+{
+  "_id": {
+    "$oid": "65e2085905d9d3bda31f1216"
+  },
+  "name": "Student D F1",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Female",
+  "address": "Hanoi",
+  "image": "base64",
+  "faculty": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da6"
+  },
+  "email": "STDF1@gmail.com",
+  "password": "STDF1"
+},
+{
+  "_id": {
+    "$oid": "65e2088c05d9d3bda31f1218"
+  },
+  "name": "Student A F2",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Female",
+  "address": "Hanoi",
+  "image": "base64",
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da6"
+  },
+  "email": "STAF2@gmail.com",
+  "password": "STAF2"
+},
+{
+  "_id": {
+    "$oid": "65e2088c05d9d3bda31f1219"
+  },
+  "name": "Student B F2",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Female",
+  "address": "Hanoi",
+  "image": "base64",
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da6"
+  },
+  "email": "STBF2@gmail.com",
+  "password": "STBF2"
+},
+{
+  "_id": {
+    "$oid": "65e2088c05d9d3bda31f121a"
+  },
+  "name": "Student C F2",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Female",
+  "address": "Hanoi",
+  "image": "base64",
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "role": {
+    "$oid": "65e61d9bb8171b6e90f92da6"
+  },
+  "email": "STCF2@gmail.com",
+  "password": "STCF2"
+}]

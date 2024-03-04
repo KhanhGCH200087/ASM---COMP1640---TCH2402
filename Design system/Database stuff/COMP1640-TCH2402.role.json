@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "65e61d9bb8171b6e90f92da3"
+  },
+  "role": "admin",
+  "description": "......"
+},
+{
+  "_id": {
+    "$oid": "65e61d9bb8171b6e90f92da4"
+  },
+  "role": "marketing manager ",
+  "description": "......"
+},
+{
+  "_id": {
+    "$oid": "65e61d9bb8171b6e90f92da5"
+  },
+  "role": "marketing coordinator ",
+  "description": "......"
+},
+{
+  "_id": {
+    "$oid": "65e61d9bb8171b6e90f92da6"
+  },
+  "role": "student ",
+  "description": "......"
+},
+{
+  "_id": {
+    "$oid": "65e61d9bb8171b6e90f92da7"
+  },
+  "role": "guest ",
+  "description": "......"
+}]

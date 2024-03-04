@@ -1,0 +1,45 @@
+[{
+  "_id": {
+    "$oid": "65e201b505d9d3bda31f11a9"
+  },
+  "requirement": "Requirement of ASM1 of Faculty 1",
+  "deadline1": {
+    "$date": "2002-01-01T00:00:00.000Z"
+  },
+  "deadline2": {
+    "$date": "2002-01-01T00:00:00.000Z"
+  },
+  "faculty": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  }
+},
+{
+  "_id": {
+    "$oid": "65e20ec105d9d3bda31f122a"
+  },
+  "requirement": "Requirement ASM for F2",
+  "deadline1": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "deadline2": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  }
+},
+{
+  "_id": {
+    "$oid": "65e20ec105d9d3bda31f122b"
+  },
+  "requirement": "Requirement ASM for F3",
+  "deadline1": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "deadline2": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f6"
+  }
+}]
