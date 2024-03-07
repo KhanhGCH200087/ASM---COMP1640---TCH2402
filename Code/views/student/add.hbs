@@ -1,5 +1,5 @@
-<form action="/marketingmanager/add" method="post" enctype="multipart/form-data" >
-  <h1>Add new Marketing Manager</h1>
+<form action="/student/add" method="post" enctype="multipart/form-data" >
+  <h1>Add new Student</h1>
   Name: <input type="text" name="name" id="" required>
   <br><br>
   Birth: <input type="date" name="dob" id="" required>
@@ -23,5 +23,14 @@
     {{/each}}
   </select>
   {{!-- fix later --}}
+  <br><br>
+  Faculty: 
+  <select name="faculty" id="">
+    {{#each facultyList}}
+    <option value="{{_id}}">
+        {{name}}
+    </option>
+    {{/each}}
+  </select>
   <input  type="submit" value="Add">
 </form>

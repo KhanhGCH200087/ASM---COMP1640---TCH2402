@@ -3,8 +3,9 @@ var router = express.Router();
 const fs = require('fs');
 const multer = require('multer');
 
-var MarketingManagerModel = require('../models/MarketingManagerModel');
+var MarketingCoordinatorModel = require('../models/MarketingCoordinatorModel');
 var RoleModel = require('../models/RoleModel');
+var FacultyModel = require('../models/FacultyModel');
 
 //-------------------------------------------------------------------------
 // Multer configuration
@@ -23,26 +24,27 @@ const upload = multer({ storage: storage });
 //------------------------------------------------------------------------
 //show all 
 router.get('/', async(req, res) => {
-    var marketingmanagerList = await MarketingManagerModel.find({}).populate('role');
+    var marketingcoordinatorList = await MarketingCoordinatorModel.find({}).populate('role').populate('faculty');
     //render view and pass data
-    res.render('marketingmanager/index', {marketingmanagerList});
+    res.render('marketingcoordinator/index', {marketingcoordinatorList});
 });
 
 //-----------------------------------------------------------------------
-//delete specific marketingmanager
+//delete specific marketingcoordinator
 router.get('/delete/:id', async(req, res) => {
     //req.params: get value by url
     var id = req.params.id;
-    await MarketingManagerModel.findByIdAndDelete(id);
-    res.redirect('/marketingmanager');
+    await MarketingCoordinatorModel.findByIdAndDelete(id);
+    res.redirect('/marketingcoordinator');
 });
 
 //------------------------------------------------------------------------
-//create marketingmanager
+//create marketingcoordinator
 //render form for user to input
 router.get('/add', async (req, res) => {
     var roleList = await RoleModel.find({});
-    res.render('marketingmanager/add', {roleList});
+    var facultyList = await FacultyModel.find({});
+    res.render('marketingcoordinator/add', {roleList, facultyList});
 })
 
 router.post('/add', upload.single('image'), async (req, res) => {
@@ -50,6 +52,7 @@ router.post('/add', upload.single('image'), async (req, res) => {
     const name = req.body.name;
     const dob = req.body.dob;
     const role = req.body.role;
+    const faculty = req.body.faculty;
     const gender = req.body.gender;
     const address = req.body.address;
     const email = req.body.email;
@@ -60,11 +63,12 @@ router.post('/add', upload.single('image'), async (req, res) => {
     const imageData = fs.readFileSync(image.path);
     //convert image data to base 64
     const base64Image = imageData.toString('base64');
-    await MarketingManagerModel.create(
+    await MarketingCoordinatorModel.create(
         {
             name: name,
             dob: dob,
             role: role,
+            faculty: faculty,
             gender: gender,
             address: address,
             email: email,
@@ -72,11 +76,11 @@ router.post('/add', upload.single('image'), async (req, res) => {
             image: base64Image
         }
     );
-    res.redirect('/marketingmanager');
+    res.redirect('/marketingcoordinator');
 })
 
 //---------------------------------------------------------------------------
-//edit marketingmanager
+//edit marketingcoordinator
 //phần edit bị lỗi ở đoạn chọn Role, chưa xử lý đc phần chọ khóa phụ từ những bảng khác. 
 
 //-----------------------------------

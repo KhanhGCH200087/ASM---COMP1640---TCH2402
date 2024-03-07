@@ -1,11 +1,15 @@
 var mongoose = require('mongoose');
-var MMSchema = mongoose.Schema(
+var StudentSchema = mongoose.Schema(
     {
         name: String,
         dob: Date,
         gender: String,
         address: String,
         image: String,
+        faculty: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'faculty'
+        }, 
         role: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'role'
@@ -15,5 +19,5 @@ var MMSchema = mongoose.Schema(
     }
 );
 
-var MMModel = mongoose.model("marketing_manager", MMSchema, "marketing_manager");
-module.exports = MMModel;
+var StudentModel = mongoose.model("student", StudentSchema, "student");
+module.exports = StudentModel;

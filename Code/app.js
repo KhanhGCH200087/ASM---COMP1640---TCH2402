@@ -8,10 +8,14 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 //3A. declare router (1 collection => 1 router )
-var marketingManagerRouter = require('./routes/marketingmanager');
 var facultyRouter = require('./routes/faculty');
+var marketingManagerRouter = require('./routes/marketingmanager');
+var roleRouter = require("./routes/role");
+var marketingCoordinatorRouter = require('./routes/marketingcoordinator');
+var studentRouter = require('./routes/student');
 
 var app = express();
+
 
 //1. config mongoose library (connect and work with database)
 //1A. import library
@@ -44,8 +48,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 //3B. declare web URL of router
-app.use('/marketingmanager', marketingManagerRouter);
 app.use('/faculty', facultyRouter);
+app.use('/marketingmanager', marketingManagerRouter);
+app.use('/role', roleRouter);
+app.use('/marketingcoordinator', marketingCoordinatorRouter);
+app.use('/student', studentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

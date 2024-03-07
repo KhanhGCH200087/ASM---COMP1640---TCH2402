@@ -1,7 +1,7 @@
-<h1>Marketing Manager</h1>
+<h1>Marketing Coordinator</h1>
 <table border = 1>
-    <a href="/marketingmanager/add">Add</a>
-    {{#each marketingmanagerList}}
+    <a href="/marketingcoordinator/add">Add</a>
+    {{#each marketingcoordinatorList}}
     <tr>
         <td>{{ name }}</td>
         <td>{{ dob }}</td>
@@ -11,9 +11,10 @@
         <td>{{ email }}</td>
         <td>{{ password }}</td>
         <td>{{ role.role }}</td>
+        <td>{{faculty.name}}</td>
         <td>
-            <a href="/marketingmanager/edit/{{_id}}">Edit</a>
-            <a href="/marketingmanager/delete/{{_id}}"
+            <a href="/marketingcoordinator/edit/{{_id}}">Edit</a>
+            <a href="/marketingcoordinator/delete/{{_id}}"
             onclick="return confirm('Do you want to delete ? {{name}}')" ;>Delete</a>
         </td>
     </tr>
