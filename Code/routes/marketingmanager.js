@@ -23,57 +23,78 @@ const upload = multer({ storage: storage });
 //------------------------------------------------------------------------
 //show all 
 router.get('/', async(req, res) => {
-    var marketingmanagerList = await MarketingManagerModel.find({}).populate('role');
-    //render view and pass data
-    res.render('marketingmanager/index', {marketingmanagerList});
+    try{
+        var marketingmanagerList = await MarketingManagerModel.find({}).populate('role');
+        //render view and pass data
+        res.render('marketingmanager/index', {marketingmanagerList});
+    }catch(error){
+        console.error("Error while fetching MM list:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 //-----------------------------------------------------------------------
 //delete specific marketingmanager
 router.get('/delete/:id', async(req, res) => {
     //req.params: get value by url
-    var id = req.params.id;
-    await MarketingManagerModel.findByIdAndDelete(id);
-    res.redirect('/marketingmanager');
+    try{
+        var id = req.params.id;
+        await MarketingManagerModel.findByIdAndDelete(id);
+        res.redirect('/marketingmanager');
+    }catch(error){
+        console.error("Error while deleting MM list:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 //------------------------------------------------------------------------
 //create marketingmanager
 //render form for user to input
 router.get('/add', async (req, res) => {
-    var roleList = await RoleModel.find({});
-    res.render('marketingmanager/add', {roleList});
-})
+    try{
+        var roleList = await RoleModel.find({});
+        res.render('marketingmanager/add', {roleList});
+    }catch(error){
+        console.error("Error while adding MM list:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 router.post('/add', upload.single('image'), async (req, res) => {
     //get value by form : req.body
-    const name = req.body.name;
-    const dob = req.body.dob;
-    const role = req.body.role;
-    const gender = req.body.gender;
-    const address = req.body.address;
-    const email = req.body.email;
-    const password = req.body.password;
-    const image = req.file //access the uplodaded image
-  
-    //read the image file
-    const imageData = fs.readFileSync(image.path);
-    //convert image data to base 64
-    const base64Image = imageData.toString('base64');
-    await MarketingManagerModel.create(
-        {
-            name: name,
-            dob: dob,
-            role: role,
-            gender: gender,
-            address: address,
-            email: email,
-            password: password,
-            image: base64Image
-        }
-    );
-    res.redirect('/marketingmanager');
-})
+    try{
+        const name = req.body.name;
+        const dob = req.body.dob;
+        const role = req.body.role;
+        const gender = req.body.gender;
+        const address = req.body.address;
+        const email = req.body.email;
+        const password = req.body.password;
+        const image = req.file //access the uplodaded image
+      
+        //read the image file
+        const imageData = fs.readFileSync(image.path);
+        //convert image data to base 64
+        const base64Image = imageData.toString('base64');
+        await MarketingManagerModel.create(
+            {
+                name: name,
+                dob: dob,
+                role: role,
+                gender: gender,
+                address: address,
+                email: email,
+                password: password,
+                image: base64Image
+            }
+        );
+        res.redirect('/marketingmanager');
+    }catch(error){
+        console.error("Error while adding MM list:", error);
+        res.status(500).send("Internal Server Error");
+    }
+    
+});
 
 //---------------------------------------------------------------------------
 //edit marketingmanager

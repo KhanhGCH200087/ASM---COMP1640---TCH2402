@@ -4,8 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//const hbs = require('hbs');// Define Handlebars helper to format dates
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+
 
 //3A. declare router (1 collection => 1 router )
 var facultyRouter = require('./routes/faculty');
@@ -69,5 +73,109 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//----------------------------------------
+//support edit function
+// hbs.registerHelper('formatDate', function(date) {
+//   return date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+// });
+
+// Define Handlebars helper to compare values
+// hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
+//   if (arguments.length < 3) {
+//       throw new Error("Handlebars Helper 'ifCond' needs 2 parameters");
+//   }
+
+//   let result;
+
+//   // Log the operator parameter for debugging
+//     console.log("Operator:", operator);
+
+//   if (operator === '==') {
+//       result = (v1 == v2);
+//   } else if (operator === '===') {
+//       result = (v1 === v2);
+//   } else if (operator === '!=') {
+//       result = (v1 != v2);
+//   } else if (operator === '!==') {
+//       result = (v1 !== v2);
+//   } else if (operator === '<') {
+//       result = (v1 < v2);
+//   } else if (operator === '<=') {
+//       result = (v1 <= v2);
+//   } else if (operator === '>') {
+//       result = (v1 > v2);
+//   } else if (operator === '>=') {
+//       result = (v1 >= v2);
+//   } else if (operator === '&&') {
+//       result = (v1 && v2);
+//   } else if (operator === '||') {
+//       result = (v1 || v2);
+//   } else {
+//       throw new Error("Handlebars Helper 'ifCond' doesn't know the operator " + operator);
+//   }
+
+//   if (result) {
+//       return options.fn(this);
+//   } else {
+//       return options.inverse(this);
+//   }
+// });
+
+// Define Handlebars helper to compare values
+// hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
+//   if (arguments.length < 3) {
+//       throw new Error("Handlebars Helper 'ifCond' needs 2 parameters");
+//   }
+
+//   let result;
+
+//   // Log the operator parameter for debugging
+//   console.log("Operator:", operator);
+
+//   switch (operator) {
+//       case '==':
+//           result = (v1 == v2);
+//           break;
+//       case '===':
+//           result = (v1 === v2);
+//           break;
+//       case '!=':
+//           result = (v1 != v2);
+//           break;
+//       case '!==':
+//           result = (v1 !== v2);
+//           break;
+//       case '<':
+//           result = (v1 < v2);
+//           break;
+//       case '<=':
+//           result = (v1 <= v2);
+//           break;
+//       case '>':
+//           result = (v1 > v2);
+//           break;
+//       case '>=':
+//           result = (v1 >= v2);
+//           break;
+//       case '&&':
+//           result = (v1 && v2);
+//           break;
+//       case '||':
+//           result = (v1 || v2);
+//           break;
+//       default:
+//           console.error("Unknown operator:", operator);
+//           result = false; // Assuming false for unknown operator
+//   }
+
+//   if (result) {
+//       return options.fn(this);
+//   } else {
+//       return options.inverse(this);
+//   }
+// });
+
+
 
 module.exports = app;

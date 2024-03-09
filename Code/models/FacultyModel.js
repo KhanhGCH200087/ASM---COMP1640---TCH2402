@@ -1,7 +1,11 @@
 var mongoose = require('mongoose');
 var FacultySchema = mongoose.Schema(
     {
-        name: String,
+        name: {
+            type: String,
+            required: [true, 'Enter faculty name'],
+            unique: [true, '{VALUE} is existed']
+        },
         description: String
     }
 );
