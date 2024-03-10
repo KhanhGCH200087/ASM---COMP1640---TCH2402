@@ -1,0 +1,23 @@
+<form action="" method="post">
+   <h1>Edit admin</h1>
+   <input type="text" name="name" required
+   placeholder="Enter admin name"
+   value="{{ admin.name }}">
+   <br><br>
+   <input type="date" name="dob" required
+   value="{{ admin.dob }}">
+   <br><br>
+   <input type="text" name="gender" required
+   value="{{ admin.gender }}">
+   <br><br>
+   <input type="text" name="address" required
+   value="{{ admin.address }}">
+   <br><br>
+   <input type="text" name="email" required
+   value="{{ admin.email }}">
+   <br><br>
+   <input type="text" name="password" required
+   value="{{ admin.password }}">
+
+   <input class="btn" type="submit" value="Edit">
+</form>

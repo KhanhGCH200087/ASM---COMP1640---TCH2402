@@ -17,6 +17,8 @@ var marketingManagerRouter = require('./routes/marketingmanager');
 var roleRouter = require("./routes/role");
 var marketingCoordinatorRouter = require('./routes/marketingcoordinator');
 var studentRouter = require('./routes/student');
+var adminRouter = require('./routes/admin');
+var requirementRouter = require('./routes/requirement');
 
 var app = express();
 
@@ -27,7 +29,7 @@ var mongoose = require('mongoose');
 //1B. set mongodb connection string
 //Note1: Database name: COMP1640-TCH2402
 //Note2: localhost got error --> change to 127.0.0.1
-var database = "mongodb://127.0.0.1:27017/COMP1640-TCH2402";
+var database = "mongodb+srv://thanhpham:1@comp1640.u0yepfl.mongodb.net/?retryWrites=true&w=majority&appName=Comp1640";
 //1C. connect to mongodb
 mongoose.connect(database)
   .then(() => console.log('connect to db sucess'))
@@ -57,6 +59,8 @@ app.use('/marketingmanager', marketingManagerRouter);
 app.use('/role', roleRouter);
 app.use('/marketingcoordinator', marketingCoordinatorRouter);
 app.use('/student', studentRouter);
+app.use('/admin', adminRouter);
+app.use('/requirement', requirementRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

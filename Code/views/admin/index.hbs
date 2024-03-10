@@ -1,0 +1,21 @@
+<h1>Admin</h1>
+<table border = 1>
+    <a href="/admin/add">Add</a>
+    {{#each adminList}}
+    <tr>
+        <td>{{ name }}</td>
+        <td>{{ dob }}</td>
+        <td>{{ gender }}</td>
+        <td>{{ address}}</td>
+        <td><img src="data:image/jpeg;base64,{{image}}" alt="Address Image" style="max-width: 100px;"></td>
+        <td>{{ email }}</td>
+        <td>{{ password }}</td>
+        <td>{{ role.role }}</td>
+        <td>
+            <a href="/admin/edit/{{_id}}">Edit</a>
+            <a href="/admin/delete/{{_id}}"
+            onclick="return confirm('Do you want to delete ? {{name}}')" ;>Delete</a>
+        </td>
+    </tr>
+    {{/each}}
+</table>
