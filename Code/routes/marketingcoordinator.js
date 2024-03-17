@@ -101,7 +101,60 @@ router.post('/add', upload.single('image'), async (req, res) => {
 
 //---------------------------------------------------------------------------
 //edit marketingcoordinator
-//phần edit bị lỗi ở đoạn chọn Role, chưa xử lý đc phần chọ khóa phụ từ những bảng khác. 
+// Render form for editing a specific marketingcoordinator
+router.get('/edit/:id', async (req, res) => {
+    try {
+        // Fetch marketingcoordinator details by ID
+        const marketingcoordinatorId = req.params.id;
+        const marketingcoordinator = await MarketingCoordinatorModel.findById(marketingcoordinatorId).populate('role').populate('faculty');
+        if (!marketingcoordinator) {
+            throw new Error('MarketingCoordinator not found');
+        }
+        // Fetch role and faculty lists for dropdowns
+        const roleList = await RoleModel.find({});
+        const facultyList = await FacultyModel.find({});
+        // Render edit form with marketingcoordinator details and dropdown options
+        res.render('marketingcoordinator/edit', { marketingcoordinator, roleList, facultyList });
+    } catch (error) {
+        // Handle errors (e.g., marketingcoordinator not found)
+        console.error(error);
+        res.status(404).send('MarketingCoordinator not found');
+    }
+});
+
+// Handle form submission for editing a marketingcoordinator
+router.post('/edit/:id', upload.single('image'), async (req, res) => {
+    try {
+        // Fetch marketingcoordinator by ID
+        const marketingcoordinatorId = req.params.id;
+        const marketingcoordinator = await MarketingCoordinatorModel.findById(marketingcoordinatorId);
+        if (!marketingcoordinator) {
+            throw new Error('MarketingCoordinator not found');
+        }
+        // Update marketingcoordinator details
+        marketingcoordinator.name = req.body.name;
+        marketingcoordinator.dob = req.body.dob;
+        marketingcoordinator.role = req.body.role;
+        marketingcoordinator.faculty = req.body.faculty;
+        marketingcoordinator.gender = req.body.gender;
+        marketingcoordinator.address = req.body.address;
+        marketingcoordinator.email = req.body.email;
+        marketingcoordinator.password = req.body.password;
+        // If a new image is uploaded, update it
+        if (req.file) {
+            const imageData = fs.readFileSync(req.file.path);
+            marketingcoordinator.image = imageData.toString('base64');
+        }
+        // Save updated marketingcoordinator to the database
+        await marketingcoordinator.save();
+        // Redirect to marketingcoordinator list page
+        res.redirect('/marketingcoordinator');
+    } catch (error) {
+        // Handle errors (e.g., marketingcoordinator not found, validation errors)
+        console.error(error);
+        res.status(400).send(error.message);
+    }
+});
 
 //-----------------------------------
 module.exports = router;

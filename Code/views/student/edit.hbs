@@ -16,19 +16,23 @@
         <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" name="dob" value="{{formatDate student.dob}}" required><br>
 
-        <label for="role">Role:</label>
-        <select id="role" name="role" required>
+        {{!-- <label for="role">Role:</label>
+        <select name="role" id="" value="{{student.role}}">
             {{#each roleList}}
-                <option value="{{_id}}" {{#ifCond ../student.role._id _id}}selected{{/ifCond}}>{{role}}</option>
+            <option value="{{_id}}">
+                {{role}}
+            </option>
             {{/each}}
-        </select><br>
+        </select>
 
         <label for="faculty">Faculty:</label>
-        <select id="faculty" name="faculty" required>
+        <select name="faculty" id="" >
             {{#each facultyList}}
-                <option value="{{_id}}" {{#ifCond ../student.faculty._id _id}}selected{{/ifCond}}>{{name}}</option>
+            <option value="{{_id}}">
+                {{name}}
+            </option>
             {{/each}}
-        </select><br>
+        </select> --}}
 
         <label for="gender">Gender:</label>
         <input type="text" id="gender" name="gender" value="{{student.gender}}" required><br>

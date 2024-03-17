@@ -98,7 +98,58 @@ router.post('/add', upload.single('image'), async (req, res) => {
 
 //---------------------------------------------------------------------------
 //edit marketingmanager
-//phần edit bị lỗi ở đoạn chọn Role, chưa xử lý đc phần chọ khóa phụ từ những bảng khác. 
+// Render form for editing a specific marketingmanager
+router.get('/edit/:id', async (req, res) => {
+    try {
+        // Fetch marketingmanager details by ID
+        const marketingmanagerId = req.params.id;
+        const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId).populate('role');
+        if (!marketingmanager) {
+            throw new Error('MarketingManager not found');
+        }
+        // Fetch role lists for dropdowns
+        const roleList = await RoleModel.find({});
+        // Render edit form with marketingmanager details and dropdown options
+        res.render('marketingmanager/edit', { marketingmanager, roleList });
+    } catch (error) {
+        // Handle errors (e.g., marketingmanager not found)
+        console.error(error);
+        res.status(404).send('MarketingManager not found');
+    }
+});
+
+// Handle form submission for editing a marketingmanager
+router.post('/edit/:id', upload.single('image'), async (req, res) => {
+    try {
+        // Fetch marketingmanager by ID
+        const marketingmanagerId = req.params.id;
+        const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
+        if (!marketingmanager) {
+            throw new Error('MarketingManager not found');
+        }
+        // Update marketingmanager details
+        marketingmanager.name = req.body.name;
+        marketingmanager.dob = req.body.dob;
+        marketingmanager.role = req.body.role;
+        marketingmanager.gender = req.body.gender;
+        marketingmanager.address = req.body.address;
+        marketingmanager.email = req.body.email;
+        marketingmanager.password = req.body.password;
+        // If a new image is uploaded, update it
+        if (req.file) {
+            const imageData = fs.readFileSync(req.file.path);
+            marketingmanager.image = imageData.toString('base64');
+        }
+        // Save updated marketingmanager to the database
+        await marketingmanager.save();
+        // Redirect to marketingmanager list page
+        res.redirect('/marketingmanager');
+    } catch (error) {
+        // Handle errors (e.g., marketingmanager not found, validation errors)
+        console.error(error);
+        res.status(400).send(error.message);
+    }
+});
 
 //-----------------------------------
 module.exports = router;

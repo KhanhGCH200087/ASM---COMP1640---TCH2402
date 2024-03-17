@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 //import model before use
-var RequirementModel = require('../models/RequirementModel');
+var RequirementModel = require('./RequirementModel');
 
 //------------------------------------------------------------------------
 //show all 

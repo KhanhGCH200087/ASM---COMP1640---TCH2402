@@ -5,11 +5,12 @@ var StudentSchema = mongoose.Schema(
             type: String,
             min: [2, 'Name is required at least 2 character,'],
             max: [15, 'Max name is 15 characters'],
-            unique: [true, 'Name is existed']
         },
         dob: {
             type: Date,
-            required: [true, 'Pls choose the birth']
+            required: [true, 'Pls choose the birth'],
+            max: ['2010-01-01', 'Must before 2010'],
+            min: ['2007-01-01', 'Must after 2007']
         },
         gender: {
             type: String,
