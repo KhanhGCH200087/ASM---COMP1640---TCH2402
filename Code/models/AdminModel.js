@@ -9,7 +9,9 @@ var AdminSchema = mongoose.Schema(
         },
         dob: {
             type: Date,
-            required: [true, 'Pls choose the birth']
+            required: [true, 'Pls choose the birth'],
+            max: ['2000-01-01', 'Must after 2000'],
+            min: ['1900-01-01', 'Must before 1900']
         },
         gender: {
             type: String,
