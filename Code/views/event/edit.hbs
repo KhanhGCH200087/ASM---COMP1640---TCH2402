@@ -10,7 +10,16 @@
    <br><br>
    <input type="date" name="deadline2" required
    placeholder=""
-   value="{{ formatDate event.deadline2 }}">
+   value="{{ formatDate event.deadline2 }}"> 
+   
+  <select name="faculty" id="">
+    {{#each facultyList}}
+    <option value="{{_id}}">
+        {{name}}
+    </option>
+    {{/each}}
+  </select>
+
 
    <input class="btn" type="submit" value="Edit">
 </form>

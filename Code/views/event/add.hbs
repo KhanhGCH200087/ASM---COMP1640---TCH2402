@@ -13,7 +13,15 @@
     <input type="date" name="deadline2" required
     placeholder="">
     
-    
+    <br><br>
+    <select name="faculty" id="">
+    {{#each facultyList}}
+    <option value="{{_id}}">
+        {{name}}
+    </option>
+    {{/each}}
+    </select>
+        
 
     <br><br>
     <input type="submit" value="Add">

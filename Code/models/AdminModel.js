@@ -44,4 +44,5 @@ var AdminSchema = mongoose.Schema(
 );
 
 var AdminModel = mongoose.model("admin", AdminSchema, "admin");
+
 module.exports = AdminModel;
