@@ -34,7 +34,7 @@ router.get('/', async(req, res) => {
 });
 
 //-----------------------------------------------------------------------
-//delete specific marketingcoordinator
+//delete specific admin
 router.get('/delete/:id', async(req, res) => {
     //req.params: get value by url
     try{
@@ -47,57 +47,59 @@ router.get('/delete/:id', async(req, res) => {
     }
 });
 
-//------------------------------------------------------------------------
-//create marketingcoordinator
-//render form for user to input
-router.get('/add', async (req, res) => {
-    try{
-        var roleList = await RoleModel.find({});
-        res.render('admin/add', {roleList});
-    }catch(error){
-        console.error("Error while adding admin:", error);
-        res.status(500).send("Internal Server Error");
+router.get('/edit/:id', async (req, res) => {
+    try {
+        // Fetch admin details by ID
+        const adminId = req.params.id;
+        const admin = await AdminModel.findById(adminId).populate('role');
+        if (!admin) {
+            throw new Error('Admin not found');
+        }
+        // Fetch role and faculty lists for dropdowns
+        const roleList = await RoleModel.find({});
+        // Render edit form with admin details and dropdown options
+        res.render('admin/edit', { admin, roleList });
+    } catch (error) {
+        // Handle errors (e.g., admin not found)
+        console.error(error);
+        res.status(404).send('Admin not found');
     }
 });
 
-router.post('/add', upload.single('image'), async (req, res) => {
-    //get value by form : req.body
-    try{
-        const name = req.body.name;
-        const dob = req.body.dob;
-        const role = req.body.role;
-        const gender = req.body.gender;
-        const address = req.body.address;
-        const email = req.body.email;
-        const password = req.body.password;
-        const image = req.file //access the uplodaded image
-    
-        //read the image file
-        const imageData = fs.readFileSync(image.path);
-        //convert image data to base 64
-        const base64Image = imageData.toString('base64');
-        await AdminModel.create(
-            {
-                name: name,
-                dob: dob,
-                role: role,
-                gender: gender,
-                address: address,
-                email: email,
-                password: password,
-                image: base64Image
-            }
-    );
-    res.redirect('/admin');
-    }catch(error){
-        console.error("Error while adding admin:", error);
-        res.status(500).send("Internal Server Error");
+// Handle form submission for editing a admin
+router.post('/edit/:id', upload.single('image'), async (req, res) => {
+    try {
+        // Fetch admin by ID
+        const adminId = req.params.id;
+        const admin = await AdminModel.findById(adminId);
+        if (!admin) {
+            throw new Error('Admin not found');
+        }
+        // Update admin details
+        admin.name = req.body.name;
+        admin.dob = req.body.dob;
+        admin.role = req.body.role;
+        admin.gender = req.body.gender;
+        admin.address = req.body.address;
+        admin.email = req.body.email;
+        admin.password = req.body.password;
+        // If a new image is uploaded, update it
+        if (req.file) {
+            const imageData = fs.readFileSync(req.file.path);
+            admin.image = imageData.toString('base64');
+        }
+        // Save updated admin to the database
+        await admin.save();
+        // Redirect to admin list page
+        res.redirect('/admin');
+    } catch (error) {
+        // Handle errors (e.g., admin not found, validation errors)
+        console.error(error);
+        res.status(400).send(error.message);
     }
 });
 
-//---------------------------------------------------------------------------
-//edit marketingcoordinator
-//phần edit bị lỗi ở đoạn chọn Role, chưa xử lý đc phần chọ khóa phụ từ những bảng khác. 
+
 
 //-----------------------------------
 module.exports = router;

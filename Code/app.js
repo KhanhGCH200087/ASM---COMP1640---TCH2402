@@ -18,8 +18,8 @@ var roleRouter = require("./routes/role");
 var marketingCoordinatorRouter = require('./routes/marketingcoordinator');
 var studentRouter = require('./routes/student');
 var adminRouter = require('./routes/admin');
-//var requirementRouter = require('./routes/requirement');
 var contributionRouter = require('./routes/contribution');
+var eventRouter = require('./routes/event');
 
 var app = express();
 
@@ -63,6 +63,7 @@ app.use('/student', studentRouter);
 app.use('/admin', adminRouter);
 //app.use('/requirement', requirementRouter);
 app.use('/contribution', contributionRouter);
+app.use('/event', eventRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -85,6 +86,7 @@ app.use(function(err, req, res, next) {
 hbs.registerHelper('formatDate', function(date) {
   return date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
 });
+
 
 //--------------------------------------------
 
