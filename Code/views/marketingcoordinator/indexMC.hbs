@@ -1,0 +1,18 @@
+<h1>Marketing Coordinator</h1>
+<table border = 1>
+    {{#each marketingcoordinatorList}}
+    <tr>
+        <td>{{ name }}</td>
+        <td>{{ dob }}</td>
+        <td>{{ gender }}</td>
+        <td>{{ address}}</td>
+        <td><img src="data:image/jpeg;base64,{{image}}" alt="Address Image" style="max-width: 100px;"></td>
+        <td>{{ email }}</td>
+        <td>{{ password }}</td>
+        <td>{{ role.role }}</td>
+        <td>{{faculty.name}}</td>
+        <td>
+            <a href="/marketingcoordinator/editMC/{{_id}}">Edit</a>
+    </tr>
+    {{/each}}
+</table>

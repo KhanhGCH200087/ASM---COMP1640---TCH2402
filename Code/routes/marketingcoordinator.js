@@ -22,7 +22,7 @@ const upload = multer({ storage: storage });
 
 
 //------------------------------------------------------------------------
-//show all 
+//show all //Admin
 router.get('/', async(req, res) => {
     try{
         var marketingcoordinatorList = await MarketingCoordinatorModel.find({}).populate('role').populate('faculty');
@@ -34,8 +34,21 @@ router.get('/', async(req, res) => {
     }
 });
 
+//--------------------------------------------------------------------------
+//show all //MC
+router.get('/details', async(req, res) => {
+    try{
+        var marketingcoordinatorList = await MarketingCoordinatorModel.find({}).populate('role').populate('faculty');
+        //render view and pass data
+        res.render('marketingcoordinator/indexMC', {marketingcoordinatorList});
+    }catch(error){
+        console.error("Error while fetching MC list:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 //-----------------------------------------------------------------------
-//delete specific marketingcoordinator
+//delete specific marketingcoordinator //Admin
 router.get('/delete/:id', async(req, res) => {
     //req.params: get value by url
     try{
@@ -50,7 +63,7 @@ router.get('/delete/:id', async(req, res) => {
 
 //------------------------------------------------------------------------
 //create marketingcoordinator
-//render form for user to input
+//render form for user to input //Admin
 router.get('/add', async (req, res) => {
     try{
         var roleList = await RoleModel.find({});
@@ -100,7 +113,7 @@ router.post('/add', upload.single('image'), async (req, res) => {
 });
 
 //---------------------------------------------------------------------------
-//edit marketingcoordinator
+//edit marketingcoordinator //Admin
 // Render form for editing a specific marketingcoordinator
 router.get('/edit/:id', async (req, res) => {
     try {
@@ -157,4 +170,54 @@ router.post('/edit/:id', upload.single('image'), async (req, res) => {
 });
 
 //-----------------------------------
+//edit marketingcoordinator //MC
+router.get('/editMC/:id', async (req, res) => {
+    try {
+        // Fetch marketingcoordinator details by ID
+        const marketingcoordinatorId = req.params.id;
+        const marketingcoordinator = await MarketingCoordinatorModel.findById(marketingcoordinatorId);
+        if (!marketingcoordinator) {
+            throw new Error('MarketingCoordinator not found');
+        }
+        // Fetch role and faculty lists for dropdown
+        // Render edit form with marketingcoordinator details and dropdown options
+        res.render('marketingcoordinator/editMC', { marketingcoordinator });
+    } catch (error) {
+        // Handle errors (e.g., marketingcoordinator not found)
+        console.error(error);
+        res.status(404).send('MarketingCoordinator not found');
+    }
+});
+
+// Handle form submission for editing a marketingcoordinator
+router.post('/editMC/:id', upload.single('image'), async (req, res) => {
+    try {
+        // Fetch marketingcoordinator by ID
+        const marketingcoordinatorId = req.params.id;
+        const marketingcoordinator = await MarketingCoordinatorModel.findById(marketingcoordinatorId);
+        if (!marketingcoordinator) {
+            throw new Error('MarketingCoordinator not found');
+        }
+        // Update marketingcoordinator details
+        marketingcoordinator.name = req.body.name;
+        marketingcoordinator.dob = req.body.dob;
+        marketingcoordinator.gender = req.body.gender;
+        marketingcoordinator.address = req.body.address;
+        marketingcoordinator.password = req.body.password;
+        // If a new image is uploaded, update it
+        if (req.file) {
+            const imageData = fs.readFileSync(req.file.path);
+            marketingcoordinator.image = imageData.toString('base64');
+        }
+        // Save updated marketingcoordinator to the database
+        await marketingcoordinator.save();
+        // Redirect to marketingcoordinator list page
+        res.redirect('/marketingcoordinator');
+    } catch (error) {
+        // Handle errors (e.g., marketingcoordinator not found, validation errors)
+        console.error(error);
+        res.status(400).send(error.message);
+    }
+});
+
 module.exports = router;
