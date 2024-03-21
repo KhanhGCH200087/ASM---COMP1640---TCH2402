@@ -10,7 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 
-
+//------------------------------------------------------------
 //3A. declare router (1 collection => 1 router )
 var facultyRouter = require('./routes/faculty');
 var marketingManagerRouter = require('./routes/marketingmanager');
@@ -21,8 +21,22 @@ var adminRouter = require('./routes/admin');
 var contributionRouter = require('./routes/contribution');
 var eventRouter = require('./routes/event');
 
-var app = express();
+//var authRouter = require('./routes/auth'); // for login, logout
 
+var app = express();
+//---------------------------------------------------------------
+// //import "express-session" library
+// var session = require('express-session');
+// //set session timeout
+// const timeout = 10000 * 60 * 60 * 24;  // 24 hours (in milliseconds)
+// //config session parameters
+// app.use(session({
+//   secret: "the_key",                 // Secret key for signing the session ID cookie
+//   resave: false,                     // Forces a session that is "uninitialized" to be saved to the store
+//   saveUninitialized: true,           // Forces the session to be saved back to the session store
+//   cookie: { maxAge: timeout },
+// }));
+//----------------------------------------------------------------
 
 //1. config mongoose library (connect and work with database)
 //1A. import library
@@ -36,11 +50,12 @@ mongoose.connect(database)
   .then(() => console.log('connect to db sucess'))
   .catch((err) => console.log('connect to db fail' + err));
 
+  //-------------------------------------------------------------------
 //2. config body-parser library (get data from client-side)
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended:false}));
 
-
+//---------------------------------------------------------------------
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -51,9 +66,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//-----------------------------------------------------------------------
+// //make session value can be accessible in view (hbs)
+// //IMPORTANT: place this code before setting router url
+// app.use((req, res, next) => {
+//   res.locals.username = req.session.username;
+//   next();
+// });
+
+// //set user authorization for whole router
+// //IMPORTANT: place this code before setting router url
+// const { checkSingleSession } = require('./middlewares/auth');
+// app.use('/marketingcoordinator', checkSingleSession);
+//-----------------------------------------------------------------------
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+//-------------------------------------------------------------------
 //3B. declare web URL of router
 app.use('/faculty', facultyRouter);
 app.use('/marketingmanager', marketingManagerRouter);
@@ -64,6 +94,10 @@ app.use('/admin', adminRouter);
 //app.use('/requirement', requirementRouter);
 app.use('/contribution', contributionRouter);
 app.use('/event', eventRouter);
+
+//app.use('/auth', authRouter);
+
+//----------------------------------------------------------------------------
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -86,105 +120,6 @@ app.use(function(err, req, res, next) {
 hbs.registerHelper('formatDate', function(date) {
   return date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
 });
-
-
-//--------------------------------------------
-
-// Define Handlebars helper to compare values
-// hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
-//   if (arguments.length < 3) {
-//       throw new Error("Handlebars Helper 'ifCond' needs 2 parameters");
-//   }
-
-//   let result;
-
-//   // Log the operator parameter for debugging
-//     console.log("Operator:", operator);
-
-//   if (operator === '==') {
-//       result = (v1 == v2);
-//   } else if (operator === '===') {
-//       result = (v1 === v2);
-//   } else if (operator === '!=') {
-//       result = (v1 != v2);
-//   } else if (operator === '!==') {
-//       result = (v1 !== v2);
-//   } else if (operator === '<') {
-//       result = (v1 < v2);
-//   } else if (operator === '<=') {
-//       result = (v1 <= v2);
-//   } else if (operator === '>') {
-//       result = (v1 > v2);
-//   } else if (operator === '>=') {
-//       result = (v1 >= v2);
-//   } else if (operator === '&&') {
-//       result = (v1 && v2);
-//   } else if (operator === '||') {
-//       result = (v1 || v2);
-//   } else {
-//       throw new Error("Handlebars Helper 'ifCond' doesn't know the operator " + operator);
-//   }
-
-//   if (result) {
-//       return options.fn(this);
-//   } else {
-//       return options.inverse(this);
-//   }
-// });
-
-// Define Handlebars helper to compare values
-// hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
-//   if (arguments.length < 3) {
-//       throw new Error("Handlebars Helper 'ifCond' needs 2 parameters");
-//   }
-
-//   let result;
-
-//   // Log the operator parameter for debugging
-//   console.log("Operator:", operator);
-
-//   switch (operator) {
-//       case '==':
-//           result = (v1 == v2);
-//           break;
-//       case '===':
-//           result = (v1 === v2);
-//           break;
-//       case '!=':
-//           result = (v1 != v2);
-//           break;
-//       case '!==':
-//           result = (v1 !== v2);
-//           break;
-//       case '<':
-//           result = (v1 < v2);
-//           break;
-//       case '<=':
-//           result = (v1 <= v2);
-//           break;
-//       case '>':
-//           result = (v1 > v2);
-//           break;
-//       case '>=':
-//           result = (v1 >= v2);
-//           break;
-//       case '&&':
-//           result = (v1 && v2);
-//           break;
-//       case '||':
-//           result = (v1 || v2);
-//           break;
-//       default:
-//           console.error("Unknown operator:", operator);
-//           result = false; // Assuming false for unknown operator
-//   }
-
-//   if (result) {
-//       return options.fn(this);
-//   } else {
-//       return options.inverse(this);
-//   }
-// });
 
 
 
