@@ -1,0 +1,23 @@
+<form action="" method="post" enctype="multipart/form-data" >
+  <h1>Add new Marketing Manager</h1>
+  Name: <input type="text" name="name" id="" value = {{marketingmanager.name}}>
+  <br><br>
+  Birth: <input type="date" name="dob" id="" value="{{formatDate marketingmanager.dob}}">
+  <br><br>
+  Gender: <input type="text" name="gender" value="{{marketingmanager.gender}}">
+  <br><br>
+  Address:<input type="text" name="address" value="{{marketingmanager.address}}">
+
+  <br><br>
+  Email: <input type="email" name="email" id="" value="{{user.email}}">
+  <br><br>
+  Password: <input type="text" name="password" id="" value="{{user.email}}">
+  <br><br>
+
+    <td><img src="data:image/jpeg;base64,{{marketingmanager.image}}" alt="Address Image" style="max-width: 100px;"></td>
+  <br><br>
+  Image: <input type="file" name="image" accept="image/*">
+  <br><br>
+  
+  <input  type="submit" value="Add">
+</form>
