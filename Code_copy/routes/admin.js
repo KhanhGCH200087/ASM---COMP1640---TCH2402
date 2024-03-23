@@ -6,7 +6,6 @@ const multer = require('multer');
 var AdminModel = require('../models/AdminModel');
 var UserModel = require('../models/UserModel');
 
-const checkLoginSession = require('../middlewares/auth');
 //-------------------------------------------------------------------------
 // Multer configuration
 const storage = multer.diskStorage({
@@ -23,7 +22,7 @@ const upload = multer({ storage: storage });
 
 //------------------------------------------------------------------------
 //show all 
-router.get('/',checkLoginSession, async(req, res) => {
+router.get('/', async(req, res) => {
     try{
         var adminList = await AdminModel.find({}).populate('user');
         //render view and pass data
@@ -38,7 +37,7 @@ router.get('/',checkLoginSession, async(req, res) => {
 //---------------------------------------------------------------------------
 //edit admin
 // Render form for editing a specific admin
-router.get('/edit/:id',checkLoginSession, async (req, res) => {
+router.get('/edit/:id', async (req, res) => {
     try {
         // Fetch admin details by ID
         const adminId = req.params.id;

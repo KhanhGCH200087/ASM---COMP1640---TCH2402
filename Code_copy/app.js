@@ -21,21 +21,21 @@ var adminRouter = require('./routes/admin');
 var contributionRouter = require('./routes/contribution');
 var eventRouter = require('./routes/event');
 
-var authRouter = require('./routes/auth'); // for login, logout
+//var authRouter = require('./routes/auth'); // for login, logout
 
 var app = express();
 //---------------------------------------------------------------
 //import "express-session" library
-var session = require('express-session');
-//set session timeout
-const timeout = 10000 * 60 * 60 * 24;  // 24 hours (in milliseconds)
-//config session parameters
-app.use(session({
-  secret: "the_key",                 // Secret key for signing the session ID cookie
-  resave: false,                     // Forces a session that is "uninitialized" to be saved to the store
-  saveUninitialized: true,           // Forces the session to be saved back to the session store
-  cookie: { maxAge: timeout },
-}));
+// var session = require('express-session');
+// //set session timeout
+// const timeout = 10000 * 60 * 60 * 24;  // 24 hours (in milliseconds)
+// //config session parameters
+// app.use(session({
+//   secret: "the_key",                 // Secret key for signing the session ID cookie
+//   resave: false,                     // Forces a session that is "uninitialized" to be saved to the store
+//   saveUninitialized: true,           // Forces the session to be saved back to the session store
+//   cookie: { maxAge: timeout },
+// }));
 //----------------------------------------------------------------
 
 //1. config mongoose library (connect and work with database)
@@ -69,10 +69,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //-----------------------------------------------------------------------
 //make session value can be accessible in view (hbs)
 //IMPORTANT: place this code before setting router url
-app.use((req, res, next) => {
-  res.locals.username = req.session.username;
-  next();
-});
+// app.use((req, res, next) => {
+//   res.locals.username = req.session.username;
+//   next();
+// });
 
 // //set user authorization for whole router
 // //IMPORTANT: place this code before setting router url
@@ -94,7 +94,7 @@ app.use('/admin', adminRouter);
 app.use('/contribution', contributionRouter);
 app.use('/event', eventRouter);
 
-app.use('/auth', authRouter);
+//app.use('/auth', authRouter);
 
 //----------------------------------------------------------------------------
 

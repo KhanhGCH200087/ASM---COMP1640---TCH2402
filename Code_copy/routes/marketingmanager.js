@@ -6,10 +6,6 @@ const multer = require('multer');
 var MarketingManagerModel = require('../models/MarketingManagerModel');
 var UserModel = require('../models/UserModel');
 
-//import "bcryptjs" library
-var bcrypt = require('bcryptjs');
-var salt = 8;                     //random value
-
 //-------------------------------------------------------------------------
 // Multer configuration
 const storage = multer.diskStorage({
@@ -85,7 +81,6 @@ router.post('/add', upload.single('image'), async (req, res) => {
 
         const email = req.body.email;
         const password = req.body.password;
-        const hashPassword = bcrypt.hashSync(password, salt);
         const role = '65e61d9bb8171b6e90f92da4'; //objectID
       
         //read the image file
@@ -96,7 +91,7 @@ router.post('/add', upload.single('image'), async (req, res) => {
         const users = await UserModel.create(
                                 {
                                     email: email,
-                                    password: hashPassword,
+                                    password: password,
                                     role: role
                                 }
                             );
@@ -176,7 +171,7 @@ router.post('/edit/:id', upload.single('image'), async (req, res) => {
         await marketingmanager.save();
         
         user.email = req.body.email;
-        user.password = bcrypt.hashSync(req.body.password, salt);;
+        user.password = req.body.password;
         await user.save();
 
         // Redirect to marketingmanager list page
