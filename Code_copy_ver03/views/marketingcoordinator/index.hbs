@@ -1,0 +1,21 @@
+<h1>Marketing Coordinator</h1>
+<table border = 1>
+    <a href="/marketingcoordinator/add">Add</a>
+    {{#each marketingcoordinatorList}}
+    <tr>
+        <td>{{ name }}</td>
+        <td>{{ dob }}</td>
+        <td>{{ gender }}</td>
+        <td>{{ address}}</td>
+        <td><img src="data:image/jpeg;base64,{{image}}" alt="Address Image" style="max-width: 100px;"></td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{faculty.name}}</td>
+        <td>
+            <a href="/marketingcoordinator/edit/{{_id}}">Edit</a>
+            <a href="/marketingcoordinator/delete/{{_id}}"
+            onclick="return confirm('Do you want to delete ? {{name}}')" ;>Delete</a>
+        </td>
+    </tr>
+    {{/each}}
+</table>

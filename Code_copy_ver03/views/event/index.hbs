@@ -1,0 +1,17 @@
+<h1>Event</h1>
+<table border = 1>
+    <a href="/event/add">Add</a>
+    {{#each eventList}}
+        <tr>
+            <td>{{ requirement }}</td>
+            <td>{{ formatDate deadline1}}</td>
+            <td>{{ formatDate deadline2}}</td>
+            <td>{{ faculty.name }}</td>
+            <td>
+                <a href="/event/edit/{{_id}}">Edit</a>
+                <a href="/event/delete/{{_id}}"
+                onclick="return confirm('Do you want to delete this event: {{event}}')" ;>Delete</a>
+            </td>
+        </tr>
+    {{/each}}
+</table>

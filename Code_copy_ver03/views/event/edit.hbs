@@ -1,0 +1,25 @@
+<form action="" method="post">
+   <h1>Edit event</h1>
+   <input type="text" name="name" required
+   placeholder="Enter requirement"
+   value="{{ event.requirement }}">
+   <br><br>
+   <input type="date" name="deadline1" required
+   placeholder=""
+   value="{{ formatDate event.deadline1 }}">
+   <br><br>
+   <input type="date" name="deadline2" required
+   placeholder=""
+   value="{{ formatDate event.deadline2 }}"> 
+   
+  <select name="faculty" id="">
+    {{#each facultyList}}
+    <option value="{{_id}}">
+        {{name}}
+    </option>
+    {{/each}}
+  </select>
+
+
+   <input class="btn" type="submit" value="Edit">
+</form>
