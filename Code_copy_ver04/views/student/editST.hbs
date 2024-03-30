@@ -1,0 +1,19 @@
+<form action="" method="post" enctype="multipart/form-data" >
+  <h1>Edit Student</h1>
+  Name: <input type="text" name="name" id="" value = {{studentData.name}}>
+  <br><br>
+  Birth: <input type="date" name="dob" id="" value="{{formatDate studentData.dob}}">
+  <br><br>
+  Gender: <input type="text" name="gender" value="{{studentData.gender}}">
+  <br><br>
+  Address:<input type="text" name="address" value="{{studentData.address}}">
+  <br><br>
+  Password: <input type="text" name="password" id="" value="{{user.password}}">
+  <br><br>
+    IMG: <img src="data:image/jpeg;base64,{{studentData.image}}" style="max-width: 100px;"></td>
+  <br><br>
+  Image: <input type="file" name="image" accept="image/*">
+  <br><br>
+  {{!-- fix later --}}
+  <input  type="submit" value="Add">
+</form>
