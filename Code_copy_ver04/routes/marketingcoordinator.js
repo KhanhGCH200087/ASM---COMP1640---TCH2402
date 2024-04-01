@@ -432,8 +432,19 @@ router.post('/contributionDetail/:id', checkMCSession, async(req, res) => {
         if(facultyID.equals(eventFacultyID)){
             contribution.choosen = req.body.choosen;
             contribution.comment = req.body.comment;
-            await contribution.save();
-            res.redirect('/facultypage');
+
+            const submissionDate = contribution.date;
+            const currentDate = new Date();
+            const timeSinceSubmission = currentDate.getTime() - submissionDate.getTime(); //dùng hàm getTime: chuyển định dạng sang milisecond
+            const daysSinceSubmission = timeSinceSubmission / (1000 * 3600 * 24); //1000: số mili giây trong 1 giây / 3600: số giây trong 1 giờ / 24: số h trong 1 ngày
+
+            if(daysSinceSubmission <= 14){
+                await contribution.save();
+                res.redirect('/facultypage');
+            } else {
+                res.status().send("Cannot comment because out of date");
+            }
+
         } else {
             res.status(500).send("Event Faculty not matched");
         }

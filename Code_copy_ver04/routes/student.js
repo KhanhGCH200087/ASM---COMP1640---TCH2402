@@ -389,26 +389,31 @@ router.post('/submitContribution/:id', upload.single('image'), async (req, res) 
 
                 const status = 'Submit new'
 
-                const contributionID = await ContributionModel.create({
-                                                student: student,
-                                                choosen: choosen,
-                                                comment: comment,
-                                                date: date,
-                                                event: event,
-                                                contribution: base64File
-                                            });
-                
-                await NotificationMCModel.create({
-                    student: student,
-                    contribution: contributionID,
-                    event: event,
-                    faculty: eventFacultyID,
-                    date: date,
-                    status: status
-                });
+                const deadline1 = eventData.deadline1;
 
-                res.redirect('/student/facultypage');
+                if(date <= deadline1.getTime()){
+                    const contributionID = await ContributionModel.create({
+                        student: student,
+                        choosen: choosen,
+                        comment: comment,
+                        date: date,
+                        event: event,
+                        contribution: base64File
+                    });
 
+                    await NotificationMCModel.create({
+                        student: student,
+                        contribution: contributionID,
+                        event: event,
+                        faculty: eventFacultyID,
+                        date: date,
+                        status: status
+                    });
+
+                    res.redirect('/student/facultypage');
+                } else {
+                    res.status(400).send("Deadline 1 for this event has passed. You cannot submit new documents.");
+                }
            } else {
                 throw new Error('Event not found');
            }
@@ -477,20 +482,26 @@ router.get('/deleteContribution/:id', checkStudentSession, async(req, res) => {
         const date = Date.now();
         const status = 'Delete'; 
 
-        const notiMC = await NotificationMCModel.create({
-                            student: studentID,
-                            contribution: contributionId,
-                            event: eventID,
-                            faculty: facultyID,
-                            date: date,
-                            status: status
-                        });
+        const deadline1 = eventData.deadline1;
 
-        if(notiMC){
-            await ContributionModel.findByIdAndDelete(contributionId);
-            res.redirect('/student/facultypage');
+        if(date <= deadline1.getTime()){
+            const notiMC = await NotificationMCModel.create({
+                student: studentID,
+                contribution: contributionId,
+                event: eventID,
+                faculty: facultyID,
+                date: date,
+                status: status
+            });
+
+            if(notiMC){
+                await ContributionModel.findByIdAndDelete(contributionId);
+                res.redirect('/student/facultypage');
+            }
+        } else {
+            res.status(400).send("Deadline 1 for this event has passed. You cannot submit new documents.");
         }
-        
+
     }catch(error){
         console.error("Error while deleting MM list:", error);
         res.status(500).send("Internal Server Error");
@@ -546,6 +557,9 @@ router.post('/editContribution/:id', upload.single('contribution'), checkStudent
         const eventData = await EventModel.findById(eventID);
         const eventFacultyID = eventData.faculty;
 
+        const deadline1 = eventData.deadline1;
+        const deadline2 = eventData.deadline2;
+
         const date = Date.now;
         const status = "Update";
 
@@ -553,21 +567,26 @@ router.post('/editContribution/:id', upload.single('contribution'), checkStudent
             if (req.file) {
                 const submitData = fs.readFileSync(req.file.path);
                 contribution.contribution = submitData.toString('base64');  
-                contribution.date = Date.now();
+                contribution.date = date;
             } 
 
-            await contribution.save();
+            if(date > deadline1.getTime() && date <= deadline2.getTime()){
+                await contribution.save();
 
-            await NotificationMCModel.create({
-                student: stID,
-                contribution: contributionId,
-                event: eventID,
-                faculty: eventFacultyID,
-                date: date,
-                status: status
-            });
+                await NotificationMCModel.create({
+                    student: stID,
+                    contribution: contributionId,
+                    event: eventID,
+                    faculty: eventFacultyID,
+                    date: date,
+                    status: status
+                });
+    
+                res.redirect('/student/facultypage');
+            } else {
+                res.status(400).send("Deadline 2 for this event has passed. You cannot edit available documents.");
+            }
 
-            res.redirect('/student/facultypage');
         } else {
             res.status(500).send("Event Faculty not matched");
         }
