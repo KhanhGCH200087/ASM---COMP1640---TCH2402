@@ -32,7 +32,7 @@ var StudentSchema = mongoose.Schema(
         }, 
         role: {
             type: mongoose.SchemaTypes.ObjectId,
-            ref: 'role'
+            ref: 'role',
         }, 
         email: {
             type: String,

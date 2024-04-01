@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
                res.redirect('/admin');
             }
             else if(user.role == '65e61d9bb8171b6e90f92da4') { //role: Marketing Manager
-               res.redirect('/marketingmanager');
+               res.redirect('/marketingmanager/mmpage');
             }
             else if(user.role == '65e61d9bb8171b6e90f92da5'){ //role: Marketing Coordinator
                res.redirect('/marketingcoordinator/mcpage');

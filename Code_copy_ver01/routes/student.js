@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 const multer = require('multer');
+const archiver = require('archiver');
 
 var StudentModel = require('../models/StudentModel');
 var FacultyModel = require('../models/FacultyModel');
@@ -9,9 +10,21 @@ var UserModel = require('../models/UserModel');
 
 //-------------------------------------------------------------------------
 // Multer configuration
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, './public/images/') // Set the destination folder where uploaded files will be stored
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now()) // Set the filename to avoid name conflicts
+//     }
+// });
+
+// const upload = multer({ storage: storage });
+
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './public/images/') // Set the destination folder where uploaded files will be stored
+        cb(null, './public/files/') // Set the destination folder where uploaded files will be stored
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now()) // Set the filename to avoid name conflicts
@@ -72,7 +85,7 @@ router.get('/add', async (req, res) => {
     }
 });
 
-router.post('/add', upload.single('image'), async (req, res) => {
+router.post('/add', upload.single('word'), async (req, res) => {
     //get value by form : req.body
     try{
         const name = req.body.name;
@@ -80,17 +93,18 @@ router.post('/add', upload.single('image'), async (req, res) => {
         const gender = req.body.gender;
         const address = req.body.address;
         const faculty = req.body.faculty;
-        const image = req.file //access the uplodaded image
+        // const image = req.file; //access the uplodaded image
+        const word = req.file
 
         const email = req.body.email;
         const password = req.body.password;
 
         const role = '65e61d9bb8171b6e90f92da6'; //objectID
-      
+        
         //read the image file
-        const imageData = fs.readFileSync(image.path);
+        const wordData = fs.readFileSync(word.path);
         //convert image data to base 64
-        const base64Image = imageData.toString('base64');
+        const base64Word = wordData.toString('base64');
         //create users then add new created users to user field of collection marketing_manager
         const users = await UserModel.create(
                                 {
@@ -105,7 +119,7 @@ router.post('/add', upload.single('image'), async (req, res) => {
                 dob: dob,
                 gender: gender,
                 address: address,
-                image: base64Image,
+                word: base64Word,
                 faculty: faculty,
                 user: users
             }
@@ -188,6 +202,41 @@ router.post('/edit/:id', upload.single('image'), async (req, res) => {
         res.status(400).send(error.message);
     }
 });
+
+router.get('/download/:id', async (req, res) => {
+    try {
+      // Fetch student details by ID
+      const studentId = req.params.id;
+      const student = await StudentModel.findById(studentId);
+      if (!student) {
+        throw new Error('Student not found');
+      }
+
+      const name = student.name;
+  
+      // Check if student has a word document
+      if (!student.word) {
+        throw new Error('Student has no word document');
+      }
+  
+      // Create a zip archive
+    const archive = archiver('zip');
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', `attachment; filename="student_${name}_word.zip"`);
+
+    // Pipe the archive data to the response
+    archive.pipe(res);
+
+    // Add the word document to the archive
+    archive.append(Buffer.from(student.word, 'base64'), { name: 'student_word.docx' });
+
+    // Finalize the archive
+    archive.finalize();
+    } catch (error) {
+        console.error(error);
+        res.status(404).send('Error downloading word document');
+    }
+  });
 
 //-----------------------------------
 module.exports = router;

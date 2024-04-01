@@ -3,11 +3,19 @@ var router = express.Router();
 const fs = require('fs');
 const multer = require('multer');
 
-var MarketingManagerModel = require('../models/MarketingManagerModel');
+var FacultyModel = require('../models/FacultyModel');
 var UserModel = require('../models/UserModel');
+var MarketingManagerModel = require('../models/MarketingManagerModel');
+var MarketingCoordinatorModel = require('../models/MarketingCoordinatorModel');
+var EventModel = require('../models/EventModel');
+var StudentModel = require('../models/StudentModel');
+var ContributionModel = require('../models/ContributionModel');
 
+const {checkAdminSession, checkMMSession} = require('../middlewares/auth');
+//-------------------------------------------
 //import "bcryptjs" library
 var bcrypt = require('bcryptjs');
+const { equal } = require('assert');
 var salt = 8;                     //random value
 
 //-------------------------------------------------------------------------
@@ -24,7 +32,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-//------------------------------------------------------------------------
+//-------------------Phần này cho Role Admin-----------------------------------------------------
 //show all 
 router.get('/', async(req, res) => {
     try{
@@ -135,7 +143,6 @@ router.get('/edit/:id', async (req, res) => {
         if (!marketingmanager) {
             throw new Error('MarketingManager not found');
         }
-
         // Fetch user details by ID
         const userId = marketingmanager.user;
         const user = await UserModel.findById(userId);
@@ -144,7 +151,7 @@ router.get('/edit/:id', async (req, res) => {
         }
 
         // Render edit form with marketingmanager details and dropdown options
-        res.render('marketingmanager/edit', { marketingmanager, user});
+        res.render('marketingmanager/edit', { marketingmanager, user });
     } catch (error) {
         // Handle errors (e.g., marketingmanager not found)
         console.error(error);
@@ -197,5 +204,140 @@ router.post('/edit/:id', upload.single('image'), async (req, res) => {
      }
 });
 
-//-----------------------------------
+
+
+//------------Phần này cho role Marketing Coordinator--------------
+//trang chủ của MM---------------------------------------------------
+router.get('/mmpage', checkMMSession, async (req, res) => {
+    try{ 
+        var facultyList = await FacultyModel.find({});
+        res.render('marketingmanager/mmpage', { facultyList });
+    }catch(error){
+        console.error("Error while fetching MM list:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.get('/facultyDetail/:id', checkMMSession, async (req, res) => {
+    try {
+        var facultyID = req.params.id;
+        const eventData = await EventModel.find({faculty: facultyID});
+        const MCData = await MarketingCoordinatorModel.find({facultyID: facultyID});
+        const StudentData = await StudentModel.find({facultyID: facultyID});
+        res.render('marketingmanager/facultyDetail', { eventData, MCData, StudentData });
+    } catch(err) {
+        throw new Error('Faculty Detail not found');
+    }
+});
+
+router.get('/eventDetail/:id', checkMMSession, async (req, res) => {
+    try {
+        var eventID = req.params.id;
+        const contributionData = await ContributionModel.find({eventID: eventID});
+        if (contributionData.choosen == 'True')
+
+        res.render('marketingmanager/facultyDetail', { contributionData });
+    } catch(err) {
+        throw new Error('Faculty Detail not found');
+    }
+});
+
+//đọc thông tin của MM-------------------------------------------------
+router.get('/profile', checkMMSession, async (req, res) => {
+    try{
+        var mmUserId = req.session.user_id;
+        var UserData = await UserModel.findById(mmUserId);
+      if(UserData){
+        var mmID = req.session.mm_id;
+        var MMData = await MarketingManagerModel.findById(mmID);
+      } else {
+        req.status().send('MM not found');
+      }
+      console.log(mmID);
+        res.render('marketingmanager/profile', {UserData, MMData});
+    }catch(error){
+        console.error("Error while fetching M0:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
+//sửa thông tin của MM-------------------------------------------
+router.get('/editMM/:id', checkMMSession, async (req, res) => {
+    const marketingmanagerId = req.params.id;
+    const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
+    if (!marketingmanager) {
+        throw new Error('MarketingManager not found');
+    }
+    // Fetch user details by ID
+    const userId = marketingmanager.user;
+    const user = await UserModel.findById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    if(userId == req.session.user_id && marketingmanagerId == req.session.mm_id){
+        try {
+            res.render('marketingmanager/editMM', { marketingmanager, user});
+        } catch (error) {
+            // Handle errors (e.g., marketingmanager not found)
+            console.error(error);
+            res.status(404).send('MarketingManager not found');
+        }
+    } else {
+        res.status(404).send('MarketingManager not found');
+    }
+    
+});
+
+router.post('/editMM/:id', checkMMSession, upload.single('image'), async (req, res) => {
+    const marketingmanagerId = req.params.id;
+    const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
+    if (!marketingmanager) {
+        throw new Error('MarketingManager not found');
+    }
+    // Fetch user details by ID
+    const userId = marketingmanager.user;
+    const user = await UserModel.findById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    if(userId == req.session.user_id && marketingmanagerId == req.session.mm_id){
+        try {
+            // Update marketingmanager details
+            marketingmanager.name = req.body.name;
+            marketingmanager.dob = req.body.dob;
+            marketingmanager.gender = req.body.gender;
+            marketingmanager.address = req.body.address;
+            // If a new image is uploaded, update it
+            if (req.file) {
+                const imageData = fs.readFileSync(req.file.path);
+                marketingmanager.image = imageData.toString('base64');  
+            } 
+            await marketingmanager.save();
+            
+            user.password = bcrypt.hashSync(req.body.password, salt);
+            await user.save();
+    
+            // Redirect to marketingmanager list page
+            res.redirect('/marketingmanager/profile');
+        } catch (err) {
+            if (err.name === 'ValidationError') {
+               let InputErrors = {};
+               for (let field in err.errors) {
+                  InputErrors[field] = err.errors[field].message;
+               }
+               res.render('marketingmanager/editMM', { InputErrors, marketingmanager });
+            }
+         }
+    } else {
+        res.status(404).send('MarketingManager not found');
+    }
+   
+});
+
+//---------------------------------------------------
+
+
+
+
 module.exports = router;

@@ -11,7 +11,7 @@ const {checkAdminSession, checkMCSession} = require('../middlewares/auth');
 
 //---------------------------Phần này cho Admin---------------------------------------------
 //show all 
-router.get('/', checkAdminSession, async(req, res) => {
+router.get('/', async(req, res) => {
     try{
         //retrieve data from collection
         var facultyList = await FacultyModel.find({});
@@ -40,7 +40,7 @@ router.get('/delete/:id',checkAdminSession, async(req, res) => {
 //------------------------------------------------------------------------
 //create 
 //render form for user to input
-router.get('/add',checkAdminSession, (req, res) => {
+router.get('/add', (req, res) => {
     try{
         res.render('faculty/add');
     }catch(error){
@@ -50,7 +50,7 @@ router.get('/add',checkAdminSession, (req, res) => {
 });
 
 //receive form data and insert it to database
-router.post('/add',checkAdminSession, async (req, res) => {
+router.post('/add', async (req, res) => {
     //get value by form : req.body
     try{
         var faculty = req.body;

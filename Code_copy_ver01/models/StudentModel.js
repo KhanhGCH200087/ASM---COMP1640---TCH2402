@@ -25,7 +25,11 @@ var StudentSchema = mongoose.Schema(
             min: [2, 'Address is required at least 2 character,'],
             max: [15, 'Max address is 50 characters']
         },
+
         image: String,
+
+        word: String,
+
         faculty: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'faculty'

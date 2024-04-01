@@ -34,7 +34,7 @@ const upload = multer({ storage: storage });
 
 //-------------------Phần này cho Role Admin-----------------------------------------------------
 //show all 
-router.get('/',checkAdminSession, async(req, res) => {
+router.get('/', async(req, res) => {
     try{
         var marketingcoordinatorList = await MarketingCoordinatorModel.find({}).populate('user').populate('faculty');
         //render view and pass data
@@ -47,7 +47,7 @@ router.get('/',checkAdminSession, async(req, res) => {
 
 //-----------------------------------------------------------------------
 //delete specific marketingcoordinator
-router.get('/delete/:id', checkAdminSession, async(req, res) => {
+router.get('/delete/:id', async(req, res) => {
     //req.params: get value by url
     try{
         const marketingcoordinatorId = req.params.id;
@@ -73,7 +73,7 @@ router.get('/delete/:id', checkAdminSession, async(req, res) => {
 //------------------------------------------------------------------------
 //create marketingcoordinator
 //render form for user to input
-router.get('/add', checkAdminSession, async (req, res) => {
+router.get('/add', async (req, res) => {
     try{
         var facultyList = await FacultyModel.find({});
         res.render('marketingcoordinator/add', {facultyList});
@@ -83,7 +83,7 @@ router.get('/add', checkAdminSession, async (req, res) => {
     }
 });
 
-router.post('/add', checkAdminSession, upload.single('image'), async (req, res) => {
+router.post('/add', upload.single('image'), async (req, res) => {
     //get value by form : req.body
     try{
         const name = req.body.name;
@@ -138,7 +138,7 @@ router.post('/add', checkAdminSession, upload.single('image'), async (req, res) 
 //---------------------------------------------------------------------------
 //edit marketingcoordinator
 // Render form for editing a specific marketingcoordinator
-router.get('/edit/:id', checkAdminSession, async (req, res) => {
+router.get('/edit/:id', async (req, res) => {
     try {
         // Fetch marketingcoordinator details by ID
         const marketingcoordinatorId = req.params.id;
@@ -164,7 +164,7 @@ router.get('/edit/:id', checkAdminSession, async (req, res) => {
 });
 
 // Handle form submission for editing a marketingcoordinator
-router.post('/edit/:id', checkAdminSession, upload.single('image'), async (req, res) => {
+router.post('/edit/:id', upload.single('image'), async (req, res) => {
     try {
         // Fetch marketingcoordinator by ID
         const marketingcoordinatorId = req.params.id;
@@ -233,6 +233,7 @@ router.get('/profile', checkMCSession, async (req, res) => {
       } else {
         req.status().send('MC not found');
       }
+      console.log(mcID);
         res.render('marketingcoordinator/profile', {UserData, MCData});
     }catch(error){
         console.error("Error while fetching M0:", error);

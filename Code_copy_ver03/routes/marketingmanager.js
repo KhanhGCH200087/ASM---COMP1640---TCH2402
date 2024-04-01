@@ -4,10 +4,15 @@ const fs = require('fs');
 const multer = require('multer');
 
 var MarketingManagerModel = require('../models/MarketingManagerModel');
+var StudentModel = require('../models/StudentModel');
+var FacultyModel = require('../models/FacultyModel');
+var ContributionModel = require('../models/ContributionModel');
+var MarketingCoordinatorModel = require('../models/MarketingCoordinatorModel');
 var UserModel = require('../models/UserModel');
 
 //import "bcryptjs" library
 var bcrypt = require('bcryptjs');
+const { checkMMSession } = require('../middlewares/auth');
 var salt = 8;                     //random value
 
 //-------------------------------------------------------------------------
@@ -196,6 +201,110 @@ router.post('/edit/:id', upload.single('image'), async (req, res) => {
         }
      }
 });
+
+router.get('/mmpage', checkMMSession, async (req, res) => {
+    try {
+        res.render('marketingmanager/mmpage');
+    }
+    catch (err) {
+        console.error("Error loading MM page", err);
+        res.status(500).send(err.message);
+    }
+});
+
+router.get('/profile', checkMMSession, async (req, res) => {
+    try {
+        var mmUserId = req.session.user_id;
+        var UserData = await User.findById(mmUserId);
+        if (UserData) {
+            var MMData = req.session.user_id;
+            var UserData = await MarketingManagerModel.findOne({user: mmUserId});
+            req.session.availableID = MMData._id;
+            req.session.faculty = MMData.faculty;
+        } else {
+            req.status().send('MM not found');
+        }
+        res.render('marketingmanager/profile', {UserData, MCData});
+    }catch(error){
+        console.error("Error while fetching MM:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+//edit function for user as MM-------------------------------------------
+router.get('/editMM/:id', checkMMSession, async (req, res) => {
+    const marketingmanagerId = req.params.id;
+    const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
+    if (!marketingmanager) {
+        throw new Error('MarketingManager not found');
+    }
+    // Fetch user details by ID
+    const userId = marketingmanager.user;
+    const user = await UserModel.findById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    if(userId == req.session.user_id){
+        try {
+            res.render('marketingmanager/editMM', { marketingmanager, user});
+        } catch (error) {
+            // Handle errors (e.g., marketingcoordinator not found)
+            console.error(error);
+            res.status(404).send('MarketingManager not found');
+        }
+    } else {
+        res.status(404).send('MarketingManager not found');
+    }
+    
+});
+
+router.post('/editMM/:id', checkMMSession, upload.single('image'), async (req, res) => {
+    const marketingmanagerId = req.params.id;
+    const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
+    if (!marketingcoordinator) {
+        throw new Error('MarketingManager not found');
+    }
+    // Fetch user details by ID
+    const userId = marketingmanager.user;
+    const user = await UserModel.findById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    if(userId == req.session.user_id){
+        try {
+            // Update marketingcoordinator details
+            marketingmanager.name = req.body.name;
+            marketingmanager.dob = req.body.dob;
+            marketingmanager.gender = req.body.gender;
+            marketingmanager.address = req.body.address;
+            // If a new image is uploaded, update it
+            if (req.file) {
+                const imageData = fs.readFileSync(req.file.path);
+                marketingmanager.image = imageData.toString('base64');  
+            } 
+            await marketingmanager.save();
+            
+            user.password = bcrypt.hashSync(req.body.password, salt);
+            await user.save();
+    
+            // Redirect to marketingcoordinator list page
+            res.redirect('/marketingmanager/profile');
+        } catch (err) {
+            if (err.name === 'ValidationError') {
+               let InputErrors = {};
+               for (let field in err.errors) {
+                  InputErrors[field] = err.errors[field].message;
+               }
+               res.render('marketingmanager/editMM', { InputErrors, marketingmanager });
+            }
+         }
+    } else {
+        res.status(404).send('MarketingManager not found');
+    }
+   
+});
+
+
 
 //-----------------------------------
 module.exports = router;
