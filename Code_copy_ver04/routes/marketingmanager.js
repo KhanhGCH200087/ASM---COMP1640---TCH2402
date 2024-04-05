@@ -234,11 +234,10 @@ router.get('/eventDetail/:id', checkMMSession, async (req, res) => {
     try {
         var eventID = req.params.id;
         const contributionData = await ContributionModel.find({eventID: eventID});
-        if (contributionData.choosen == 'True')
-
-        res.render('marketingmanager/facultyDetail', { contributionData });
+        const chosenYesContributions = contributionData.filter(contribution => contribution.choosen === true);
+        res.render('marketingmanager/facultyDetail', { chosenYesContributions, contributionData });
     } catch(err) {
-        throw new Error('Faculty Detail not found');
+        throw new Error('Event Detail not found');
     }
 });
 
