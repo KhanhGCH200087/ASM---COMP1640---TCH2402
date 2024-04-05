@@ -1,0 +1,20 @@
+<h1>Event Details page</h1>
+<h1>Event reuirement : {{eventData.requirement}}</h1>
+<h1>----------------------</h1>
+<h1>Faculty ID of Event collection: {{eventData.faculty}}</h1>
+<h1>--------------</h1>
+<h1>Faculty ID of Marketing Coordinator collection: {{MCData.faculty}}</h1>
+<h1>----------------------------------------------</h1>
+<h1>Contribution List</h1>
+<table border = 1>
+{{#each contributionList}}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ choosen }}</td>
+            <td>{{ comment }}</td>
+            <td><td>
+            <a href="/marketingcoordinator/contributionDetail/{{_id}}">Details</a>
+        </td></td>
+        </tr>
+    {{/each}}
+</table>
