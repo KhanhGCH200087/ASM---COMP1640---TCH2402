@@ -1,0 +1,21 @@
+<h1>Student</h1>
+<table border = 1>
+    <a href="/student/add">Add</a>
+    {{#each studentList}}
+    <tr>
+        <td>{{ name }}</td>
+        <td>{{ dob }}</td>
+        <td>{{ gender }}</td>
+        <td>{{ address}}</td>
+        <td><img src="data:image/jpeg;base64,{{image}}" alt="Address Image" style="max-width: 100px;"></td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{faculty.name}}</td>
+        <td>
+            <a href="/student/edit/{{_id}}">Edit</a>
+            <a href="/student/delete/{{_id}}"
+            onclick="return confirm('Do you want to delete ? {{name}}')" ;>Delete</a>
+        </td>
+    </tr>
+    {{/each}}
+</table>
