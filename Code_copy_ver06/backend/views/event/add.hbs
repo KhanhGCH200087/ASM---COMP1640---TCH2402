@@ -1,0 +1,28 @@
+<h1> Add new event</h1>
+
+<form action="" method = "post">
+    <input type="text" name="requirement" required
+    placeholder="Enter requirement">
+
+    <br><br>
+
+    <input type="date" name="deadline1" required
+    placeholder="">
+
+    <br><br>
+    <input type="date" name="deadline2" required
+    placeholder="">
+    
+    <br><br>
+    <select name="faculty" id="">
+    {{#each facultyList}}
+    <option value="{{_id}}">
+        {{name}}
+    </option>
+    {{/each}}
+    </select>
+        
+
+    <br><br>
+    <input type="submit" value="Add">
+</form>

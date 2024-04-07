@@ -1,0 +1,13 @@
+<h1>Faculty</h1>
+<table border = 1>
+    <a href="/role/add">Add</a>
+    {{#each roleList}}
+        <tr>
+            <td>{{ role }}</td>
+            <td>{{description}}</td>
+            <td>
+                <a href="/role/edit/{{_id}}">Edit</a>
+            </td>
+        </tr>
+    {{/each}}
+</table>

@@ -1,0 +1,24 @@
+<h1>Event Details page</h1>
+<h1>Event reuirement : {{eventData.requirement}}</h1>
+<h1>Deadline 1: {{eventData.deadline1}}</h1>
+<h1>Deadline 2: {{eventData.deadline2}}</h1>
+<h1>----------------------</h1>
+<h1>Faculty ID of Event collection: {{eventData.faculty}}</h1>
+<h1>--------------</h1>
+<h1>Faculty ID of Student collection: {{STData.faculty}}</h1>
+<h1>--------------</h1>
+<h1>Contribution List</h1>
+<table border = 1>
+{{#each contributionList}}
+        <tr>
+            <td>{{ date }}</td>
+            <td>{{ choosen }}</td>
+            <td>{{ comment }}</td>
+            <td><td>
+            <a href="/student/editContribution/{{_id}}">Edit</a>
+            <a href="/student/deleteContribution/{{_id}}"
+            onclick="return confirm('Do you want to delete ?')" ;>Delete</a>
+        </td></td>
+        </tr>
+    {{/each}}
+</table>
