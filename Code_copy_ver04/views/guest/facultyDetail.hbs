@@ -1,0 +1,27 @@
+<h1>Faculty detail for MM</h1>
+<h1>{{MCData.name}}</h1>
+<h1>----------------------------------------------</h1>
+
+<h1>Event information</h1>
+<table border = 1>
+{{#each eventData}}
+        <tr>
+            <td>{{ requirement }}</td>
+            <td>{{ formatDate deadline1}}</td>
+            <td>{{ formatDate deadline2}}</td>
+            <td>
+                <a href="/marketingmanager/eventDetail/{{_id}}">Details</a>
+            </td>
+        </tr>
+    {{/each}}
+</table>
+
+<h1>--------------------------------------------------</h1>
+<h1>Student List of this Faculty</h1>
+<table border = 1>
+{{#each studentData}}
+        <tr>
+            <td>{{ name }}</td>
+        </tr>
+    {{/each}}
+</table>

@@ -1,0 +1,19 @@
+<form action="/guest/add" method="post" enctype="multipart/form-data" >
+  <h1>Add new Guest</h1>
+  Name: <input type="text" name="name" id="" required>
+  <br><br>
+  Birth: <input type="date" name="dob" id="" required>
+  <br><br>
+  Gender: <input type="text" name="gender" required>
+  <br><br>
+  Address:<input type="text" name="address" required>
+  <br><br>
+  Email: <input type="email" name="email" id="" required>
+  <br><br>
+  Password: <input type="text" name="password" id="" required>
+  <br><br>
+  Image: <input type="file" name="image" accept="image/*" required>
+  <br><br>
+  {{!-- fix later --}}
+  <input  type="submit" value="Add">
+</form>
