@@ -233,10 +233,25 @@ router.put('/edit/:id',verifyToken, checkAdminSession, upload.single('image'), a
 
 
 //------------Phần này cho role Marketing Coordinator--------------
-//trang chủ của MC---------------------------------------------------
+//--------------trang chủ của MC---------------------------------------------------
 router.get('/mcpage',verifyToken, checkMCSession, async (req, res) => {
     try{ 
-        res.status(200).json({ success: true, message: "Marketing Coordinator Menu page" });
+        var mcUserId = req.session.user_id;
+        var UserData = await UserModel.findById(mcUserId);
+        var mcID = req.session.mc_id;
+        var MCData = await MarketingCoordinatorModel.findById(mcID);
+        if(UserData && MCData){
+            var facultyID = MCData.faculty;
+        } else {
+            res.status(400).json({ success: false, error: "MC not found" });
+        }
+        var facultyData = await FacultyModel.findOne({_id: facultyID});
+        if(facultyData){
+            var studentData = await StudentModel.find({faculty: facultyID});
+        } else {
+            res.status(400).json({success: false, error: "Not found Faculty"});
+        }
+        res.status(200).json({ success: true, message: "Marketing Coordinator Menu page", facultyData, studentData });
     }catch(error){
         console.error("Error while fetching MM list:", error);
         res.status(500).send("Internal Server Error");
@@ -351,13 +366,11 @@ router.get('/facultypage',verifyToken, checkMCSession, async(req, res) => {
       } else {
         res.status(400).json({ success: false, error: "MC not found" });
       }
-
         var facultyData = await FacultyModel.findOne({_id: facultyID});
         if(facultyData){
             var notificationMCList = await NotificationMCModel.find({faculty: facultyID});
-            var studentData = await StudentModel.find({faculty: facultyID});
             var eventData = await EventModel.find({faculty: facultyID});
-            res.status(200).json({success: true, facultyData, eventData, studentData, notificationMCList}); 
+            res.status(200).json({success: true, eventData, notificationMCList}); 
         } else {
             res.status(400).json({ success: false, error: "Faculty not found" });
         }
