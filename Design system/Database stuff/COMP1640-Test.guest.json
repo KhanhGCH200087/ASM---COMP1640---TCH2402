@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "65fcc41dbf438c1c086506bd"
+  },
+  "name": "GuestF1",
+  "faculty": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  },
+  "user": {
+    "$oid": "65fcc2b8bf438c1c086506a7"
+  }
+},
+{
+  "_id": {
+    "$oid": "65fcc41dbf438c1c086506be"
+  },
+  "name": "GuestF2",
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "user": {
+    "$oid": "65fcc2b8bf438c1c086506a8"
+  }
+}]

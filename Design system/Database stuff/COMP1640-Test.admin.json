@@ -1,0 +1,15 @@
+[{
+  "_id": {
+    "$oid": "65e1d55805d9d3bda31f119c"
+  },
+  "name": "Admin1",
+  "dob": {
+    "$date": "1970-01-01T00:00:02.002Z"
+  },
+  "gender": "Male",
+  "Image": "base64",
+  "address": "HaNoi",
+  "user": {
+    "$oid": "65fcc2b8bf438c1c086506a3"
+  }
+}]

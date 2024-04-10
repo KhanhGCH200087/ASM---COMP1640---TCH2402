@@ -1,0 +1,76 @@
+[{
+  "_id": {
+    "$oid": "65e201b505d9d3bda31f11a9"
+  },
+  "deadline1": {
+    "$date": "2002-01-01T00:00:00.000Z"
+  },
+  "deadline2": {
+    "$date": "2002-01-01T00:00:00.000Z"
+  },
+  "faculty": {
+    "$oid": "65e2020405d9d3bda31f11ac"
+  },
+  "requirement": "Event 1 for F4"
+},
+{
+  "_id": {
+    "$oid": "65e20ec105d9d3bda31f122a"
+  },
+  "deadline1": {
+    "$date": "1970-01-01T00:00:00.000Z"
+  },
+  "deadline2": {
+    "$date": "1970-01-01T00:00:00.000Z"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f6"
+  },
+  "requirement": "Event for faculty 3"
+},
+{
+  "_id": {
+    "$oid": "65e20ec105d9d3bda31f122b"
+  },
+  "deadline1": {
+    "$date": "1970-01-01T00:00:00.000Z"
+  },
+  "deadline2": {
+    "$date": "1970-01-01T00:00:00.000Z"
+  },
+  "faculty": {
+    "$oid": "65e26944878e325dc097fa5f"
+  },
+  "requirement": "Event 3 for F4"
+},
+{
+  "_id": {
+    "$oid": "6607f3cf07a1592b7d616497"
+  },
+  "deadline1": {
+    "$date": "2024-03-30T00:00:00.000Z"
+  },
+  "deadline2": {
+    "$date": "2024-04-27T00:00:00.000Z"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6607f3e107a1592b7d61649c"
+  },
+  "requirement": "ASM2 for F2",
+  "deadline1": {
+    "$date": "2024-03-12T00:00:00.000Z"
+  },
+  "deadline2": {
+    "$date": "2024-03-19T00:00:00.000Z"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "__v": 0
+}]

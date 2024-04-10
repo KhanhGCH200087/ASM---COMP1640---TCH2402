@@ -1,0 +1,110 @@
+[{
+  "_id": {
+    "$oid": "660811d2eb6e046b5fbaa39d"
+  },
+  "student": {
+    "$oid": "6607382b46f38344077325b1"
+  },
+  "contribution": {
+    "$oid": "65e2116305d9d3bda31f123b"
+  },
+  "event": {
+    "$oid": "6607f3cf07a1592b7d616497"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "date": {
+    "$date": "2024-03-30T13:21:22.628Z"
+  },
+  "status": "Delete",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66081458932b6c8a0211ecfe"
+  },
+  "student": {
+    "$oid": "6607382b46f38344077325b1"
+  },
+  "contribution": {
+    "$oid": "66081458932b6c8a0211ecfc"
+  },
+  "event": {
+    "$oid": "6607f3cf07a1592b7d616497"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "date": {
+    "$date": "2024-03-30T13:32:08.794Z"
+  },
+  "status": "Submit new",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66081476932b6c8a0211ed10"
+  },
+  "student": {
+    "$oid": "6607382b46f38344077325b1"
+  },
+  "contribution": {
+    "$oid": "66081476932b6c8a0211ed0e"
+  },
+  "event": {
+    "$oid": "6607f3cf07a1592b7d616497"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "date": {
+    "$date": "2024-03-30T13:32:38.369Z"
+  },
+  "status": "Submit new",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "660a641b16fa887c5858e3ec"
+  },
+  "student": {
+    "$oid": "6607382b46f38344077325b1"
+  },
+  "contribution": {
+    "$oid": "660a641b16fa887c5858e3ea"
+  },
+  "event": {
+    "$oid": "6607f3cf07a1592b7d616497"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "date": {
+    "$date": "2024-04-01T07:36:59.298Z"
+  },
+  "status": "Submit new",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "660a643516fa887c5858e3fd"
+  },
+  "student": {
+    "$oid": "6607382b46f38344077325b1"
+  },
+  "contribution": {
+    "$oid": "660a643516fa887c5858e3fb"
+  },
+  "event": {
+    "$oid": "6607f3cf07a1592b7d616497"
+  },
+  "faculty": {
+    "$oid": "65e2062605d9d3bda31f11f5"
+  },
+  "date": {
+    "$date": "2024-04-01T07:37:25.179Z"
+  },
+  "status": "Submit new",
+  "__v": 0
+}]
