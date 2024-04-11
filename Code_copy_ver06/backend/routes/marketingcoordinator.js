@@ -521,6 +521,8 @@ router.get('/download/:id',verifyToken, checkMCSession, async (req, res) => {
             res.status(400).json({success: false, error: 'There are no submition in this contribution'});
         }
         const contributionType = contributionData.filetype;
+        const contributionFilename = contributionData.contribution;
+        const imagePath = path.join(__dirname, '../public/images/', contributionFilename);  // Sanitize path
         //----------
         const eventId = contributionData.event;
         const eventData = await EventModel.findById(eventId);
@@ -539,22 +541,34 @@ router.get('/download/:id',verifyToken, checkMCSession, async (req, res) => {
         //---------------------------------------------------------------------------
         if(mcFaculty.equals(eventFaculty)){
             if(mcFaculty.equals(studentFaculty)){  
-                if(contributionType == 'word'){ //trường hợp đây là file word
+                if(contributionType === 'word'){ //trường hợp đây là file word
                     // Create a zip archive
                     const archive = archiver('zip');
                     res.setHeader('Content-Type', 'application/zip');
                     res.setHeader('Content-Disposition', `attachment; filename="student_${studentName}_word.zip"`);
-
                     // Pipe the archive data to the response
                     archive.pipe(res);
-
                     // Add the word document to the archive
                     archive.append(Buffer.from(contributionData.contribution, 'base64'), { name: 'student_word.docx' });
-
                     // Finalize the archive
                     archive.finalize();
-                }
-                //sẽ thêm trường hợp là file ảnh sau
+                } else if (contributionType === 'image') {
+                    if (!fs.existsSync(imagePath)) {
+                      return res.status(404).json({ success: false, error: 'Image file not found' });
+                    }
+              
+                    res.setHeader('Content-Type', `image/${contributionFilename.split('.').pop()}`);
+                    res.setHeader('Content-Disposition', `attachment; filename="${contributionFilename}"`);
+              
+                    const imageStream = fs.createReadStream(imagePath);
+                    imageStream.pipe(res);
+              
+                    imageStream.on('error', (err) => {
+                      console.error('Error streaming image:', err);
+                      res.status(500).json({ success: false, error: 'Internal server error' });
+                    });
+                  }
+
             } else {
             res.status(500).json({success: false, error: 'Invalid MC account'});
         }

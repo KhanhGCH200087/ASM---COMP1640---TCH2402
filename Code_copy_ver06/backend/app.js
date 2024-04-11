@@ -49,8 +49,8 @@ app.use(session({
 var mongoose = require('mongoose');
 //1B. set mongodb connection string
 //Note2: localhost got error --> change to 127.0.0.1
-var database = "mongodb://127.0.0.1:27017/COMP1640-Test" //link offline
-//var database = "mongodb+srv://thanhpham:1@comp1640.u0yepfl.mongodb.net/COMP1640-Online" //link online, database: COMP1640-Online 
+//var database = "mongodb://127.0.0.1:27017/COMP1640-Test" //link offline
+var database = "mongodb+srv://thanhpham:1@comp1640.u0yepfl.mongodb.net/COMP1640-Online" //link online, database: COMP1640-Online 
 //1C. connect to mongodb
 mongoose.connect(database)
   .then(() => console.log('connect to db sucess'))
