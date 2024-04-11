@@ -238,7 +238,20 @@ router.put('/edit/:id', verifyToken, checkAdminSession, upload.single('image'), 
 //trang chủ của Student
 router.get('/studentpage', verifyToken, checkStudentSession, async (req, res) => {
     try{ 
-        res.status(200).json({ success: true, message: "Found Student page" });
+        var stUserId = req.session.user_id;
+        var UserData = await UserModel.findById(stUserId);
+        var stID = req.session.st_id;
+        var STData = await StudentModel.findById(stID);
+        if(UserData && STData){
+            var facultyID = STData.faculty;
+        } else {
+            res.status(401).json({ success: false, error: "ST not found" });
+        }
+        var facultyData = await FacultyModel.findOne({_id: facultyID});
+        if(!facultyData){
+            res.status(400).json({success: false, error: "Not found faculty data"})
+        }
+        res.status(200).json({ success: true, message: "Found Student page", data: facultyData });
     }catch(error){
         console.error("Error while fetching ST:", error);
         res.status(500).send("Internal Server Error");
@@ -254,11 +267,11 @@ router.get('/profile', verifyToken, checkStudentSession, async (req, res) => {
         var stID = req.session.st_id;
         var STData = await StudentModel.findById(stID);
       } else {
-        req.status(400).send('MC not found');
+        req.status(400).send('Student not found');
       }
         res.status(200).json({UserData, STData});
     }catch(error){
-        console.error("Error while fetching M0:", error);
+        console.error("Error while fetching student:", error);
         res.status(500).send("Internal Server Error");
     }
 });
@@ -413,6 +426,7 @@ router.post('/submitContribution/:id', verifyToken, checkStudentSession, upload.
                 const comment = 'Nothing';
                 const date = Date.now();
                 const event = eventId;
+                const filetype = req.body.filetype; //đoạn này cần chọn file type
 
                 const image = req.file;
                 const submitData = fs.readFileSync(image.path);
@@ -430,7 +444,8 @@ router.post('/submitContribution/:id', verifyToken, checkStudentSession, upload.
                         comment: comment,
                         date: date,
                         event: event,
-                        contribution: base64File
+                        contribution: base64File,
+                        filetype: filetype
                     });
 
                     await NotificationMCModel.create({
@@ -682,6 +697,7 @@ router.put('/editContribution/:id', verifyToken, checkStudentSession, upload.sin
                 const submitData = fs.readFileSync(req.file.path);
                 contribution.contribution = submitData.toString('base64');  
                 contribution.date = date;
+                contribution.filetype = req.body.filetype; //chọn kiểu file sẽ submit;
             } 
 
             if(date > deadline1.getTime() && date <= deadline2.getTime()){

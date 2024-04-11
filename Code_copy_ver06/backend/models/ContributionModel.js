@@ -20,6 +20,9 @@ var ContributionSchema = mongoose.Schema(
         },
         date: {
             type: Date
+        },
+        filetype: {
+            type: String
         }
     }
 );

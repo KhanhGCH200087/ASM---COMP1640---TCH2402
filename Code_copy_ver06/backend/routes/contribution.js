@@ -73,7 +73,7 @@ router.post('/add', verifyToken, checkAdminSession, upload.single('contribution'
         const contribution = req.file 
         const date = req.body.date;
         const event = req.body.event;
-    
+        const filetype = req.body.filetype;
         //read the file
         const fileData = fs.readFileSync(contribution.path);
         //convert file data to base 64
@@ -85,7 +85,8 @@ router.post('/add', verifyToken, checkAdminSession, upload.single('contribution'
                 comment: comment,
                 contribution: base64File,
                 date: date,
-                event: event
+                event: event,
+                filetype: filetype
             }
         );
         res.status(201).json({ success: true, message: "Contribution created successfully" });
@@ -138,6 +139,7 @@ router.put('/edit/:id', verifyToken, checkAdminSession, upload.single('contribut
         contribution.comment = req.body.comment;
         contribution.date = req.body.date;
         contribution.event = req.body.event;
+        contribution.filetype = req.body.filetype;
         if (req.file) {
             const fileData = fs.readFileSync(req.file.path);
             contribution.contribution = fileData.toString('base64');

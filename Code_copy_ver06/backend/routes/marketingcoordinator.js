@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 const multer = require('multer');
+const archiver = require('archiver');
 
 var FacultyModel = require('../models/FacultyModel');
 var UserModel = require('../models/UserModel');
@@ -501,6 +502,71 @@ router.put('/contributionDetail/:id',verifyToken, checkMCSession, async(req, res
      }
 });
 
+//tải file về để chấm điểm
+router.get('/download/:id',verifyToken, checkMCSession, async (req, res) => {
+    try{
+        const mcId = req.session.req.session.mc_id;
+        const mcData = await MarketingCoordinatorModel.findById(mcId);
+        if(!mcData){
+            res.status(400).json({success: false, error: 'Not found contribution'});
+        }
+        const mcFaculty = mcData.faculty;
+        //---------------
+        const contributionId = req.params.id;
+        const contributionData = await ContributionModel.findById(contributionId);
+        if(!contributionData){
+            res.status(400).json({success: false, error: 'Not found contribution'});
+        }
+        if(!contributionData.contribution){
+            res.status(400).json({success: false, error: 'There are no submition in this contribution'});
+        }
+        const contributionType = contributionData.filetype;
+        //----------
+        const eventId = contributionData.event;
+        const eventData = await EventModel.findById(eventId);
+        if(!eventData){
+            res.status(400).json({success: false, error: 'Not found event'});
+        }
+        const eventFaculty = eventData.faculty;
+        //------------
+        const studentId = contributionData.student;
+        const studentData = await StudentModel.findById(studentId);
+        if(!studentData){
+            res.status(400).json({success: false, error: 'Not found student'});
+        }
+        const studentName = studentData.name;
+        const studentFaculty = studentData.faculty;
+        //---------------------------------------------------------------------------
+        if(mcFaculty.equals(eventFaculty)){
+            if(mcFaculty.equals(studentFaculty)){  
+                if(contributionType == 'word'){ //trường hợp đây là file word
+                    // Create a zip archive
+                    const archive = archiver('zip');
+                    res.setHeader('Content-Type', 'application/zip');
+                    res.setHeader('Content-Disposition', `attachment; filename="student_${studentName}_word.zip"`);
+
+                    // Pipe the archive data to the response
+                    archive.pipe(res);
+
+                    // Add the word document to the archive
+                    archive.append(Buffer.from(contributionData.contribution, 'base64'), { name: 'student_word.docx' });
+
+                    // Finalize the archive
+                    archive.finalize();
+                }
+                //sẽ thêm trường hợp là file ảnh sau
+            } else {
+            res.status(500).json({success: false, error: 'Invalid MC account'});
+        }
+        } else {
+            res.status(500).json({success: false, error: 'Invalid MC account'});
+        }
+
+    } catch(error) {
+        console.error("Error: ", error);
+        res.status(500).json({success: false, error: 'Internal Error'});
+    }
+});
 //---------------------------------------------------
 
 
