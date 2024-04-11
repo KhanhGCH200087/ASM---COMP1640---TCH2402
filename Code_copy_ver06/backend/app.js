@@ -26,6 +26,7 @@ var studentRouter = require('./routes/student');
 var adminRouter = require('./routes/admin');
 var contributionRouter = require('./routes/contribution');
 var eventRouter = require('./routes/event');
+var guestRouter = require('./routes/guest');
 
 var authRouter = require('./routes/auth'); // for login, logout
 
@@ -106,6 +107,7 @@ app.use('/student', studentRouter);
 app.use('/admin', adminRouter);
 app.use('/contribution', contributionRouter);
 app.use('/event', eventRouter);
+app.use('/guest', guestRouter);
 
 app.use('/auth', authRouter);
 

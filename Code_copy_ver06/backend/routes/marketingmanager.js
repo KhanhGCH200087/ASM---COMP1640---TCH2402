@@ -11,7 +11,7 @@ var EventModel = require('../models/EventModel');
 var StudentModel = require('../models/StudentModel');
 var ContributionModel = require('../models/ContributionModel');
 
-const {checkAdminSession, checkMMSession} = require('../middlewares/auth');
+const {checkAdminSession, checkMMSession, verifyToken} = require('../middlewares/auth');
 //-------------------------------------------
 //import "bcryptjs" library
 var bcrypt = require('bcryptjs');
@@ -34,11 +34,11 @@ const upload = multer({ storage: storage });
 
 //-------------------Phần này cho Role Admin-----------------------------------------------------
 //show all 
-router.get('/', async(req, res) => {
+router.get('/', verifyToken, checkAdminSession, async(req, res) => {
     try{
         var marketingmanagerList = await MarketingManagerModel.find({}).populate('user');
         //render view and pass data
-        res.render('marketingmanager/index', {marketingmanagerList});
+        res.status(200).json({ success: true, data: marketingmanagerList });
     }catch(error){
         console.error("Error while fetching MM list:", error);
         res.status(500).send("Internal Server Error");
@@ -47,23 +47,25 @@ router.get('/', async(req, res) => {
 
 //-----------------------------------------------------------------------
 //delete specific marketingmanager
-router.get('/delete/:id', async(req, res) => {
+router.get('/delete/:id', verifyToken, checkAdminSession, async(req, res) => {
     //req.params: get value by url
     try{
         const marketingmanagerId = req.params.id;
         const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
         if (!marketingmanager) {
-            throw new Error('MarketingManager not found');
+            res.status(404).json({ success: false, error: "Marketing manager not found" });
+            return;
         }
         // Fetch user details by ID
         const userId = marketingmanager.user;
         const user = await UserModel.findById(userId);
         if (!user) {
-            throw new Error('User not found');
+            res.status(404).json({ success: false, error: "Marketing manager not found" });
+            return;
         }
         await MarketingManagerModel.findByIdAndDelete(marketingmanagerId);
         await UserModel.findByIdAndDelete(userId);
-        res.redirect('/marketingmanager');
+        res.status(200).json({ success: true, message: "Marketing Manager deleted successfully" });
     }catch(error){
         console.error("Error while deleting MM list:", error);
         res.status(500).send("Internal Server Error");
@@ -73,16 +75,16 @@ router.get('/delete/:id', async(req, res) => {
 //------------------------------------------------------------------------
 //create marketingmanager
 //render form for user to input
-router.get('/add', async (req, res) => {
+router.get('/add', verifyToken, checkAdminSession, async (req, res) => {
     try{
-        res.render('marketingmanager/add');
+        res.status(200).json({ success: true, message: "Render add marketing coordinator form"});
     }catch(error){
         console.error("Error while adding MM list:", error);
         res.status(500).send("Internal Server Error");
     }
 });
 
-router.post('/add', upload.single('image'), async (req, res) => {
+router.post('/add', verifyToken, checkAdminSession, upload.single('image'), async (req, res) => {
     //get value by form : req.body
     try{
         const name = req.body.name;
@@ -100,33 +102,45 @@ router.post('/add', upload.single('image'), async (req, res) => {
         const imageData = fs.readFileSync(image.path);
         //convert image data to base 64
         const base64Image = imageData.toString('base64');
+
+        
         //create users then add new created users to user field of collection marketing_manager
-        const users = await UserModel.create(
-                                {
-                                    email: email,
-                                    password: hashPassword,
-                                    role: role
-                                }
-                            );
-        await MarketingManagerModel.create(
-            {
+        const availableUser = await UserModel.findOne({email: email});
+        if(availableUser){
+            res.status(500).json({ success: false, error: "User existed"});
+        } else {
+            const users = await UserModel.create(
+                {
+                    email: email,
+                    password: hashPassword,
+                    role: role
+                }
+            );
+            const newMM = await MarketingManagerModel.create(
+                {
                 name: name,
                 dob: dob,
                 gender: gender,
                 address: address,
                 image: base64Image,
                 user: users
+                }
+            );
+            if(newMM){
+                res.status(201).json({ success: true, message: "Marketing Manager created successfully" });
+            } else {
+                res.status(500).json({ success: false, message: "Error Marketing Manager created " });
             }
-        );
+        }
         
-        res.redirect('/marketingmanager');
     } catch (err) {
         if (err.name === 'ValidationError') {
            let InputErrors = {};
            for (let field in err.errors) {
               InputErrors[field] = err.errors[field].message;
            }
-           res.render('marketingmanager/add', { InputErrors, marketingmanager });
+           console.error("Error while adding marketing manager:", err);
+            res.status(500).json({ success: false, err: "Internal Server Error", InputErrors });
         }
      }
     
@@ -135,23 +149,24 @@ router.post('/add', upload.single('image'), async (req, res) => {
 //---------------------------------------------------------------------------
 //edit marketingmanager
 // Render form for editing a specific marketingmanager
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', verifyToken, checkAdminSession, async (req, res) => {
     try {
         // Fetch marketingmanager details by ID
         const marketingmanagerId = req.params.id;
         const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
         if (!marketingmanager) {
-            throw new Error('MarketingManager not found');
+            res.status(404).json({ success: false, error: "Marketing Manager not found" });
+            return;
         }
         // Fetch user details by ID
         const userId = marketingmanager.user;
         const user = await UserModel.findById(userId);
         if (!user) {
-            throw new Error('User not found');
+            res.status(404).json({ success: false, error: "User not found" });
+            return;
         }
-
+        res.status(200).json({ success: true, message: "Render add marketing manager form", marketingmanager, user});
         // Render edit form with marketingmanager details and dropdown options
-        res.render('marketingmanager/edit', { marketingmanager, user });
     } catch (error) {
         // Handle errors (e.g., marketingmanager not found)
         console.error(error);
@@ -160,19 +175,21 @@ router.get('/edit/:id', async (req, res) => {
 });
 
 // Handle form submission for editing a marketingmanager
-router.post('/edit/:id', upload.single('image'), async (req, res) => {
+router.post('/edit/:id', verifyToken, checkAdminSession, upload.single('image'), async (req, res) => {
     try {
         // Fetch marketingmanager by ID
         const marketingmanagerId = req.params.id;
         const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
         if (!marketingmanager) {
-            throw new Error('MarketingManager not found');
+            res.status(404).json({ success: false, error: "Marketing Manager not found" });
+            return;
         }
         // Fetch user details by ID
         const userId = marketingmanager.user;
         const user = await UserModel.findById(userId);
         if (!user) {
-            throw new Error('User not found');
+            res.status(404).json({ success: false, error: "User not found" });
+            return;
         }
 
         // Update marketingmanager details
@@ -185,35 +202,51 @@ router.post('/edit/:id', upload.single('image'), async (req, res) => {
             const imageData = fs.readFileSync(req.file.path);
             marketingmanager.image = imageData.toString('base64');  
         } 
-        await marketingmanager.save();
+        const editMM = await marketingmanager.save();
+        if(editMM){
+            res.status(200).json({ success: true, message: "Marketing Manager updated successfully" });
+        } else {
+            res.status(500).json({ success: false, message: "Marketing Manager updated fail" });
+        }
         
         user.email = req.body.email;
         user.password = bcrypt.hashSync(req.body.password, salt);
-        await user.save();
+        const editUser = await user.save();
+        if(editUser){
+            res.status(200).json({ success: true, message: "User of Marketing Manager updated successfully" });
+        } else {
+            res.status(500).json({ success: false, message: "User of Marketing Manager updated fail" });
+        }
 
-        // Redirect to marketingmanager list page
-        res.redirect('/marketingmanager');
     } catch (err) {
         if (err.name === 'ValidationError') {
            let InputErrors = {};
            for (let field in err.errors) {
               InputErrors[field] = err.errors[field].message;
            }
-           res.render('marketingmanager/edit', { InputErrors, marketingmanager });
+           console.error("Error while updating marketing manager:", err);
+            res.status(500).json({ success: false, err: "Internal Server Error", InputErrors });
         }
      }
 });
 
 
 
-//------------Phần này cho role Marketing Coordinator--------------
+//------------Phần này cho role Marketing Manager--------------
 //trang chủ của MM---------------------------------------------------
-router.get('/mmpage', checkMMSession, async (req, res) => {
-    try{ 
-        var facultyList = await FacultyModel.find({});
-        res.render('marketingmanager/mmpage', { facultyList });
+router.get('/mmpage', verifyToken, checkMMSession, async (req, res) => {
+    // try{ 
+    //     var facultyList = await FacultyModel.find({});
+    //     res.render('marketingmanager/mmpage', { facultyList });
+    // }catch(error){
+    //     console.error("Error while fetching MM list:", error);
+    //     res.status(500).send("Internal Server Error");
+    // }
+    try{
+        var facultyData = await FacultyModel.find({});
+        res.status(200).json({ success: true, message: "Marketing Manager Menu page", facultyData});
     }catch(error){
-        console.error("Error while fetching MM list:", error);
+        console.error("Error while fetching faculty list:", error);
         res.status(500).send("Internal Server Error");
     }
 });
@@ -221,29 +254,57 @@ router.get('/mmpage', checkMMSession, async (req, res) => {
 router.get('/facultyDetail/:id', checkMMSession, async (req, res) => {
     try {
         var facultyID = req.params.id;
-        const eventData = await EventModel.find({faculty: facultyID});
-        const MCData = await MarketingCoordinatorModel.find({facultyID: facultyID});
-        const StudentData = await StudentModel.find({facultyID: facultyID});
-        res.render('marketingmanager/facultyDetail', { eventData, MCData, StudentData });
+        const eventData = await EventModel.findById({faculty: facultyID});
+        const MCData = await MarketingCoordinatorModel.findById({facultyID: facultyID});
+        const StudentData = await StudentModel.findById({facultyID: facultyID});
+        res.status(200).json({ success: true, eventData, StudentData, MCData  });
     } catch(err) {
-        throw new Error('Faculty Detail not found');
+        console.error("Error while fetching faculty detail:", err);
+        res.status(500).send("Internal Server Error");
     }
 });
 
 router.get('/eventDetail/:id', checkMMSession, async (req, res) => {
-    try {
-        var eventID = req.params.id;
-        const eventData = await EventModel.find({event: eventID});
-        const contributionData = await ContributionModel.find({eventID: eventID});
-        const chosenYesContributions = await contributionData.filter(contribution => contribution.choosen === true);
-        res.render('marketingmanager/eventDetail', { chosenYesContributions, eventData });
-    } catch(err) {
-        throw new Error('Event Detail not found');
+    try{
+        var eventId = req.params.id;
+        const eventData = await EventModel.findById(eventId);
+            if (eventData){
+                const contributionList = await ContributionModel.find({event: eventId}).populate('student');
+                if (contributionList){
+                    res.status(200).json({ success: true, eventData, contributionList  });
+                } else {
+                    res.status(404).json({ success: false, error: "Event not found" });
+                    return;
+                }
+           } else {
+                res.status(404).json({ success: false, error: "Event not found" });
+                return;
+           }
+    }catch(error){
+        console.error("Error while fetching event detail:", error);
+        res.status(500).send("Internal Server Error");
     }
 });
 
+router.get('/contributionDetail/:id',verifyToken, checkMMSession, async(req, res) => {
+    try {
+        // Fetch contribution details by ID
+        const contributionId = req.params.id;
+        const contribution = await ContributionModel.findById(contributionId).populate('student').populate('event');
+        if (!contribution) {
+            res.status(404).json({ success: false, error: "Contribution not found" });
+            return;
+        }
+        res.status(200).json({ success: true, message: "Render contribution", data: contribution });
+
+    } catch (error) {
+        // Handle errors (e.g., contribution not found)
+        console.error(error);
+        res.status(404).send('Contribution not found');
+    }
+});
 //đọc thông tin của MM-------------------------------------------------
-router.get('/profile', checkMMSession, async (req, res) => {
+router.get('/profile', verifyToken, checkMMSession, async (req, res) => {
     try{
         var mmUserId = req.session.user_id;
         var UserData = await UserModel.findById(mmUserId);
@@ -251,10 +312,9 @@ router.get('/profile', checkMMSession, async (req, res) => {
         var mmID = req.session.mm_id;
         var MMData = await MarketingManagerModel.findById(mmID);
       } else {
-        req.status().send('MM not found');
+        res.status(500).json({ success: false, error: "Profile not found" });
       }
-      console.log(mmID);
-        res.render('marketingmanager/profile', {UserData, MMData});
+      res.status(200).json({ success: true, message: "Render edit marketing manager form", UserData, MMData });
     }catch(error){
         console.error("Error while fetching M0:", error);
         res.status(500).send("Internal Server Error");
@@ -263,21 +323,23 @@ router.get('/profile', checkMMSession, async (req, res) => {
 
 
 //sửa thông tin của MM-------------------------------------------
-router.get('/editMM/:id', checkMMSession, async (req, res) => {
+router.get('/editMM/:id', verifyToken, checkMMSession, async (req, res) => {
     const marketingmanagerId = req.params.id;
     const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
     if (!marketingmanager) {
-        throw new Error('MarketingManager not found');
+        res.status(404).json({ success: false, error: "Marketing Manager not found" });
+        return;
     }
     // Fetch user details by ID
     const userId = marketingmanager.user;
     const user = await UserModel.findById(userId);
     if (!user) {
-        throw new Error('User not found');
+        res.status(404).json({ success: false, error: "User not found" });
+        return;
     }
     if(userId == req.session.user_id && marketingmanagerId == req.session.mm_id){
         try {
-            res.render('marketingmanager/editMM', { marketingmanager, user});
+            res.status(200).json({ success: true, message: "Render add marketing manager form", marketingmanager, user });
         } catch (error) {
             // Handle errors (e.g., marketingmanager not found)
             console.error(error);
@@ -289,17 +351,19 @@ router.get('/editMM/:id', checkMMSession, async (req, res) => {
     
 });
 
-router.post('/editMM/:id', checkMMSession, upload.single('image'), async (req, res) => {
+router.post('/editMM/:id', verifyToken, checkMMSession, upload.single('image'), async (req, res) => {
     const marketingmanagerId = req.params.id;
     const marketingmanager = await MarketingManagerModel.findById(marketingmanagerId);
     if (!marketingmanager) {
-        throw new Error('MarketingManager not found');
+        res.status(404).json({ success: false, error: "Marketing Manager not found" });
+        return;
     }
     // Fetch user details by ID
     const userId = marketingmanager.user;
     const user = await UserModel.findById(userId);
     if (!user) {
-        throw new Error('User not found');
+        res.status(404).json({ success: false, error: "User not found" });
+        return;
     }
     if(userId == req.session.user_id && marketingmanagerId == req.session.mm_id){
         try {
@@ -318,15 +382,15 @@ router.post('/editMM/:id', checkMMSession, upload.single('image'), async (req, r
             user.password = bcrypt.hashSync(req.body.password, salt);
             await user.save();
     
-            // Redirect to marketingmanager list page
-            res.redirect('/marketingmanager/profile');
+            res.status(200).json({ success: true, message: "Update my MM data success" });
         } catch (err) {
             if (err.name === 'ValidationError') {
                let InputErrors = {};
                for (let field in err.errors) {
                   InputErrors[field] = err.errors[field].message;
                }
-               res.render('marketingmanager/editMM', { InputErrors, marketingmanager });
+               console.error("Error while updating marketing manager:", err);
+                res.status(500).json({ success: false, err: "Internal Server Error", InputErrors });
             }
          }
     } else {
