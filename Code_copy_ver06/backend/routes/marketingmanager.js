@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 const multer = require('multer');
+const archiver = require('archiver');
 
 var FacultyModel = require('../models/FacultyModel');
 var UserModel = require('../models/UserModel');
@@ -303,6 +304,69 @@ router.get('/contributionDetail/:id',verifyToken, checkMMSession, async(req, res
         res.status(404).send('Contribution not found');
     }
 });
+
+//tải file về để chấm điểm
+router.get('/download/:id', verifyToken, checkMMSession, async (req, res) => {
+    try {
+      const contributionId = req.params.id;
+      const contributionData = await ContributionModel.findById(contributionId);
+      if (!contributionData) {
+        return res.status(400).json({ success: false, error: 'Contribution not found' });
+      }
+  
+      if (!contributionData.contribution) {
+        return res.status(400).json({ success: false, error: 'No submission found for this contribution' });
+      }
+  
+      const contributionType = contributionData.filetype;
+      const eventId = contributionData.event;
+      const studentId = contributionData.student;
+  
+      const eventData = await EventModel.findById(eventId);
+      if (!eventData) {
+        return res.status(400).json({ success: false, error: 'Event not found' });
+      }
+  
+      const studentData = await StudentModel.findById(studentId);
+      if (!studentData) {
+        return res.status(400).json({ success: false, error: 'Student not found' });
+      }
+  
+      const studentName = studentData.name;
+      const contributionFilename = contributionData.contribution;  // More descriptive name
+  
+      const imagePath = path.join(__dirname, '../public/images/', contributionFilename);  // Sanitize path
+  
+      if (contributionType === 'word') {
+        const archive = archiver('zip');
+        res.setHeader('Content-Type', 'application/zip');
+        res.setHeader('Content-Disposition', `attachment; filename="student_${studentName}_word.zip"`);
+  
+        archive.pipe(res);
+        archive.append(Buffer.from(contributionData.contribution, 'base64'), { name: 'student_word.docx' });
+        archive.finalize();
+      } else if (contributionType === 'image') {
+        if (!fs.existsSync(imagePath)) {
+          return res.status(404).json({ success: false, error: 'Image file not found' });
+        }
+  
+        res.setHeader('Content-Type', `image/${contributionFilename.split('.').pop()}`);
+        res.setHeader('Content-Disposition', `attachment; filename="${contributionFilename}"`);
+  
+        const imageStream = fs.createReadStream(imagePath);
+        imageStream.pipe(res);
+  
+        imageStream.on('error', (err) => {
+          console.error('Error streaming image:', err);
+          res.status(500).json({ success: false, error: 'Internal server error' });
+        });
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+      res.status(500).json({ success: false, error: 'Internal Error' });
+    }
+  });
+  
 //đọc thông tin của MM-------------------------------------------------
 router.get('/profile', verifyToken, checkMMSession, async (req, res) => {
     try{
