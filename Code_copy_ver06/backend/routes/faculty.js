@@ -40,11 +40,6 @@ router.delete('/delete/:id', verifyToken, checkAdminSession, async (req, res) =>
 
 //------------------------------------------------------------------------
 //create 
-//render form for user to input
-router.get('/add', verifyToken, checkAdminSession, (req, res) => {
-    res.status(200).json({ success: true, message: "Render add faculty form" });
-});
-
 //receive form data and insert it to database
 router.post('/add', verifyToken, checkAdminSession, async (req, res) => {
     //get value by form : req.body
