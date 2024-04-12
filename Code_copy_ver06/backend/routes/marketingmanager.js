@@ -236,13 +236,6 @@ router.post('/edit/:id', verifyToken, checkAdminSession, upload.single('image'),
 //------------Phần này cho role Marketing Manager--------------
 //trang chủ của MM---------------------------------------------------
 router.get('/mmpage', verifyToken, checkMMSession, async (req, res) => {
-    // try{ 
-    //     var facultyList = await FacultyModel.find({});
-    //     res.render('marketingmanager/mmpage', { facultyList });
-    // }catch(error){
-    //     console.error("Error while fetching MM list:", error);
-    //     res.status(500).send("Internal Server Error");
-    // }
     try{
         var facultyData = await FacultyModel.find({});
         res.status(200).json({ success: true, message: "Marketing Manager Menu page", facultyData});
@@ -271,8 +264,9 @@ router.get('/eventDetail/:id', checkMMSession, async (req, res) => {
         const eventData = await EventModel.findById(eventId);
             if (eventData){
                 const contributionList = await ContributionModel.find({event: eventId}).populate('student');
-                if (contributionList){
-                    res.status(200).json({ success: true, eventData, contributionList  });
+                const chosenYesContributions = await contributionList.filter(contribution => contribution.choosen === true);
+                if (chosenYesContributions){
+                    res.status(200).json({ success: true, eventData, chosenYesContributions  });
                 } else {
                     res.status(404).json({ success: false, error: "Event not found" });
                     return;

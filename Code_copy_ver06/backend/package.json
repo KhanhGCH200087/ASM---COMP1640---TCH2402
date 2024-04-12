@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "archiver": "^7.0.1",
     "argon2": "^0.40.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",

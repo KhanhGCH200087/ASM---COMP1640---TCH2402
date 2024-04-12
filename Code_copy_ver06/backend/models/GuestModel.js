@@ -25,6 +25,10 @@ var GuestSchema = mongoose.Schema(
             max: [15, 'Max address is 50 characters']
         },
         image: String,
+        faculty: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'faculty'
+        }, 
         user: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'user'
