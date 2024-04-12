@@ -5,13 +5,12 @@ const multer = require('multer');
 
 var FacultyModel = require('../models/FacultyModel');
 var UserModel = require('../models/UserModel');
-var GuestModel = require('../models/GuestModel');
-var MarketingCoordinatorModel = require('../models/MarketingCoordinatorModel');
 var EventModel = require('../models/EventModel');
 var StudentModel = require('../models/StudentModel');
 var ContributionModel = require('../models/ContributionModel');
+var GuestModel = require('../models/GuestModel');
 
-const {checkAdminSession, checkGSession} = require('../middlewares/auth');
+const {checkAdminSession, checkGuestSession, verifyToken} = require('../middlewares/auth');
 //-------------------------------------------
 //import "bcryptjs" library
 var bcrypt = require('bcryptjs');
@@ -75,7 +74,7 @@ router.get('/delete/:id', verifyToken, checkAdminSession, async(req, res) => {
 //------------------------------------------------------------------------
 //create guest
 //render form for user to input
-router.get('/add', async (req, res) => {
+router.get('/add', verifyToken, checkAdminSession, async (req, res) => {
     try{
         res.status(200).json({ success: true, message: "Render add guest form"});
     }catch(error){
@@ -173,7 +172,7 @@ router.get('/edit/:id', verifyToken, checkAdminSession, async (req, res) => {
 });
 
 // Handle form submission for editing a guest
-router.post('/edit/:id', upload.single('image'), async (req, res) => {
+router.post('/edit/:id', verifyToken, checkAdminSession, upload.single('image'), async (req, res) => {
     try {
         // Fetch guest by ID
         const guestId = req.params.id;
@@ -231,11 +230,11 @@ router.post('/edit/:id', upload.single('image'), async (req, res) => {
 
 //------------Phần này cho role Guest--------------
 //trang chủ của Guest---------------------------------------------------
-router.get('/gpage', verifyToken, checkGSession, async (req, res) => {
+router.get('/gpage', checkGuestSession, verifyToken, async (req, res) => {
     try{ 
         var gUserId = req.session.user_id;
         var UserData = await UserModel.findById(gUserId);
-        var gID = req.session.g_id;
+        var gID = req.session.guest_id;
         var GData = await GuestModel.findById(gID);
         if(UserData && GData){
             var facultyID = GData.faculty;
@@ -246,10 +245,10 @@ router.get('/gpage', verifyToken, checkGSession, async (req, res) => {
         if(facultyData){
             var studentData = await StudentModel.find({faculty: facultyID});
             var eventData = await EventModel.find({faculty: facultyID});
-            res.status(200).json({ success: true, message: "Guest Menu page", facultyData, eventData, studentData });
         } else {
             res.status(400).json({success: false, error: "Not found Faculty"});
         }
+        res.status(200).json({ success: true, message: "Guest Menu page", facultyData, eventData, studentData });
     }catch(error){
         console.error("Error while fetching G list:", error);
         res.status(500).send("Internal Server Error");
@@ -257,13 +256,13 @@ router.get('/gpage', verifyToken, checkGSession, async (req, res) => {
 });
 
 
-router.get('/eventDetail/:id', verifyToken, checkGSession, async (req, res) => {
+router.get('/eventDetail/:id', checkGuestSession, verifyToken, async (req, res) => {
     try{
         var eventId = req.params.id;
         const eventData = await EventModel.findById(eventId);
         var eventFacultyID = eventData.faculty;
 
-        var gID = req.session.g_id;
+        var gID = req.session.guest_id;
         const GData = await GuestModel.findById(gID);
         var facultyID = GData.faculty;
 
@@ -293,7 +292,7 @@ router.get('/eventDetail/:id', verifyToken, checkGSession, async (req, res) => {
     }
 });
 
-router.get('/contributionDetail/:id',verifyToken, checkGSession, async(req, res) => {
+router.get('/contributionDetail/:id', checkGuestSession, verifyToken, async(req, res) => {
     try {
         // Fetch contribution details by ID
         const contributionId = req.params.id;
@@ -303,7 +302,7 @@ router.get('/contributionDetail/:id',verifyToken, checkGSession, async(req, res)
             return;
         }
 
-        const gID = req.session.g_id
+        const gID = req.session.guest_id
         const GData = await GuestModel.findById(gID);
         const facultyID = GData.faculty;
 
@@ -326,12 +325,12 @@ router.get('/contributionDetail/:id',verifyToken, checkGSession, async(req, res)
 });
 
 //đọc thông tin của Guest-------------------------------------------------
-router.get('/profile', verifyToken, checkGSession, async (req, res) => {
+router.get('/profile', checkGuestSession, verifyToken, async (req, res) => {
     try{
         var gUserId = req.session.user_id;
         var UserData = await UserModel.findById(gUserId);
       if(UserData){
-        var gID = req.session.g_id;
+        var gID = req.session.guest_id;
         var GData = await GuestModel.findById(gID);
       } else {
         res.status(500).json({ success: false, error: "Profile not found" });
@@ -345,7 +344,7 @@ router.get('/profile', verifyToken, checkGSession, async (req, res) => {
 
 
 //sửa thông tin của Guest-------------------------------------------
-router.get('/editG/:id', verifyToken, checkGSession, async (req, res) => {
+router.get('/editG/:id', checkGuestSession, verifyToken, async (req, res) => {
     const guestId = req.params.id;
     const guest = await GuestModel.findById(guestId);
     if (!guest) {
@@ -359,7 +358,7 @@ router.get('/editG/:id', verifyToken, checkGSession, async (req, res) => {
         res.status(404).json({ success: false, error: "User not found" });
         return;
     }
-    if(userId == req.session.user_id && guestId == req.session.g_id){
+    if(userId == req.session.user_id && guestId == req.session.guest_id){
         try {
             res.status(200).json({ success: true, message: "Render add guest form", guest, user });
         } catch (error) {
@@ -373,7 +372,7 @@ router.get('/editG/:id', verifyToken, checkGSession, async (req, res) => {
     
 });
 
-router.post('/editG/:id', verifyToken, checkGSession, upload.single('image'), async (req, res) => {
+router.post('/editG/:id', checkGuestSession, verifyToken, upload.single('image'), async (req, res) => {
     const guestId = req.params.id;
     const guest = await GuestModel.findById(guestId);
     if (!guest) {
@@ -387,7 +386,7 @@ router.post('/editG/:id', verifyToken, checkGSession, upload.single('image'), as
         res.status(404).json({ success: false, error: "User not found" });
         return;
     }
-    if(userId == req.session.user_id && guestId == req.session.g_id){
+    if(userId == req.session.user_id && guestId == req.session.guest_id){
         try {
             // Update guest details
             guest.name = req.body.name;
