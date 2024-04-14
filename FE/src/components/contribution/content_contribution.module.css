@@ -1,0 +1,64 @@
+.title{
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+.table_contribution_list, .table_rows{
+    width: 100%;
+    border: 1px solid rgb(134, 131, 131);
+    border-collapse: collapse;
+    
+}
+thead >.table_rows > th{
+    border: 1px solid rgb(134, 131, 131);
+    padding: 15px 0;
+}
+tbody >.table_rows > th{
+    border: 1px solid rgb(134, 131, 131);
+    padding: 30px 0;
+    font-weight: 400;
+}
+.btn {
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: none;
+    background-color: rgb(0, 94, 184);
+    outline: none;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 60px;
+    height: 40px;
+  }
+.table_rows > th{
+    border: 1px solid rgb(134, 131, 131);
+    padding: 15px 0;
+    
+}
+.table_rows > td{
+    text-align: center;
+}
+.td_filesubmission{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+.file_name{
+    display: flex;
+    align-items: center;
+}
+.th_table_contribution{
+    width: 15%;
+}
+.btn_download{
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: none;
+    background-color: rgb(74, 160, 241);
+    outline: none;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 70px;
+    height: 40px;
+}

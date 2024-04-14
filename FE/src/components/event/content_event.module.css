@@ -1,0 +1,13 @@
+.list_artical {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem;
+    height: 100%;
+    gap: 20px;
+    overflow: auto;
+    justify-content: space-around;
+  }
+.my_event{
+  text-align: center;
+  padding: 20px;
+}

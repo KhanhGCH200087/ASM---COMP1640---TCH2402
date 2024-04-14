@@ -1,0 +1,44 @@
+.header {
+    background-color: rgb(0, 94, 184);
+    padding: 6px 25px 6px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+  .search_container {
+    display: flex;
+    padding: 5px;
+    gap: 10px;
+    margin-left: 50px;
+    flex: 1;
+  }
+  .search_btn {
+    border: none;
+    background-color: transparent;
+  }
+  .search_input {
+    width: 350px;
+    text-align: center;
+  }
+  ::placeholder {
+    text-align: center;
+  }
+  .header_button {
+    display: flex;
+    gap: 16px;
+  }
+  .profile_btn {
+    border: none;
+    background-color: transparent;
+  }
+  .logout_btn {
+    color: white;
+    border: none;
+    font-weight: bold;
+    background-color: red;
+    outline: none;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 70px;
+    height: 40px;
+  }
