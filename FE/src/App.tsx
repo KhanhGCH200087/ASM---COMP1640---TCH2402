@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import ContributionPage from "./pages/contribution";
 import FacultyPage from "./pages/faculty";
+import FacultyDetailPage from "./pages/faculty_details";
 import styles from "./app.module.css";
 import HomePageMarketingManager from "./pages/home_marketing_manager";
 import HomePageMarketingCoordinator from "./pages/home_marketing_coordinator";
@@ -47,6 +48,7 @@ function App() {
             element={<ContributionDetailPage />}
           />
           <Route path="faculty" element={<FacultyPage />} />
+          <Route path="faculty-detail/:id" element={<FacultyDetailPage />} />
           <Route path="profile" element={<Profile />} />
         </Route>
 

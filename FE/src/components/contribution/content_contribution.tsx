@@ -27,15 +27,15 @@ const ContentContribution = () => {
         </thead>
         <tbody>
               <tr className={styles.table_rows}>
-                <th>Paul Pham</th>
-                <th>phamkhue98@gmail.com</th>
-                <th>IT</th>
-                <th>05/04/2024</th>
-                <th>
+                <td>Paul Pham</td>
+                <td>phamkhue98@gmail.com</td>
+                <td>IT</td>
+                <td>05/04/2024</td>
+                <td>
                   <Link to={"/marketing-manager/contributionDetail/1"}>
                     <button className={styles.btn}>View</button>
                   </Link>
-                </th>
+                </td>
               </tr>
         </tbody>
       </table>
