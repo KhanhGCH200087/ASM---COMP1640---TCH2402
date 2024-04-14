@@ -235,7 +235,7 @@ router.post('/edit/:id', verifyToken, checkAdminSession, upload.single('image'),
 
 //------------Phần này cho role Marketing Manager--------------
 //trang chủ của MM---------------------------------------------------
-router.get('/mmpage', verifyToken, checkMMSession, async (req, res) => {
+router.get('/mmpage', async (req, res) => {
     try{
         var facultyData = await FacultyModel.find({});
         res.status(200).json({ success: true, message: "Marketing Manager Menu page", facultyData});
@@ -245,12 +245,12 @@ router.get('/mmpage', verifyToken, checkMMSession, async (req, res) => {
     }
 });
 
-router.get('/facultyDetail/:id', checkMMSession, async (req, res) => {
+router.get('/facultyDetail/:id', async (req, res) => {
     try {
         var facultyID = req.params.id;
-        const eventData = await EventModel.findById({faculty: facultyID});
-        const MCData = await MarketingCoordinatorModel.findById({facultyID: facultyID});
-        const StudentData = await StudentModel.findById({facultyID: facultyID});
+        const eventData = await EventModel.find({faculty: facultyID});
+        const MCData = await MarketingCoordinatorModel.find({faculty: facultyID});
+        const StudentData = await StudentModel.find({faculty: facultyID});
         res.status(200).json({ success: true, eventData, StudentData, MCData  });
     } catch(err) {
         console.error("Error while fetching faculty detail:", err);
