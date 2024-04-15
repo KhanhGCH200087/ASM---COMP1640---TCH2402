@@ -7,9 +7,9 @@ const ContentFaculty = () => {
 
     const getAllFaculty = async () => {
         const response = await (
-            await fetch("http://localhost:3000/faculty/")
+            await fetch("http://localhost:3000/marketingmanager/mmpage")
         ).json();
-        setFacultyData(response.data);
+        setFacultyData(response.facultyData);
         // console.log(await response);
     };
 
@@ -19,7 +19,7 @@ const ContentFaculty = () => {
 
     return (
         <div className={styles.content}>
-            {/* {JSON.stringify(facultyData)} */}
+             {/*{JSON.stringify(facultyData)}*/}
             <h1 className={styles.title}> Faculty List </h1>
             <div className={styles.table_content}>
                 <table className={styles.table_faculty_list}>

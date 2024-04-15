@@ -18,7 +18,7 @@ const SubmissionDetails = () => {
                     <td>
                         <div className={styles.td_filesubmission}>
                             <p className={styles.file_name}>File submission</p>
-                            <button className={styles.btn_download}>Download</button>
+                            <button className={styles.btn_download}>View</button>
                         </div>
                     </td>
                 </tr>

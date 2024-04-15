@@ -1,10 +1,11 @@
 import styles from "./faculty_details.module.css"
+import {useEffect, useState} from "react";
 
 const FacultyDetail = () => {
     return (
         <>
             <div className={styles.header}>
-                <h1 style={{textAlign:"center", padding: "20px"}}>Faculty Detail:</h1>
+                <h1 style={{textAlign:"center", padding: "20px"}}>Faculty Detail</h1>
                 <p style={{padding:"10px"}}>Event name:</p>
                 <p style={{padding:"10px"}}>Marketing Coordinator:</p>
             </div>
