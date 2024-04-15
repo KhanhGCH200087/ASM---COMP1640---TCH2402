@@ -12,7 +12,6 @@ const ContentFaculty = () => {
         setFacultyData(response.facultyData);
         // console.log(await response);
     };
-
     useEffect(() => {
         getAllFaculty();
     }, []);
@@ -36,8 +35,8 @@ const ContentFaculty = () => {
                             <tr className={styles.table_rows}>
                                 <td>{item.name}</td>
                                 <td>{item.description}</td>
-                                <td style={{}}>
-                                    <Link to={`/marketing-manager/faculty-detail/1`} className={styles.btn}>
+                                <td>
+                                    <Link to={`/marketing-manager/faculty-detail/${item._id}`} className={styles.btn}>
                                         View
                                     </Link>
                                 </td>
