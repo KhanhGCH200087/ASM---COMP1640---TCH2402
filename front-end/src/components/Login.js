@@ -1,0 +1,110 @@
+import React, { useState, useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
+import AlertMessage from "../layout/AlertMessage";
+
+const Login = () => {
+    const {
+        authState: { authLoading, isAuthenticated },
+    } = useContext(AuthContext);
+
+    let body;
+
+
+    //Context
+    const { loginUser } = useContext(AuthContext);
+
+    //Router
+
+    //Local state
+    const [loginForm, setLoginForm] = useState({
+        email: "",
+        password: "",
+    });
+
+    const [alert, setAlert] = useState(null)
+
+    const { email, password } = loginForm;
+
+    const onChangeLoginForm = (event) =>
+        setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
+
+    const login = async event => {
+        event.preventDefault();
+
+        try {
+            const loginData = await loginUser(loginForm);
+            if (loginData.success) {
+                // navigate("/");
+            } else {
+                setAlert({ type: 'danger', message: loginData.message })
+                setTimeout(() => setAlert(null), 5000)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    if (authLoading)
+        body = (
+            <div className="d-flex justify-content-center m-5">
+                <Spinner animation="border" variant="info" />
+            </div>
+        );
+    else if (isAuthenticated) return <Navigate to="/" />;
+    else
+        body = (
+            <>
+                <Form className="login-form" onSubmit={login}>
+                    <AlertMessage info={alert} />
+                    <Form.Group>
+                        <Form.Control
+                            className="inputBox"
+                            type="text"
+                            placeholder="Email"
+                            name="email"
+                            value={email}
+                            onChange={onChangeLoginForm}
+                            required
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control
+                            className="inputBox"
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            value={password}
+                            onChange={onChangeLoginForm}
+                            required
+                        />
+                    </Form.Group>
+                    <Button className="appButton" variant="info" type="submit">
+                        Login
+                    </Button>
+                </Form>
+            </>
+        );
+    return (
+        <section className="login-background">
+            <div className="container margin-top">
+                <div className="row justify-content-center">
+                    <div className="col-4 login-logo">
+                        <img src="./images/LoginLogo.png" className="login-logo" />
+                    </div>
+                    <div className="col-4 login">
+                        <div className="card login-form">
+                            <h1>Login</h1>
+                            {body}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Login;
