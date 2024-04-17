@@ -1,0 +1,60 @@
+.container_event {
+    padding: 0 16px;
+}
+
+.event_details {
+    height: 30%;
+    /*background: red;*/
+}
+
+.header_event_details {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.content_event_details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 40px;
+}
+
+.submission {
+    height: 70%;
+}
+
+.header_submission {
+    text-align: center;
+    padding: 30px;
+}
+
+.table_submission_list, .table_rows {
+    width: 100%;
+    border: 1px solid rgb(134, 131, 131);
+    border-collapse: collapse;
+}
+
+thead > .table_rows > th {
+    border: 1px solid rgb(134, 131, 131);
+    padding: 15px 0;
+}
+
+tbody > .table_rows > td {
+    border: 1px solid rgb(134, 131, 131);
+    padding: 30px 0;
+    font-weight: 400;
+    text-align: center;
+}
+
+.btn {
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: none;
+    background-color: rgb(0, 94, 184);
+    outline: none;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 60px;
+    height: 40px;
+}
