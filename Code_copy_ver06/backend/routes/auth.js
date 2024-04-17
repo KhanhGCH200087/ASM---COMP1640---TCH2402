@@ -71,21 +71,21 @@ router.post('/login', async (req, res) => {
             req.session.user_id = user._id;
             req.session.email = user.email;
             req.session.role = user.role; //take role from db, put it to session so it can be checked in middleware
-            if (user.role == '65e61d9bb8171b6e90f92da3') { //role: admin
-               res.redirect('/admin');
-            }
-            else if(user.role == '65e61d9bb8171b6e90f92da4') { //role: Marketing Manager
-               res.redirect('/marketingmanager');
-            }
-            else if(user.role == '65e61d9bb8171b6e90f92da5'){ //role: Marketing Coordinator
-               res.redirect('/marketingcoordinator/mcpage');
-            }
-            else if(user.role == '65e61d9bb8171b6e90f92da6'){ //role: Student
-                res.redirect('/student/studentpage');
-            } 
-            else if (user.role == '65e61d9bb8171b6e90f92da7'){ //role guest
-               res.redirect(''); //sửa ở đây, thêm route
-            }
+            // if (user.role == '65e61d9bb8171b6e90f92da3') { //role: admin
+            //    res.redirect('/admin');
+            // }
+            // else if(user.role == '65e61d9bb8171b6e90f92da4') { //role: Marketing Manager
+            //    res.redirect('/marketingmanager');
+            // }
+            // else if(user.role == '65e61d9bb8171b6e90f92da5'){ //role: Marketing Coordinator
+            //    res.redirect('/marketingcoordinator/mcpage');
+            // }
+            // else if(user.role == '65e61d9bb8171b6e90f92da6'){ //role: Student
+            //     res.redirect('/student/studentpage');
+            // } 
+            // else if (user.role == '65e61d9bb8171b6e90f92da7'){ //role guest
+            //    res.redirect(''); //sửa ở đây, thêm route
+            // }
          } else {
             return res.status(400).json({ success: false, message: 'Incorrect email or password' })
          }
