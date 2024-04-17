@@ -286,11 +286,12 @@ router.get('/contributionDetail/:id',verifyToken, checkMMSession, async(req, res
         // Fetch contribution details by ID
         const contributionId = req.params.id;
         const contribution = await ContributionModel.findById(contributionId).populate('student').populate('event');
+        const faculty = await StudentModel.findById(contribution.student).populate('faculty');
         if (!contribution) {
             res.status(404).json({ success: false, error: "Contribution not found" });
             return;
         }
-        res.status(200).json({ success: true, message: "Render contribution", data: contribution });
+        res.status(200).json({ success: true, message: "Render contribution", data: contribution, faculty });
 
     } catch (error) {
         // Handle errors (e.g., contribution not found)
