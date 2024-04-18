@@ -40,11 +40,6 @@ router.post('/login', async (req, res) => {
                process.env.ACCESS_TOKEN_SECRET
             )
       
-            res.json({
-               success: true,
-               message: 'User logged in successfully',
-               accessToken
-            });
             //-----------------Session----------------------------------
             var userId = user._id;
             //Marketing Coordinator
@@ -71,6 +66,9 @@ router.post('/login', async (req, res) => {
             req.session.user_id = user._id;
             req.session.email = user.email;
             req.session.role = user.role; //take role from db, put it to session so it can be checked in middleware
+            const sessionRole = req.session.role;
+            const sessionEmail = req.session.email;
+            const sessionUserId = req.session.user_id;
             // if (user.role == '65e61d9bb8171b6e90f92da3') { //role: admin
             //    res.redirect('/admin');
             // }
@@ -86,6 +84,14 @@ router.post('/login', async (req, res) => {
             // else if (user.role == '65e61d9bb8171b6e90f92da7'){ //role guest
             //    res.redirect(''); //sửa ở đây, thêm route
             // }
+            return res.json({
+               success: true,
+               message: 'User logged in successfully',
+               accessToken,
+               sessionRole,
+               sessionEmail,
+               sessionUserId             
+            });
          } else {
             return res.status(400).json({ success: false, message: 'Incorrect email or password' })
          }
