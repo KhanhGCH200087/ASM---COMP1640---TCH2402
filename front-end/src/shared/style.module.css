@@ -1,0 +1,75 @@
+/*KHUE PHAM*/
+.abc {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto max-content;
+}
+
+.container {
+    display: flex;
+}
+
+.content {
+    width: calc(100vw - 300px);
+    height: 100%;
+}
+
+.carousel {
+    height: 30%;
+}
+
+.header {
+    height: 10%;
+}
+
+.list_artical {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem;
+    height: 500px;
+    gap: 20px;
+    overflow: auto;
+    justify-content: space-around;
+}
+
+.list_mc {
+    width: 100%;
+}
+
+.img_mc {
+    width: 100px;
+
+}
+
+.table_list,
+.table_rows {
+    width: 100%;
+    border: 1px solid rgb(134, 131, 131);
+    border-collapse: collapse;
+}
+
+thead > .table_rows > th {
+    border: 1px solid rgb(134, 131, 131);
+    padding: 15px 0;
+
+}
+
+tbody > .table_rows > td {
+    border: 1px solid rgb(134, 131, 131);
+    padding: 20px 0;
+    font-weight: 400;
+    text-align: center;
+}
+
+.footer {
+    width: 100vw;
+    height: 50px;
+    background-color: rgb(0, 94, 184);
+}
+
+.content_welcome {
+    text-align: center;
+    padding: 30px;
+}
+
+/* can giua, thang hang, cach nhau */

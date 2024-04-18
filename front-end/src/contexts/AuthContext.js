@@ -1,12 +1,12 @@
-import { createContext, useReducer, useEffect } from "react";
-import { authReducer } from "../reducers/authReducer";
-import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
+import {createContext, useReducer, useEffect} from "react";
+import {authReducer} from "../reducers/authReducer";
+import {apiUrl, LOCAL_STORAGE_TOKEN_NAME} from "./constants";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
 export const AuthContext = createContext();
 
-const AuthContextProvider = ({ children }) => {
+const AuthContextProvider = ({children}) => {
     const [authState, dispatch] = useReducer(authReducer, {
         authLoading: true,
         isAuthenticated: false,
@@ -23,7 +23,7 @@ const AuthContextProvider = ({ children }) => {
             if (response.data.success) {
                 dispatch({
                     type: "SET_AUTH",
-                    payload: { isAuthenticated: true, user: response.data.user },
+                    payload: {isAuthenticated: true, user: response.data.user},
                 });
             }
         } catch (error) {
@@ -31,7 +31,7 @@ const AuthContextProvider = ({ children }) => {
             setAuthToken(null);
             dispatch({
                 type: "SET_AUTH",
-                payload: { isAuthenticated: false, user: null },
+                payload: {isAuthenticated: false, user: null},
             });
         }
     };
@@ -54,7 +54,7 @@ const AuthContextProvider = ({ children }) => {
             return response.data;
         } catch (error) {
             if (error.response.data) return error.response.data;
-            else return { success: false, message: error.message };
+            else return {success: false, message: error.message};
         }
     };
 
@@ -62,11 +62,11 @@ const AuthContextProvider = ({ children }) => {
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
         dispatch({
             type: "SET_AUTH",
-            payload: { isAuthenticated: false, user: null },
+            payload: {isAuthenticated: false, user: null},
         });
     };
 
-    const authContextData = { loginUser, logoutUser, authState };
+    const authContextData = {loginUser, logoutUser, authState};
 
     return (
         <AuthContext.Provider value={authContextData}>
