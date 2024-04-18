@@ -264,7 +264,7 @@ router.get('/eventDetail/:id', checkMMSession, async (req, res) => {
         const eventData = await EventModel.findById(eventId);
             if (eventData){
                 const contributionList = await ContributionModel.find({event: eventId}).populate('student');
-                const chosenYesContributions = await contributionList.filter(contribution => contribution.choosen === true);
+                const chosenYesContributions = await contributionList.filter(contribution => contribution.choosen === "yes");
                 if (chosenYesContributions){
                     res.status(200).json({ success: true, eventData, chosenYesContributions  });
                 } else {
