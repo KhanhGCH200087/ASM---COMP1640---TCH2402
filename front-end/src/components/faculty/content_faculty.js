@@ -1,17 +1,16 @@
 import {useEffect, useState} from "react";
 import styles from "./content_faculty.module.css";
 import {Link} from "react-router-dom";
+import axios from "axios";
+import {apiUrl} from "../../contexts/constants";
 
 const ContentFaculty = () => {
     const [facultyData, setFacultyData] = useState([]);
 
     const getAllFaculty = async () => {
-        const response = await (
-            await fetch("http://localhost:3000/marketingmanager/mmpage")
-        ).json();
-        setFacultyData(response.facultyData);
-        console.log(response.facultyData);
-        // console.log(await response);
+        const response = await axios.get(`${apiUrl}/marketingmanager/mmpage`);
+        setFacultyData(response.data.facultyData);
+        
     };
     useEffect(() => {
         getAllFaculty();

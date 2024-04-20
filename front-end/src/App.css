@@ -127,7 +127,12 @@
 
 .heading {
     text-align: center;
+    display: flex;
     margin: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px
 }
 
 .account-list ul li {

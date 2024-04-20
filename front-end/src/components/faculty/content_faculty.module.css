@@ -1,27 +1,33 @@
-.title{
+.title {
     display: flex;
     justify-content: center;
     padding: 50px;
 }
-.table_content{
+
+.table_content {
     padding: 0 16px;
 }
-.table_faculty_list, .table_rows{
+
+.table_faculty_list, .table_rows {
     width: 100%;
     border: 1px solid rgb(134, 131, 131);
     border-collapse: collapse;
-    
+
 }
-thead >.table_rows > th{
+
+thead > .table_rows > th {
     border: 1px solid rgb(134, 131, 131);
     padding: 15px 0;
+    text-align: center;
 }
-tbody >.table_rows > td{
+
+tbody > .table_rows > td {
     text-align: center;
     border: 1px solid rgb(134, 131, 131);
     padding: 30px 0;
     font-weight: 400;
 }
+
 .btn {
     display: flex;
     text-decoration: none;

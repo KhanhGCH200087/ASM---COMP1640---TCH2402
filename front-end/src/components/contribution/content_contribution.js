@@ -3,19 +3,17 @@ import {Link, useParams} from "react-router-dom";
 import styles from "../event/event_details.module.css"
 import {useEffect, useState} from "react";
 import {formatDate} from "../../utils/common";
+import axios from "axios";
+import {apiUrl} from "../../contexts/constants";
 
 const ContentContribution = () => {
     const {id} = useParams();
     const [data, setData] = useState();
 
     const getAllEventDetails = async () => {
-        const response = await (
-            await fetch(`http://localhost:3000/marketingmanager/eventDetail/${id}`)
-        ).json();
-
-        console.log(response);
-
-        setData(response);
+        const response = await axios.get(`${apiUrl}/marketingmanager/eventDetail/${id}`)
+        console.log(response.data);
+        setData(response.data);
     };
 
     useEffect(() => {
@@ -54,7 +52,8 @@ const ContentContribution = () => {
                         <tbody>
                         {
                             data ? data.chosenYesContributions.map((item, index) => {
-                                if (item.choosen === "Yes") {
+                                if (item.choosen === "No") {
+                                    console.log(item.student)
                                     return (
                                         <tr className={styles.table_rows}>
                                             <td>{item.student ? item.student.name : <></>}</td>

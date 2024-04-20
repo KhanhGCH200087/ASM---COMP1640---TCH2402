@@ -14,12 +14,11 @@ const Layout = () => {
         authState: {authLoading, isAuthenticated, user},
     } = useContext(AuthContext);
 
-    console.log(user);
-
     const checkRole = () => {
+        console.log(user);
         if (!user) {
             // redirect ra man login
-            window.location.href = `${LOCAL_URL}/login`;
+            //window.location.href = `${LOCAL_URL}/login`;
         } else {
             if (user.role === USER_ROLE.MARKETING_MANAGER) {
                 return <SideBarMarketingManager/>;
@@ -46,3 +45,4 @@ const Layout = () => {
 };
 
 export default Layout;
+

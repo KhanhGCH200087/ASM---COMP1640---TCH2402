@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import MManagerAccountList from "./MManagerAccountList";
 
 const MManager = () => {
@@ -17,7 +17,7 @@ const MManager = () => {
             >
                 Add
             </button>
-            <MManagerAccountList />
+            <MManagerAccountList/>
         </div>
     );
 };

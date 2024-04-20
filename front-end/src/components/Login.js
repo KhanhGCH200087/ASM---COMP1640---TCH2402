@@ -5,10 +5,14 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import AlertMessage from "../layout/AlertMessage";
+import {USER_ROLE} from "../shared/contain";
+import SideBarMarketingManager from "./sidebar/sidebar_marketing-manager";
+import SideBarMarketingCoordinator from "./sidebar/sidebar_marketing-coordinator";
+import SideBarGuest from "./sidebar/sidebar_guest";
 
 const Login = () => {
     const {
-        authState: {authLoading, isAuthenticated},
+        authState: {authLoading, isAuthenticated, user}
     } = useContext(AuthContext);
 
     let body;
@@ -54,8 +58,17 @@ const Login = () => {
                 <Spinner animation="border" variant="info"/>
             </div>
         );
-    else if (isAuthenticated) return <Navigate to="/"/>;
-    else
+    else if (isAuthenticated) {
+        if (user.role === USER_ROLE.ADMIN) {
+            return <Navigate to="/"/>
+        } else if (user.role === USER_ROLE.MARKETING_MANAGER) {
+            return <Navigate to={"/marketing-manager"}/>
+        } else if (user.role === USER_ROLE.MARKETING_COORDINATOR) {
+            return <Navigate to={"/marketing-coordinator"}/>
+        } else if (user.role === USER_ROLE.GUEST) {
+            return <Navigate to={"/guest"}/>
+        }
+    } else
         body = (
             <>
                 <Form className="login-form" onSubmit={login}>

@@ -1,6 +1,8 @@
 import styles from "./faculty_details.module.css"
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import axios from "axios";
+import {apiUrl} from "../../contexts/constants";
 
 const FacultyDetail = () => {
     const {id} = useParams()
@@ -9,11 +11,9 @@ const FacultyDetail = () => {
     const [data, setData] = useState();
 
     const getAllFacultyDetail = async () => {
-        const response = await (
-            await fetch(`http://localhost:3000/marketingmanager/facultyDetail/${id}`)
-        ).json();
-        setData(response);
-        console.log(response.StudentData)
+        const response = await axios.get(`${apiUrl}/marketingmanager/facultyDetail/${id}`)
+        setData(response.data);
+        // console.log(response)
     };
 
     useEffect(() => {
@@ -27,7 +27,8 @@ const FacultyDetail = () => {
                 <p style={{padding: "10px"}}>Event name: {data && data.eventData.map((item, index) => {
                     return <a key={index} href={`/marketing-manager/Contribution/${item._id}`}>{item.requirement}</a>
                 })}</p>
-                <p style={{padding: "10px"}}>Marketing Coordinator:  {data && data.MCData.map(item => item.name).join(', ')}</p>
+                <p style={{padding: "10px"}}>Marketing
+                    Coordinator: {data && data.MCData.map(item => item.name).join(', ')}</p>
             </div>
             <hr/>
             <h1 style={{padding: "10px"}}>Student List</h1>
@@ -46,10 +47,10 @@ const FacultyDetail = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {data && data.StudentData.map((item, index) =>{
+                    {data && data.StudentData.map((item, index) => {
                         return (
                             <tr className={styles.table_rows} key={index}>
-                                <td>{index+1}</td>
+                                <td>{index + 1}</td>
                                 <td><img src={item.image} alt=""/></td>
                                 <td>{item.name}</td>
                             </tr>

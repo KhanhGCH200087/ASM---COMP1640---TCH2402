@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { apiUrl } from "../contexts/constants";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {apiUrl} from "../contexts/constants";
 
 const Faculty = () => {
     const [faculty, setFaculty] = useState([]);
@@ -24,7 +24,7 @@ const Faculty = () => {
         navigate("/add");
     };
     return (
-        <div className="heading container">
+        <div className="heading">
             <h1>Faculty</h1>
             <button
                 className="btn appButton btn-info"
@@ -33,30 +33,31 @@ const Faculty = () => {
             >
                 Add
             </button>
-            <div className="row justify-content-center">
-                <div className="col-4">
-                    <form className="d-flex" role="search">
-                        <input
-                            className="form-control me-2"
-                            type="search"
-                            placeholder="Search"
-                            aria-label="Search"
-                        />
-                        <button className="btn btn-outline-success" type="submit">
-                            Search
-                        </button>
-                    </form>
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-4">
+                        <form className="d-flex" role="search">
+                            <input
+                                className="form-control me-2"
+                                type="search"
+                                placeholder="Search"
+                                aria-label="Search"
+                            />
+                            <button className="btn btn-outline-success" type="submit">
+                                Search
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <table className="table">
-                <thead>
+                <table className="table mt-4">
+                    <thead>
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
                         <th scope="col"></th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {faculty.map((faculty) => {
                         return (
                             <tr key={faculty._id}>
@@ -73,8 +74,9 @@ const Faculty = () => {
                             </tr>
                         );
                     })}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
