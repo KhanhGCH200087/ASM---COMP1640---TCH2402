@@ -23,10 +23,21 @@ const upload = multer({ storage: storage });
 
 //------------------------------------------------------------------------
 //show all 
-router.get('/', verifyToken, checkAdminSession, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try {
-        var contributionList = await ContributionModel.find({});
-        res.status(200).json({ success: true, data: contributionList });
+        const userId = req.userId;
+        const userData = await UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
+        }
+        const userRole = userData.role.toString();
+        if(userRole === '65e61d9bb8171b6e90f92da3'){
+            var contributionList = await ContributionModel.find({});
+            res.status(200).json({ success: true, data: contributionList });
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
+        }
+        
     } catch (error) {
         console.error("Error while fetching contribution list:", error);
         res.status(500).json({ success: false, error: "Internal Server Error" });
@@ -35,15 +46,27 @@ router.get('/', verifyToken, checkAdminSession, async (req, res) => {
 
 //-----------------------------------------------------------------------
 //delete specific contribution
-router.delete('/delete/:id', verifyToken, checkAdminSession, async (req, res) => {
+router.delete('/delete/:id', verifyToken, async (req, res) => {
     try {
-        const contributionId = req.params.id;
-        const deletedContribution = await ContributionModel.findByIdAndDelete(contributionId);
-        if (!deletedContribution) {
-            res.status(404).json({ success: false, error: "Contribution not found" });
-            return;
+        const userId = req.userId;
+        const userData = await UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
         }
-        res.status(200).json({ success: true, message: "Contribution deleted successfully" });
+        const userRole = userData.role.toString();
+        if(userRole === '65e61d9bb8171b6e90f92da3'){
+            //Code ở đây
+            const contributionId = req.params.id;
+            const deletedContribution = await ContributionModel.findByIdAndDelete(contributionId);
+            if (!deletedContribution) {
+                res.status(404).json({ success: false, error: "Contribution not found" });
+                return;
+            }
+            res.status(200).json({ success: true, message: "Contribution deleted successfully" });
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
+        }
+        
     } catch (error) {
         console.error("Error while deleting contribution:", error);
         res.status(500).json({ success: false, error: "Internal Server Error" });
@@ -53,43 +76,70 @@ router.delete('/delete/:id', verifyToken, checkAdminSession, async (req, res) =>
 //------------------------------------------------------------------------
 //create contribution
 //render form for user to input
-router.get('/add', verifyToken, checkAdminSession, async (req, res) => {
+router.get('/add', verifyToken, async (req, res) => {
     try{
-        var studentList = await StudentModel.find({});
-        var eventList = await EventModel.find({});
-        res.status(200).json({success: true, studentList, eventList})
+        const userId = req.userId;
+        const userData = await UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
+        }
+        const userRole = userData.role.toString();
+        if(userRole === '65e61d9bb8171b6e90f92da3'){
+            //Code ở đây--------------------------
+            var studentList = await StudentModel.find({});
+            var eventList = await EventModel.find({});
+            res.status(200).json({success: true, studentList, eventList})
+            //----------------------------------
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
+        }
+        
     } catch (error){
         console.error("Error while making new contribution:", error);
         res.status(500).send("Internal Server Error");
     }
 });
 
-router.post('/add', verifyToken, checkAdminSession, upload.single('contribution'), async (req, res) => {
+router.post('/add', verifyToken, upload.single('contribution'), async (req, res) => {
     //get value by form : req.body
     try{
-        const student = req.body.student;
-        const choosen = req.body.choosen;
-        const comment = req.body.comment;
-        const contribution = req.file 
-        const date = req.body.date;
-        const event = req.body.event;
-        const filetype = req.body.filetype;
-        //read the file
-        const fileData = fs.readFileSync(contribution.path);
-        //convert file data to base 64
-        const base64File = fileData.toString('base64');
-        await ContributionModel.create(
-            {
-                student: student,
-                choosen: choosen,
-                comment: comment,
-                contribution: base64File,
-                date: date,
-                event: event,
-                filetype: filetype
-            }
-        );
-        res.status(201).json({ success: true, message: "Contribution created successfully" });
+        const userId = req.userId;
+        const userData = await UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
+        }
+        const userRole = userData.role.toString();
+        if(userRole === '65e61d9bb8171b6e90f92da3'){
+            //Code ở đây--------------------------
+            const student = req.body.student;
+            const choosen = req.body.choosen;
+            const comment = req.body.comment;
+            const contribution = req.file 
+            const date = req.body.date;
+            const event = req.body.event;
+            const filetype = req.body.filetype;
+            //read the file
+            const fileData = fs.readFileSync(contribution.path);
+            //convert file data to base 64
+            const base64File = fileData.toString('base64');
+            await ContributionModel.create(
+                {
+                    student: student,
+                    choosen: choosen,
+                    comment: comment,
+                    contribution: base64File,
+                    date: date,
+                    event: event,
+                    filetype: filetype
+                }
+            );
+            res.status(201).json({ success: true, message: "Contribution created successfully" });
+            //----------------------------------
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
+        }
+//-------------------------------------------------
+       
     } catch (error) {
         if (error.name === 'ValidationError') {
            let InputErrors = {};
@@ -105,19 +155,32 @@ router.post('/add', verifyToken, checkAdminSession, upload.single('contribution'
 //---------------------------------------------------------------------------
 // edit contribution
 // Render form for editing a specific contribution
-router.get('/edit/:id', verifyToken, checkAdminSession, async (req, res) => {
+router.get('/edit/:id', verifyToken, async (req, res) => {
     try {
-        // Fetch contribution details by ID
-        const contributionId = req.params.id;
-        const contribution = await ContributionModel.findById(contributionId).populate('student').populate('event');
-        if (!contribution) {
-            res.status(404).json({ success: false, error: "Contribution not found" });
-            return;
+        const userId = req.userId;
+        const userData = await UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
         }
-        // Fetch student and event lists for dropdowns
-        const studentList = await StudentModel.find({});
-        const eventList = await EventModel.find({});
-        res.status(200).json({ success: true, contribution, studentList, eventList });
+        const userRole = userData.role.toString();
+        if(userRole === '65e61d9bb8171b6e90f92da3'){
+            //Code ở đây--------------------------
+            // Fetch contribution details by ID
+            const contributionId = req.params.id;
+            const contribution = await ContributionModel.findById(contributionId).populate('student').populate('event');
+            if (!contribution) {
+                res.status(404).json({ success: false, error: "Contribution not found" });
+                return;
+            }
+            // Fetch student and event lists for dropdowns
+            const studentList = await StudentModel.find({});
+            const eventList = await EventModel.find({});
+            res.status(200).json({ success: true, contribution, studentList, eventList });
+            //----------------------------------
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
+        }
+//-------------------------------------------------
     } catch (error) {
         console.error("Error while fetching contribution details:", error);
         res.status(500).json({ success: false, error: "Internal Server Error" });
@@ -125,27 +188,40 @@ router.get('/edit/:id', verifyToken, checkAdminSession, async (req, res) => {
 });
 
 // Handle form submission for editing a contribution
-router.put('/edit/:id', verifyToken, checkAdminSession, upload.single('contribution'), async (req, res) => {
+router.put('/edit/:id', verifyToken, upload.single('contribution'), async (req, res) => {
     try {
-        const contributionId = req.params.id;
-        const contribution = await ContributionModel.findById(contributionId);
-        if (!contribution) {
-            res.status(404).json({ success: false, error: "Contribution not found" });
-            return;
+        const userId = req.userId;
+        const userData = await UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
         }
-        // Update contribution details
-        contribution.student = req.body.student;
-        contribution.choosen = req.body.choosen;
-        contribution.comment = req.body.comment;
-        contribution.date = req.body.date;
-        contribution.event = req.body.event;
-        contribution.filetype = req.body.filetype;
-        if (req.file) {
-            const fileData = fs.readFileSync(req.file.path);
-            contribution.contribution = fileData.toString('base64');
+        const userRole = userData.role.toString();
+        if(userRole === '65e61d9bb8171b6e90f92da3'){
+            //Code ở đây--------------------------
+            const contributionId = req.params.id;
+            const contribution = await ContributionModel.findById(contributionId);
+            if (!contribution) {
+                res.status(404).json({ success: false, error: "Contribution not found" });
+                return;
+            }
+            // Update contribution details
+            contribution.student = req.body.student;
+            contribution.choosen = req.body.choosen;
+            contribution.comment = req.body.comment;
+            contribution.date = req.body.date;
+            contribution.event = req.body.event;
+            contribution.filetype = req.body.filetype;
+            if (req.file) {
+                const fileData = fs.readFileSync(req.file.path);
+                contribution.contribution = fileData.toString('base64');
+            }
+            await contribution.save();
+            res.status(200).json({ success: true, message: "Contribution updated successfully" });
+            //----------------------------------
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
         }
-        await contribution.save();
-        res.status(200).json({ success: true, message: "Contribution updated successfully" });
+//-------------------------------------------------
     } catch (err) {
         if (err.name === 'ValidationError') {
            let InputErrors = {};

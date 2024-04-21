@@ -1,0 +1,14 @@
+        const userId = req.userId;
+        const userData = await UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
+        }
+        const userRole = userData.role.toString();
+        if(userRole === '65e61d9bb8171b6e90f92da3'){
+            //Code ở đây--------------------------
+
+            //----------------------------------
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
+        }
+//-------------------------------------------------
