@@ -3,10 +3,7 @@ var router = express.Router();
 
 //import model before use
 var FacultyModel = require('../models/FacultyModel');
-var UserModel = require('../models/UserModel');
-var MarketingCoordinatorModel = require('../models/MarketingCoordinatorModel');
-var EventModel = require('../models/EventModel');
-var StudentModel = require('../models/StudentModel');
+
 const {checkAdminSession, verifyToken} = require('../middlewares/auth');
 
 //---------------------------Phần này cho Admin---------------------------------------------

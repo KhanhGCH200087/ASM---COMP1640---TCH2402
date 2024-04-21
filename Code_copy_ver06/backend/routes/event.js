@@ -7,10 +7,24 @@ const FacultyModel = require('../models/FacultyModel');
 const {checkAdminSession, verifyToken} = require('../middlewares/auth');
 //------------------------------------------------------------------------
 //show all 
-router.get('/', verifyToken, checkAdminSession, async(req, res) => {
+router.get('/', verifyToken, async(req, res) => {
     try{
-        var eventList = await EventModel.find({}).populate('faculty');
-        res.status(200).json({ success: true, data: eventList });
+        const userId = req.userId;
+        const userData = await UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
+        }
+        const userRole = userData.role.toString();
+        if(userRole === '65e61d9bb8171b6e90f92da3'){
+            //Code ở đây--------------------------
+            var eventList = await EventModel.find({}).populate('faculty');
+            res.status(200).json({ success: true, data: eventList });
+            //----------------------------------
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
+        }
+//-------------------------------------------------
+        
     }catch(error){
         console.error("Error while fetching event list:", error);
         res.status(500).send("Internal Server Error");

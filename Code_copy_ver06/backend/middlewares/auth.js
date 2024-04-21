@@ -1,68 +1,5 @@
 const jwt = require('jsonwebtoken');
-
-//check login only
-const checkLoginSession = (req, res, next) => { //chỉ check login, ko phân quyền
-    if (req.session.email) {
-       next();
-    } else {
-       res.redirect('/auth/login');
-    }
- };
-
- //check Admin
-const checkAdminSession = (req, res, next) => {
-   if (req.session.email && req.session.role == '65e61d9bb8171b6e90f92da3') {
-      next();
-   }
-   else {
-      res.status(500).json({success: false, error: "Error Admin session"});
-      return;
-   }
-};
-
-//check Marketing Manager
-const checkMMSession = (req, res, next) => {
-   if (req.session.email && req.session.role == '65e61d9bb8171b6e90f92da4') {
-      next();
-   }
-   else {
-      res.status(500).json({success: false, error: "Error MM session"});
-      return;
-   }
-};
- 
-//check Marketing Coordinator
-const checkMCSession = (req, res, next) => {
-   if (req.session.email && req.session.role == '65e61d9bb8171b6e90f92da5') {
-      next();
-   }
-   else {
-      res.status(500).json({success: false, error: "Error MC session"});
-      return;
-   }
-};
- 
-//check Student
-const checkStudentSession = (req, res, next) => {
-   if (req.session.email && req.session.role == '65e61d9bb8171b6e90f92da6') {
-      next();
-   }
-   else {
-      res.status(500).json({success: false, error: "Error Student session"});
-      return;
-   }
-};
-
-//check Guest
-const checkGuestSession = (req, res, next) => {
-   if (req.session.email && req.session.role == '65e61d9bb8171b6e90f92da7') {
-      next();
-   }
-   else {
-      res.status(500).json({success: false, error: "Error Guest session"});
-      return;
-   }
-};
+const UserModel = require('../models/UserModel');
 
 //------------------------Token----------------------------------------------------------------
 //Authorization: Bearer          sfsfsfsfsefsfsf   -> đây là Authorization
@@ -89,9 +26,94 @@ const verifyToken = (req, res, next) => {
 };
 //---------------------------------------------------------------------------------------------------
 
+ //check Admin
+const checkAdminSession = (req, res, next) => {
+   const userId = req.userId;
+   const userData = UserModel.findById(userId);
+   if(!userData){
+       return res.status(400).json({success: false, error: "Not found user"});
+   }
+   const userRole = userData.role.toString();
+   if(userRole === '65e61d9bb8171b6e90f92da3'){
+       //Code ở đây--------------------------
+      next()
+       //----------------------------------
+   } else {
+       return res.status(400).json({ success: false, error: "Not right Role" });
+   }
+};
+
+//check Marketing Manager
+const checkMMSession = (req, res, next) => {
+   const userId = req.userId;
+   const userData = UserModel.findById(userId);
+   if(!userData){
+       return res.status(400).json({success: false, error: "Not found user"});
+   }
+   const userRole = userData.role.toString();
+   if(userRole === '65e61d9bb8171b6e90f92da4'){
+       //Code ở đây--------------------------
+      next()
+       //----------------------------------
+   } else {
+       return res.status(400).json({ success: false, error: "Not right Role" });
+   }
+};
+ 
+//check Marketing Coordinator
+const checkMCSession = (req, res, next) => {
+   const userId = req.userId;
+   const userData = UserModel.findById(userId);
+   if(!userData){
+       return res.status(400).json({success: false, error: "Not found user"});
+   }
+   const userRole = userData.role.toString();
+   if(userRole === '65e61d9bb8171b6e90f92da5'){
+       //Code ở đây--------------------------
+      next()
+       //----------------------------------
+   } else {
+       return res.status(400).json({ success: false, error: "Not right Role" });
+   }
+};
+ 
+//check Student
+const checkStudentSession = (req, res, next) => {
+   const userId = req.userId;
+   const userData = UserModel.findById(userId);
+   if(!userData){
+       return res.status(400).json({success: false, error: "Not found user"});
+   }
+   const userRole = userData.role.toString();
+   if(userRole === '65e61d9bb8171b6e90f92da6'){
+       //Code ở đây--------------------------
+      next()
+       //----------------------------------
+   } else {
+       return res.status(400).json({ success: false, error: "Not right Role" });
+   }
+};
+
+//check Guest
+const checkGuestSession = (req, res, next) => {
+   const userId = req.userId;
+   const userData = UserModel.findById(userId);
+   if(!userData){
+       return res.status(400).json({success: false, error: "Not found user"});
+   }
+   const userRole = userData.role.toString();
+   if(userRole === '65e61d9bb8171b6e90f92da7'){
+       //Code ở đây--------------------------
+      next()
+       //----------------------------------
+   } else {
+       return res.status(400).json({ success: false, error: "Not right Role" });
+   }
+};
+
+
 //-------------
  module.exports = {
-    checkLoginSession,
     checkAdminSession,
     checkMCSession,
     checkMMSession,

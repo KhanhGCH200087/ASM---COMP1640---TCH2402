@@ -235,7 +235,7 @@ router.post('/edit/:id', verifyToken, checkAdminSession, upload.single('image'),
 
 //------------Phần này cho role Marketing Manager--------------
 //trang chủ của MM---------------------------------------------------
-router.get('/mmpage', async (req, res) => {
+router.get('/mmpage', verifyToken, checkMMSession, async (req, res) => {
     try{
         var facultyData = await FacultyModel.find({});
         res.status(200).json({ success: true, message: "Marketing Manager Menu page", facultyData});
@@ -245,7 +245,7 @@ router.get('/mmpage', async (req, res) => {
     }
 });
 
-router.get('/facultyDetail/:id', async (req, res) => {
+router.get('/facultyDetail/:id', verifyToken, checkMMSession, async (req, res) => {
     try {
         var facultyID = req.params.id;
         const eventData = await EventModel.find({faculty: facultyID});
@@ -258,7 +258,7 @@ router.get('/facultyDetail/:id', async (req, res) => {
     }
 });
 
-router.get('/eventDetail/:id', checkMMSession, async (req, res) => {
+router.get('/eventDetail/:id', verifyToken, checkMMSession, async (req, res) => {
     try{
         var eventId = req.params.id;
         const eventData = await EventModel.findById(eventId);
