@@ -348,7 +348,7 @@ router.get('/mcpage',verifyToken, async (req, res) => {
 });
 
 //đọc thông tin của MC-------------------------------------------------
-router.get('/profile',verifyToken, async (req, res) => {
+router.get('/profile', verifyToken, async (req, res) => {
     try{
         const userId = req.userId;
         const userData = await UserModel.findById(userId);

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/UserModel');
-
+const RoleModel = require('../models/RoleModel');
 //------------------------Token----------------------------------------------------------------
 //Authorization: Bearer          sfsfsfsfsefsfsf   -> đây là Authorization
 //               (cần xóa)            token
@@ -51,14 +51,19 @@ const checkAdminSession = (req, res, next) => {
 };
 
 //check Marketing Manager
-const checkMMSession = (req, res, next) => {
+const checkMMSession = (req, res, next) => { //Note: Phần này để test
    const userId = req.userId;
    const userData = UserModel.findById(userId);
    if(!userData){
        return res.status(400).json({success: false, error: "Not found user"});
    }
    const userRole = userData.role;
-   if(userRole.toString() === '65e61d9bb8171b6e90f92da4'){
+   const roleData = RoleModel.findById(userRole);
+   if(!roleData){
+        return res.status(400).json({success: false, error: "Not found Role MM"});
+   }
+   const roleName = roleData.role;
+   if(roleName === 'marketing manager '){
        //Code ở đây--------------------------
       next()
        //----------------------------------

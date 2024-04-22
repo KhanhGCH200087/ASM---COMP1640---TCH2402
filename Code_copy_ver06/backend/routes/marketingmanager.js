@@ -313,22 +313,24 @@ router.post('/edit/:id', verifyToken, upload.single('image'), async (req, res) =
 
 //------------Phần này cho role Marketing Manager--------------
 //trang chủ của MM---------------------------------------------------
-router.get('/mmpage', verifyToken, async (req, res) => {
+router.get('/mmpage', checkMMSession, verifyToken, async (req, res) => { //Note: phần này để test 
     try{
-        const userId = req.userId;
-        const userData = await UserModel.findById(userId);
-        if(!userData){
-            return res.status(400).json({success: false, error: "Not found user"});
-        }
-        const userRole = userData.role.toString();
-        if(userRole === '65e61d9bb8171b6e90f92da4'){
-            //Code ở đây--------------------------
-            var facultyData = await FacultyModel.find({});
-            res.status(200).json({ success: true, message: "Marketing Manager Menu page", facultyData});
-            //----------------------------------
-        } else {
-            return res.status(400).json({ success: false, error: "Not right Role" });
-        }
+        var facultyData = await FacultyModel.find({});
+        res.status(200).json({ success: true, message: "Marketing Manager Menu page", facultyData});
+        //---------------
+        // const userId = req.userId;
+        // const userData = await UserModel.findById(userId);
+        // if(!userData){
+        //     return res.status(400).json({success: false, error: "Not found user"});
+        // }
+        // const userRole = userData.role.toString();
+        // if(userRole === '65e61d9bb8171b6e90f92da4'){
+        //     //Code ở đây--------------------------
+            
+        //     //----------------------------------
+        // } else {
+        //     return res.status(400).json({ success: false, error: "Not right Role" });
+        // }
         //-------------------------------------------------
     }catch(error){
         console.error("Error while fetching faculty list:", error);
