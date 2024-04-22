@@ -6,6 +6,7 @@ const multer = require('multer');
 var ContributionModel = require('../models/ContributionModel');
 var StudentModel = require('../models/StudentModel');
 var EventModel = require('../models/EventModel');
+var UserModel = require('../models/UserModel');
 const {checkAdminSession, verifyToken} = require('../middlewares/auth');
 //-------------------------------------------------------------------------
 // Multer configuration

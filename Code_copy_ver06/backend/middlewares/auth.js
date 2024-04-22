@@ -28,19 +28,26 @@ const verifyToken = (req, res, next) => {
 
  //check Admin
 const checkAdminSession = (req, res, next) => {
-   const userId = req.userId;
-   const userData = UserModel.findById(userId);
-   if(!userData){
-       return res.status(400).json({success: false, error: "Not found user"});
-   }
-   const userRole = userData.role.toString();
-   if(userRole === '65e61d9bb8171b6e90f92da3'){
-       //Code ở đây--------------------------
-      next()
-       //----------------------------------
-   } else {
-       return res.status(400).json({ success: false, error: "Not right Role" });
-   }
+    try{
+        const userId = req.userId;
+        const userData = UserModel.findById(userId);
+        if(!userData){
+            return res.status(400).json({success: false, error: "Not found user"});
+        }
+        const userRole = userData.role;
+        console.log("User Role:", userRole);
+        console.log("User ID: ", userId);
+        const adminRoleID = '65e61d9bb8171b6e90f92da3';
+        if( userRole == adminRoleID){
+            //Code ở đây--------------------------
+           next()
+            //----------------------------------
+        } else {
+            return res.status(400).json({ success: false, error: "Not right Role" });
+        }
+    } catch(error){
+        console.error("Error:", error);
+    }
 };
 
 //check Marketing Manager
@@ -50,8 +57,8 @@ const checkMMSession = (req, res, next) => {
    if(!userData){
        return res.status(400).json({success: false, error: "Not found user"});
    }
-   const userRole = userData.role.toString();
-   if(userRole === '65e61d9bb8171b6e90f92da4'){
+   const userRole = userData.role;
+   if(userRole.toString() === '65e61d9bb8171b6e90f92da4'){
        //Code ở đây--------------------------
       next()
        //----------------------------------
@@ -67,8 +74,8 @@ const checkMCSession = (req, res, next) => {
    if(!userData){
        return res.status(400).json({success: false, error: "Not found user"});
    }
-   const userRole = userData.role.toString();
-   if(userRole === '65e61d9bb8171b6e90f92da5'){
+   const userRole = userData.role;
+   if(userRole.toString() === '65e61d9bb8171b6e90f92da5'){
        //Code ở đây--------------------------
       next()
        //----------------------------------
@@ -84,8 +91,8 @@ const checkStudentSession = (req, res, next) => {
    if(!userData){
        return res.status(400).json({success: false, error: "Not found user"});
    }
-   const userRole = userData.role.toString();
-   if(userRole === '65e61d9bb8171b6e90f92da6'){
+   const userRole = userData.role;
+   if(userRole.toString() === '65e61d9bb8171b6e90f92da6'){
        //Code ở đây--------------------------
       next()
        //----------------------------------
@@ -101,8 +108,8 @@ const checkGuestSession = (req, res, next) => {
    if(!userData){
        return res.status(400).json({success: false, error: "Not found user"});
    }
-   const userRole = userData.role.toString();
-   if(userRole === '65e61d9bb8171b6e90f92da7'){
+   const userRole = userData.role;
+   if(userRole.toString() === '65e61d9bb8171b6e90f92da7'){
        //Code ở đây--------------------------
       next()
        //----------------------------------
