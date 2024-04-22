@@ -326,7 +326,7 @@ router.get('/studentpage', verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da6'){
             //Code ở đây--------------------------
-            var stUserId = req.userId
+            var stUserId = req.userId;
             var UserData = await UserModel.findById(stUserId);
             var STData = await StudentModel.findOne({user: stUserId});
             if(UserData && STData){
@@ -361,7 +361,7 @@ router.get('/profile', verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da6'){
             //Code ở đây--------------------------
-            var stUserId = req.userId
+            var stUserId = req.userId;
             var UserData = await UserModel.findById(stUserId);
             if(UserData){
                 var STData = await StudentModel.findOne({user: stUserId});
