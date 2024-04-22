@@ -321,10 +321,9 @@ router.get('/mcpage',verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da5'){
             //Code ở đây--------------------------
-            var mcUserId = req.session.user_id;
+            var mcUserId = req.userId;
             var UserData = await UserModel.findById(mcUserId);
-            var mcID = req.session.mc_id;
-            var MCData = await MarketingCoordinatorModel.findById(mcID);
+            var MCData = await MarketingCoordinatorModel.findOne({user: mcUserId});
             if(UserData && MCData){
                 var facultyID = MCData.faculty;
             } else {
@@ -359,11 +358,10 @@ router.get('/profile',verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da5'){
             //Code ở đây--------------------------
-            var mcUserId = req.session.user_id;
+            var mcUserId = req.userId;
             var UserData = await UserModel.findById(mcUserId);
             if(UserData){
-                var mcID = req.session.mc_id;
-                var MCData = await MarketingCoordinatorModel.findById(mcID);
+                var MCData = await MarketingCoordinatorModel.findOne({user: mcUserId});
             } else {
                 res.status(500).json({ success: false, error: "Profile not found" });
             }
@@ -381,7 +379,6 @@ router.get('/profile',verifyToken, async (req, res) => {
 
 //sửa thông tin của MC-------------------------------------------
 router.get('/editMC/:id',verifyToken, async (req, res) => {
-    
     const marketingcoordinatorId = req.params.id;
     const marketingcoordinator = await MarketingCoordinatorModel.findById(marketingcoordinatorId);
     if (!marketingcoordinator) {
@@ -395,7 +392,8 @@ router.get('/editMC/:id',verifyToken, async (req, res) => {
         res.status(404).json({ success: false, error: "User not found" });
         return;
     }
-    if(userId == req.session.user_id && marketingcoordinatorId == req.session.mc_id){
+    const MCuserId = req.userId;
+    if(userId.equals(MCuserId)){
         try {
             const userId = req.userId;
             const userData = await UserModel.findById(userId);
@@ -436,7 +434,8 @@ router.put('/editMC/:id',verifyToken, upload.single('image'), async (req, res) =
         res.status(404).json({ success: false, error: "User not found" });
         return;
     }
-    if(userId == req.session.user_id && marketingcoordinatorId == req.session.mc_id){
+    const mcUserId = req.userId;
+    if(userId.equals(mcUserId)){
         try {
             const userId = req.userId;
             const userData = await UserModel.findById(userId);
@@ -494,10 +493,9 @@ router.get('/facultypage',verifyToken, async(req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da5'){
             //Code ở đây--------------------------
-            var mcUserId = req.session.user_id;
+            var mcUserId = req.userId;
             var UserData = await UserModel.findById(mcUserId);
-            var mcID = req.session.mc_id;
-            var MCData = await MarketingCoordinatorModel.findById(mcID);
+            var MCData = await MarketingCoordinatorModel.findOne({user: mcUserId});
             if(UserData && MCData){
                 var facultyID = MCData.faculty;
             } else {
@@ -537,8 +535,7 @@ router.get('/eventDetail/:id',verifyToken, async (req, res) => {
             const eventData = await EventModel.findById(eventId);
             var eventFacultyID = eventData.faculty;
     
-            var mcID = req.session.mc_id;
-            const MCData = await MarketingCoordinatorModel.findById(mcID);
+            const MCData = await MarketingCoordinatorModel.findOne({user: userId});
             var facultyID = MCData.faculty;
     
             if(facultyID.equals(eventFacultyID) ){
@@ -589,8 +586,7 @@ router.get('/contributionDetail/:id',verifyToken, async(req, res) => {
                 return;
             }
 
-            const mcID = req.session.mc_id
-            const MCData = await MarketingCoordinatorModel.findById(mcID);
+            const MCData = await MarketingCoordinatorModel.findOne({user: userId});
             const facultyID = MCData.faculty;
 
             const eventID = contribution.event;
@@ -633,8 +629,7 @@ router.put('/contributionDetail/:id',verifyToken, async(req, res) => {
                 return;
             }
 
-            const mcID = req.session.mc_id;
-            const MCData = await MarketingCoordinatorModel.findById(mcID);
+            const MCData = await MarketingCoordinatorModel.findOne({user: userId});
             const facultyID = MCData.faculty;
 
             const eventID = contribution.event;
@@ -689,8 +684,7 @@ router.get('/download/:id',verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da5'){
             //Code ở đây--------------------------
-            const mcId = req.session.mc_id;
-            const mcData = await MarketingCoordinatorModel.findById(mcId);
+            const mcData = await MarketingCoordinatorModel.findOne({user: userId});
             if(!mcData){
                 res.status(400).json({success: false, error: 'Not found contribution'});
             }

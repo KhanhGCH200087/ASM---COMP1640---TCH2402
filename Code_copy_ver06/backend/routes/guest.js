@@ -319,10 +319,9 @@ router.get('/gpage', verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da7'){
             //Code ở đây--------------------------
-            var gUserId = req.session.user_id;
-            var UserData = await UserModel.findById(gUserId);
-            var gID = req.session.guest_id;
-            var GData = await GuestModel.findById(gID);
+            var gUserId = req.userId;
+            var UserData = await UserModel.findById(gUserId); 
+            var GData = await GuestModel.findOne({user: gUserId});
             if(UserData && GData){
                 var facultyID = GData.faculty;
             } else {
@@ -361,9 +360,10 @@ router.get('/eventDetail/:id',  verifyToken, async (req, res) => {
             var eventId = req.params.id;
             const eventData = await EventModel.findById(eventId);
             var eventFacultyID = eventData.faculty;
-    
-            var gID = req.session.guest_id;
-            const GData = await GuestModel.findById(gID);
+            
+            var gUserId = req.userId;
+            var GData = await GuestModel.findOne({user: gUserId});
+
             var facultyID = GData.faculty;
     
             if(facultyID.equals(eventFacultyID) ){
@@ -416,8 +416,7 @@ router.get('/contributionDetail/:id',  verifyToken, async(req, res) => {
                 return;
             }
 
-            const gID = req.session.guest_id
-            const GData = await GuestModel.findById(gID);
+            const GData = await GuestModel.findOne({user: userId});
             const facultyID = GData.faculty;
 
             const eventID = contribution.event;
@@ -455,11 +454,10 @@ router.get('/profile', verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da7'){
             //Code ở đây--------------------------
-            var gUserId = req.session.user_id;
+            var gUserId = req.userId;
             var UserData = await UserModel.findById(gUserId);
             if(UserData){
-                var gID = req.session.guest_id;
-                var GData = await GuestModel.findById(gID);
+                var GData = await GuestModel.findOne({user: userId});
             } else {
                 res.status(500).json({ success: false, error: "Profile not found" });
             }
@@ -486,6 +484,7 @@ router.get('/editG/:id', verifyToken, async (req, res) => {
     const userRole = userData.role.toString();
     if(userRole === '65e61d9bb8171b6e90f92da7'){
         //Code ở đây--------------------------
+        const guestUserId = req.userId;
         const guestId = req.params.id;
         const guest = await GuestModel.findById(guestId);
         if (!guest) {
@@ -499,7 +498,7 @@ router.get('/editG/:id', verifyToken, async (req, res) => {
             res.status(404).json({ success: false, error: "User not found" });
             return;
         }
-        if(userId == req.session.user_id && guestId == req.session.guest_id){
+        if(userId.equals(guestUserId)){
             try {
                 res.status(200).json({ success: true, message: "Render add guest form", guest, user });
             } catch (error) {
@@ -526,6 +525,7 @@ router.post('/editG/:id', verifyToken, upload.single('image'), async (req, res) 
     const userRole = userData.role.toString();
     if(userRole === '65e61d9bb8171b6e90f92da7'){
         //Code ở đây--------------------------
+        const guestUserId = req.userId;
         const guestId = req.params.id;
         const guest = await GuestModel.findById(guestId);
         if (!guest) {
@@ -539,7 +539,7 @@ router.post('/editG/:id', verifyToken, upload.single('image'), async (req, res) 
             res.status(404).json({ success: false, error: "User not found" });
             return;
         }
-        if(userId == req.session.user_id && guestId == req.session.guest_id){
+        if(userId.equals(guestUserId)){
             try {
                 // Update guest details
                 guest.name = req.body.name;

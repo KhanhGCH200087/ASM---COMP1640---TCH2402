@@ -326,10 +326,9 @@ router.get('/studentpage', verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da6'){
             //Code ở đây--------------------------
-            var stUserId = req.session.user_id;
+            var stUserId = req.userId
             var UserData = await UserModel.findById(stUserId);
-            var stID = req.session.st_id;
-            var STData = await StudentModel.findById(stID);
+            var STData = await StudentModel.findOne({user: stUserId});
             if(UserData && STData){
                 var facultyID = STData.faculty;
             } else {
@@ -362,11 +361,10 @@ router.get('/profile', verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da6'){
             //Code ở đây--------------------------
-            var stUserId = req.session.user_id;
+            var stUserId = req.userId
             var UserData = await UserModel.findById(stUserId);
             if(UserData){
-                var stID = req.session.st_id;
-                var STData = await StudentModel.findById(stID);
+                var STData = await StudentModel.findOne({user: stUserId});
             } else {
                 req.status(400).send('Student not found');
             }
@@ -398,7 +396,8 @@ router.get('/editST/:id', verifyToken, async (req, res) => {
         res.status(404).json({ success: false, error: "User not found" });
         return;
     }
-    if(userId == req.session.user_id && studentId == req.session.st_id){
+    const stUserId = req.userId;
+    if(userId.equals(stUserId)){
         try {
             const userId = req.userId;
             const userData = await UserModel.findById(userId);
@@ -439,7 +438,8 @@ router.put('/editST/:id', verifyToken, upload.single('image'), async (req, res) 
         res.status(404).json({ success: false, error: "Student not found" });
         return;
     }
-    if(userId == req.session.user_id && studentID == req.session.st_id){
+    const stUserId = req.userId;
+    if(userId.equals(stUserId)){
         try {
             const userId = req.userId;
             const userData = await UserModel.findById(userId);
@@ -497,10 +497,9 @@ router.get('/facultypage', verifyToken, async(req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da6'){
             //Code ở đây--------------------------
-            var stUserId = req.session.user_id;
+            var stUserId = req.userId;
             var UserData = await UserModel.findById(stUserId);
-            var stID = req.session.st_id;
-            var STData = await StudentModel.findById(stID);
+            var STData = await StudentModel.findOne({user: stUserId});
             if(UserData && STData){
                 var facultyID = STData.faculty;
             } else {
@@ -546,8 +545,7 @@ router.get('/submitContribution/:id', verifyToken, async (req, res) => {
 
             const eventFacultyID = eventData.faculty;
 
-            const stID = req.session.st_id
-            const STData = await StudentModel.findById(stID);
+            const STData = await StudentModel.findOne({user: userId});
             const facultyID = STData.faculty;
 
             if(facultyID.equals(eventFacultyID)){
@@ -581,8 +579,7 @@ router.post('/submitContribution/:id', verifyToken, upload.single('image'), asyn
             const eventData = await EventModel.findById(eventId);
             const eventFacultyID = eventData.faculty;
 
-            const stID = req.session.st_id;
-            const STData = await StudentModel.findById(stID);
+            const STData = await StudentModel.findOne({user: userId});
             const facultyID = STData.faculty;
 
             if (facultyID.equals(eventFacultyID)) {
@@ -709,8 +706,7 @@ router.get('/eventDetail/:id', verifyToken, async (req, res) => {
             const eventData = await EventModel.findById(eventId);
             var eventFacultyID = eventData.faculty;
     
-            var stID = req.session.st_id;
-            const STData = await StudentModel.findById(stID);
+            const STData = await StudentModel.findOne({user: userId});
             var facultyID = STData.faculty;
     
             if(facultyID.equals(eventFacultyID) ){
@@ -754,13 +750,17 @@ router.delete('/deleteContribution/:id', verifyToken, async(req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da6'){
             //Code ở đây--------------------------
+            const studentData = await StudentModel.findOne({user: userId});
+            if(!studentData){
+                return res.status(400).json({success: false, error: "Not found Student"});
+            }
             const contributionId = req.params.id;
             const contribution = await ContributionModel.findById(contributionId);
             if (!contribution) {
                 res.status(404).json({ success: false, error: "Contribution not found" });
                 return;
             }
-            const studentID = req.session.st_id;
+            const studentID = studentData._id;
             const eventID = contribution.event;
             const eventData = await EventModel.findById(eventID);
             const facultyID = eventData.faculty;
@@ -853,15 +853,21 @@ router.get('/editContribution/:id', verifyToken, async(req, res) => {
             }
             const stID2 = contribution.student;
 
-            const stID = req.session.st_id
-            const STData = await StudentModel.findById(stID);
+            const STData = await StudentModel.findOne({user: userId});
+            if(!STData){
+                return res.status(400).json({success: false, error: "Not found Student"});
+            }
             const facultyID = STData.faculty;
+            const studentId = STData._id;
 
             const eventID = contribution.event;
             const eventData = await EventModel.findById(eventID);
+            if(!eventData){
+                return res.status(400).json({success: false, error: "Not found Event"});
+            }
             const eventFacultyID = eventData.faculty;
 
-            if(facultyID.equals(eventFacultyID) && stID2 == req.session.st_id){
+            if(facultyID.equals(eventFacultyID) && stID2.equals(studentId)){
                 res.status(200).json({ success: true, message: "Found contribution", data: contribution });
             } else {
                 res.status(500).send("Event Faculty not matched")
@@ -897,12 +903,18 @@ router.put('/editContribution/:id', verifyToken, upload.single('contribution'), 
             }
             const stID2 = contribution.student;
 
-            const stID = req.session.st_id
-            const STData = await StudentModel.findById(stID);
+            const STData = await StudentModel.findOne({user: userId});
+            if(!STData){
+                return res.status(400).json({success: false, error: "Not found student"});
+            }
             const facultyID = STData.faculty;
+            const studentID = STData._id;
 
             const eventID = contribution.event;
             const eventData = await EventModel.findById(eventID);
+            if(!eventData){
+                return res.status(400).json({success: false, error: "Not found event"});
+            }
             const eventFacultyID = eventData.faculty;
 
             const deadline1 = eventData.deadline1;
@@ -911,7 +923,7 @@ router.put('/editContribution/:id', verifyToken, upload.single('contribution'), 
             const date = Date.now();
             const status = "Update";
 
-            if(facultyID.equals(eventFacultyID) && stID2 == req.session.st_id){
+            if(facultyID.equals(eventFacultyID) && stID2.equals(studentID)){
                 if (req.file) {
                     const submitData = fs.readFileSync(req.file.path);
                     contribution.contribution = submitData.toString('base64');  

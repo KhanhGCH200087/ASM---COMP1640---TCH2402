@@ -515,11 +515,10 @@ router.get('/profile', verifyToken, async (req, res) => {
         const userRole = userData.role.toString();
         if(userRole === '65e61d9bb8171b6e90f92da4'){
             //Code ở đây--------------------------
-            var mmUserId = req.session.user_id;
+            var mmUserId = req.userId;
             var UserData = await UserModel.findById(mmUserId);
             if(UserData){
-                var mmID = req.session.mm_id;
-                var MMData = await MarketingManagerModel.findById(mmID);
+                var MMData = await MarketingManagerModel.findOne({user: mmUserId});
             } else {
                 res.status(500).json({ success: false, error: "Profile not found" });
             }
@@ -551,7 +550,8 @@ router.get('/editMM/:id', verifyToken, async (req, res) => {
         res.status(404).json({ success: false, error: "User not found" });
         return;
     }
-    if(userId == req.session.user_id && marketingmanagerId == req.session.mm_id){
+    const mmUserId = req.userId;
+    if(userId.equals(mmUserId)){
         try {
             const userId = req.userId;
             const userData = await UserModel.findById(userId);
@@ -592,7 +592,8 @@ router.post('/editMM/:id', verifyToken, upload.single('image'), async (req, res)
         res.status(404).json({ success: false, error: "User not found" });
         return;
     }
-    if(userId == req.session.user_id && marketingmanagerId == req.session.mm_id){
+    const mmUserId = req.userId;
+    if(userId.equals(mmUserId) ){
         try {
             const userId = req.userId;
             const userData = await UserModel.findById(userId);
