@@ -36,6 +36,11 @@ function App() {
                         <Footer/>
                     </div>
                 }/>
+
+                <Route element={<Layout/>}>
+                    <Route path="profile" element={<Profile/>}/>
+                </Route>
+
                 <Route element={<ProtectedRoute/>}>
                     <Route path='/view' element={<Student/>}/>
                     <Route path='/add' element={<Add/>}/>
@@ -55,7 +60,6 @@ function App() {
                     />
                     <Route path="faculty" element={<FacultyPage/>}/>
                     <Route path="faculty-detail/:id" element={<FacultyDetailPage/>}/>
-                    <Route path="profile" element={<Profile/>}/>
                 </Route>
 
                 <Route path="marketing-coordinator"

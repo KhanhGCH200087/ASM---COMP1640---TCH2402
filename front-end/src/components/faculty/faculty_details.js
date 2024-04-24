@@ -41,9 +41,9 @@ const FacultyDetail = () => {
                     </colgroup>
                     <thead>
                     <tr className={styles.table_rows}>
-                        <th>Index</th>
-                        <th>Image</th>
-                        <th>Name</th>
+                        <th className={styles.title_table}>Index</th>
+                        <th className={styles.title_table}>Image</th>
+                        <th className={styles.title_table}>Name</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -58,6 +58,7 @@ tbody > .table_rows > td {
 
 .th_table_contribution {
     width: 15%;
+    text-align: center;
 }
 
 .btn_download {

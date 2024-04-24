@@ -6,34 +6,44 @@
 .list_mc {
     padding: 16px;
 }
-.img_mc{
+
+.img_mc {
     width: 100px;
 
 }
+
 .table_list,
 .table_rows {
     width: 100%;
     border: 1px solid rgb(134, 131, 131);
     border-collapse: collapse;
 }
+
 thead > .table_rows > th {
     border: 1px solid rgb(134, 131, 131);
     padding: 15px 0;
 
 }
+
 tbody > .table_rows > td {
     border: 1px solid rgb(134, 131, 131);
     padding: 20px 0;
     font-weight: 400;
     text-align: center;
 }
+
 .footer {
     width: 100vw;
     height: 50px;
     background-color: rgb(0, 94, 184);
 }
+
 .content_welcome {
     text-align: center;
     padding: 30px;
+}
+
+.title_table {
+    text-align: center;
 }
 

@@ -1,37 +1,46 @@
 .container_submission_detail {
     padding: 0 16px;
 }
-.title{
+
+.title {
     display: flex;
     justify-content: center;
     padding: 40px;
 }
-.table_submission_list, .table_rows{
+
+.table_submission_list, .table_rows {
     width: 100%;
     border: 1px solid rgb(134, 131, 131);
     border-collapse: collapse;
 
 }
-.table_rows > th{
+
+.table_rows > th {
     border: 1px solid rgb(134, 131, 131);
     padding: 15px 0;
 }
-.table_rows > td{
+
+.table_rows > td {
     text-align: center;
 }
-.td_filesubmission{
+
+.td_filesubmission {
     display: flex;
     justify-content: center;
     gap: 50px;
 }
-.file_name{
+
+.file_name {
     display: flex;
     align-items: center;
 }
-.th_table_contribution{
+
+.th_table_contribution {
+    text-align: center;
     width: 15%;
 }
-.btn_download{
+
+.btn_download {
     align-items: center;
     justify-content: center;
     color: white;
@@ -40,14 +49,16 @@
     outline: none;
     cursor: pointer;
     border-radius: 10px;
-    width: 70px;
-    height: 40px;
+    width: 100px;
+    height: 50px;
 }
-.save_sub{
+
+.save_sub {
     display: flex;
     justify-content: center;
     padding: 20px;
 }
+
 .btn_save {
     color: white;
     border: none;

@@ -1,22 +1,34 @@
 import {createContext, useReducer, useEffect} from "react";
 import {authReducer} from "../reducers/authReducer";
-import {apiUrl, LOCAL_STORAGE_TOKEN_NAME} from "./constants";
+import {apiUrl, LOCAL_STORAGE_TOKEN_NAME, LOCAL_URL} from "./constants";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
 export const AuthContext = createContext();
 
+/**
+ * Check if localStorage has token
+ * -> then set token to axios
+ */
+function setToken() {
+    if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
+        setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
+    }
+}
+
 const AuthContextProvider = ({children}) => {
+    // trigger at first access
+    setToken()
+
     const [authState, dispatch] = useReducer(authReducer, {
         authLoading: true,
         isAuthenticated: false,
         user: null,
     });
 
+
     const loadUser = async () => {
-        if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
-            setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
-        }
+        setToken()
 
         try {
             const response = await axios.get(`${apiUrl}/auth`);
@@ -37,8 +49,10 @@ const AuthContextProvider = ({children}) => {
     };
 
     useEffect(() => {
-        loadUser();
-    }, []);
+        void loadUser();
+    }, [
+        // run at the first render
+    ]);
 
     const loginUser = async (userForm) => {
         try {
@@ -48,7 +62,6 @@ const AuthContextProvider = ({children}) => {
                     LOCAL_STORAGE_TOKEN_NAME,
                     response.data.accessToken
                 );
-
             await loadUser();
 
             return response.data;
@@ -64,6 +77,7 @@ const AuthContextProvider = ({children}) => {
             type: "SET_AUTH",
             payload: {isAuthenticated: false, user: null},
         });
+        window.location.href = LOCAL_URL + '/login';
     };
 
     const authContextData = {loginUser, logoutUser, authState};

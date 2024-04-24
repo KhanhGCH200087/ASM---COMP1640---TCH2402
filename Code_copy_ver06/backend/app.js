@@ -37,10 +37,10 @@ var app = express();
 const timeout = 10000 * 60 * 60 * 24;  // 24 hours (in milliseconds), 60 minutes, 60 seconds
 //config session parameters
 app.use(session({
-  secret: "the_key",                 // Secret key for signing the session ID cookie
-  resave: false,                     // Forces a session that is "uninitialized" to be saved to the store
-  saveUninitialized: true,           // Forces the session to be saved back to the session store
-  cookie: { maxAge: timeout },
+    secret: "the_key",                 // Secret key for signing the session ID cookie
+    resave: false,                     // Forces a session that is "uninitialized" to be saved to the store
+    saveUninitialized: true,           // Forces the session to be saved back to the session store
+    cookie: {maxAge: timeout},
 }));
 //----------------------------------------------------------------
 
@@ -53,16 +53,16 @@ var mongoose = require('mongoose');
 var database = "mongodb+srv://thanhpham:1@comp1640.u0yepfl.mongodb.net/COMP1640-Test" //link online, database: COMP1640-Online 
 //1C. connect to mongodb
 mongoose.connect(database)
-  .then(() => console.log('connect to db sucess'))
-  .catch((err) => console.log('connect to db fail' + err));
+    .then(() => console.log('connect to db sucess'))
+    .catch((err) => console.log('connect to db fail' + err));
 
-  // const PORT = process.env.PORT || 5000
-  // app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+// const PORT = process.env.PORT || 5000
+// app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
 
-  //-------------------------------------------------------------------
+//-------------------------------------------------------------------
 //2. config body-parser library (get data from client-side)
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 //---------------------------------------------------------------------
 // view engine setup
@@ -74,7 +74,7 @@ app.use(express.json());
 
 app.use(cors());
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -82,10 +82,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //make session value can be accessible in view (hbs)
 //IMPORTANT: place this code before setting router url
 app.use((req, res, next) => {
-  
-  res.locals.email = req.session.email;
-  res.locals.role = req.session.role;
-  next();
+
+    res.locals.email = req.session.email;
+    res.locals.role = req.session.role;
+    next();
 });
 //-------------------
 // //set user authorization for whole router
@@ -114,27 +114,28 @@ app.use('/auth', authRouter);
 //----------------------------------------------------------------------------
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+    next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 //----------------------------------------
 //support edit function
-hbs.registerHelper('formatDate', function(date) {
-  return date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+hbs.registerHelper('formatDate', function (date) {
+    return date.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
 });
 
-
+const PORT = 4000;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
 
 module.exports = app;

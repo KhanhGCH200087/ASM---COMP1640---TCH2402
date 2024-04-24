@@ -1,15 +1,15 @@
 import {useEffect, useState} from "react";
 import styles from "../shared/style.module.css";
-import {json} from "react-router-dom";
+import axios from "axios";
+import {apiUrl} from "../contexts/constants";
 
 const HomePageMarketingCoordinator = () => {
     const [data, setData] = useState();
 
     async function getHomePageMarketingCoordinator() {
-        const response = await fetch('http://localhost:3000/marketingcoordinator/mcpage')
-        const _data = await response.json()
-        setData(_data.data);
-        console.log(_data.data);
+        const response = await axios.get(`${apiUrl}/marketingcoordinator/mcpage`);
+        setData(response.data);
+        console.log(response.data.facultyData);
     }
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const HomePageMarketingCoordinator = () => {
     return (
         <>
             <div className={styles.header}>
-                <h1>Faculty name:</h1>
+                <h1 style={{textAlign: "center"}}>Faculty name: {data && data.facultyData.name}</h1>
             </div>
             <div className={styles.list_mc}>
                 <table className={styles.table_list}>
@@ -29,19 +29,23 @@ const HomePageMarketingCoordinator = () => {
                     </colgroup>
                     <thead>
                     <tr className={styles.table_rows}>
-                        <th>Index</th>
-                        <th>Image</th>
-                        <th>Name</th>
+                        <th className={styles.title_table}>Index</th>
+                        <th className={styles.title_table}>Image</th>
+                        <th className={styles.title_table}>Name</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr className={styles.table_rows}>
-                        <td>1</td>
-                        <td><img
-                            src="https://w.ladicdn.com/s550x400/616a4856fd53e600396580f1/2022-greenwich-eng-20220525041319.png"
-                            alt="" className={styles.img_mc}/></td>
-                        <td>Khue Pham</td>
-                    </tr>
+                    {data && data.studentData.map((item, index) => {
+                            return (
+                                <tr className={styles.table_rows} key={index}>
+                                    <td>{index + 1}</td>
+                                    <td><img src={"data:image/png;base64, " + item.image} alt=""/></td>
+                                    <td>{item.name}</td>
+                                </tr>
+                            )
+                        }
+                    )}
+
                     </tbody>
                 </table>
             </div>

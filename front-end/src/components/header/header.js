@@ -11,7 +11,7 @@ const Header = () => {
         <div className={styles.header}>
             <div className={styles.header_button}>
                 <button className={styles.profile_btn}>
-                    <Link to="/marketing-manager/profile">
+                    <Link to="/profile">
                         <User color="white"/>
                     </Link>
                 </button>

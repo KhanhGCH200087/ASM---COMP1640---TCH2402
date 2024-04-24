@@ -6,7 +6,7 @@ const SubmissionDetails = () => {
             <h1 className={styles.title}> Submission's detail</h1>
             <table className={styles.table_submission_list}>
                 <tr className={`${styles.table_rows}`}>
-                    <th>Student's name</th>
+                    <th className={styles.th_table_contribution}>Student's name</th>
                     <td>Paul Pham</td>
                 </tr>
                 <tr className={styles.table_rows}>
@@ -18,7 +18,7 @@ const SubmissionDetails = () => {
                     <td>
                         <div className={styles.td_filesubmission}>
                             <p className={styles.file_name}>File submission</p>
-                            <button className={styles.btn_download}>View</button>
+                            <button className={styles.btn_download}>Download</button>
                         </div>
                     </td>
                 </tr>
@@ -33,7 +33,10 @@ const SubmissionDetails = () => {
                 <tr className={styles.table_rows}>
                     <th className={styles.th_table_contribution}>Desicion</th>
                     <td>
-                        <select name="" id=""></select>
+                        <select>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
                     </td>
                 </tr>
             </table>

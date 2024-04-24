@@ -6,9 +6,6 @@ import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import AlertMessage from "../layout/AlertMessage";
 import {USER_ROLE} from "../shared/contain";
-import SideBarMarketingManager from "./sidebar/sidebar_marketing-manager";
-import SideBarMarketingCoordinator from "./sidebar/sidebar_marketing-coordinator";
-import SideBarGuest from "./sidebar/sidebar_guest";
 
 const Login = () => {
     const {

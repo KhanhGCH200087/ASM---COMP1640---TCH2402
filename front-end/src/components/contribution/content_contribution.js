@@ -44,15 +44,15 @@ const ContentContribution = () => {
                     <table className={styles.table_submission_list}>
                         <thead>
                         <tr className={styles.table_rows}>
-                            <th>Student's Name</th>
-                            <th>Date</th>
-                            <th>Action</th>
+                            <th className={styles.title_table_1}>Student's Name</th>
+                            <th className={styles.title_table_1}>Date</th>
+                            <th className={styles.title_table_1}>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         {
                             data ? data.chosenYesContributions.map((item, index) => {
-                                if (item.choosen === "No") {
+                                if (item.choosen === "Yes") {
                                     console.log(item.student)
                                     return (
                                         <tr className={styles.table_rows}>

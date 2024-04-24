@@ -16,8 +16,15 @@ const ContentContributionDetail = () => {
         console.log(response.data);
     }
 
+    async function DownloadFile() {
+        const _data = await axios.get(`${apiUrl}/marketingmanager/download/${id}`)
+        setData(_data.data)
+        console.log(_data.data)
+    }
+
     useEffect(() => {
         getContributionDetail();
+        DownloadFile();
     }, []);
 
     return (
@@ -26,7 +33,7 @@ const ContentContributionDetail = () => {
             <div className={styles.table_submissionDetail}>
                 <table className={styles.table_contribution_list}>
                     <tr className={`${styles.table_rows}`}>
-                        <th>Student's name</th>
+                        <th className={styles.th_table_contribution}>Student's name</th>
                         <td>{data && data.data.student ? data.data.student.name : <></>}</td>
                     </tr>
                     <tr className={styles.table_rows}>

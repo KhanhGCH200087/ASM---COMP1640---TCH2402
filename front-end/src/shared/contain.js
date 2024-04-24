@@ -1,5 +1,5 @@
 export const USER_ROLE = {
-    GUEST: "1",
+    GUEST: "65e61d9bb8171b6e90f92da7",
     MARKETING_MANAGER: "65e61d9bb8171b6e90f92da4",
     MARKETING_COORDINATOR: "65e61d9bb8171b6e90f92da5",
     ADMIN: "65e61d9bb8171b6e90f92da3"
